@@ -1,0 +1,5 @@
+## ID:SECTION:ADDRESS:SIZE:TYPE:NAME:DESCRIPTION:SHOW
+
+# Classparam
+1:0:0x00:0x1f:Name:Internal name:string:True
+1:0:0x90:0x0f:Model:Model used by the class:string
