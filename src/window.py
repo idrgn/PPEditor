@@ -11,5 +11,5 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
-        settings = Settings(open(resource_path("settings.txt")).readlines())
+        settings = Settings(open(resource_path("res/settings.txt")).readlines())
         param = Param(None, settings)
