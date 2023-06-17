@@ -49,6 +49,10 @@ def read_bool(fdata: bytes, position: int = 0x0) -> int:
     return unpack("?", read_byte_array(fdata, position, 1) & 1)[0]
 
 
+def read_float(fdata: bytes, position: int = 0x0) -> int:
+    return unpack("f", read_byte_array(fdata, position, 4))[0]
+
+
 # def read_str(fdata: bytes, position: int = 0x0) -> str:
 #     string = ""
 #     offset = 0x0
