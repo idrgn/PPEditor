@@ -53,7 +53,7 @@
                <height>558</height>
               </rect>
              </property>
-             <layout class="QFormLayout" name="formLayout">
+             <layout class="QFormLayout" name="fl_fields">
               <property name="horizontalSpacing">
                <number>5</number>
               </property>
@@ -239,7 +239,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QTextEdit" name="te_raw_data"/>
+           <widget class="QTextEdit" name="textEdit"/>
           </item>
           <item>
            <widget class="QPushButton" name="pb_edit_raw_data">

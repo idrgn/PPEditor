@@ -6,6 +6,7 @@ from PyQt5 import QtWidgets
 
 from data import resource_path
 from interface import main_window
+from interface.line_edit_field import QLineEditField
 from param.param import Param
 from settings.settings import Settings
 
@@ -33,6 +34,9 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         self.action_load.triggered.connect(self.select_param)
         self.action_save.triggered.connect(self.save_param_file)
+        self.action_refresh.triggered.connect(self.refresh)
+        self.cb_sections.currentTextChanged.connect(self.selected_section_changed)
+        self.cb_entries.currentTextChanged.connect(self.selected_entry_changed)
 
     def select_param(self):
         """
@@ -70,10 +74,51 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 f.write(self.param.to_bytes())
 
     def refresh(self):
+        """
+        Refreshes UI
+        """
+        if self.param is None:
+            return
+
+        self.cb_sections.clear()
         for section in self.param.section_list:
             self.cb_sections.addItem(
                 f"Section {section.id+1} ({section.entry_amount} entries)"
             )
 
+        self.cb_entries.clear()
         for entry in self.param.get_section_entries():
             self.cb_entries.addItem(f"{entry.id+1} ({entry.get_name()})")
+
+    def selected_section_changed(self):
+        """
+        Loads entry list of selected section
+        """
+        self.cb_entries.clear()
+        for entry in self.param.get_section_entries(self.cb_sections.currentIndex()):
+            self.cb_entries.addItem(f"{entry.id+1} ({entry.get_name()})")
+
+    def selected_entry_changed(self):
+        """
+        Loads field list of current entry
+        """
+        self.clear_form_items()
+
+        current_section = self.cb_sections.currentIndex()
+        current_entry = self.cb_entries.currentIndex()
+
+        for field in self.param.get_section_entry(
+            current_section, current_entry
+        ).fields:
+            editor = QLineEditField(self.sc_content)
+            editor.set_field(field)
+            label = QtWidgets.QLabel(field.settings.name)
+            label.setToolTip(field.settings.description)
+            self.fl_fields.addRow(label, editor)
+
+    def clear_form_items(self):
+        """
+        Clears all items in form
+        """
+        for i in reversed(range(self.fl_fields.count())):
+            self.fl_fields.itemAt(i).widget().setParent(None)

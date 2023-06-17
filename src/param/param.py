@@ -5,6 +5,7 @@ from data import (
     read_bool,
     read_byte_array,
     read_char,
+    read_float,
     read_int,
     read_short,
     read_str,
@@ -42,6 +43,8 @@ class Field:
             return read_char(data)
         elif type == "bool":
             return read_bool(data)
+        elif type == "float":
+            return read_float(data)
         elif type == "str" or type == "string":
             return read_str(data)
         else:
@@ -49,6 +52,18 @@ class Field:
 
     def set_value(self, new_value):
         self.value = new_value
+
+    def set_value_from_string(self, new_value):
+        type = self.settings.type
+
+        if type in ["uint", "int", "ushort", "short", "uchar", "char"]:
+            self.value = int(new_value)
+        elif type == bool:
+            self.value = bool(new_value)
+        elif type == float:
+            self.value = float(new_value)
+        elif type == "str" or type == "string":
+            self.value = new_value
 
     def to_bytes(self):
         type = self.settings.type
@@ -65,6 +80,13 @@ class Field:
             return pack("c", self.value)
         elif type == "char":
             return pack("C", self.value)
+        elif type == "float":
+            return pack("f", self.value)
+        elif type == "bool":
+            if self.value:
+                return pack("c", 1)
+            else:
+                return pack("c", 0)
         elif type == "str" or type == "string":
             return string_to_bytearray(self.value, self.settings.size)
 
@@ -105,7 +127,7 @@ class Entry:
                 name.append(str(field.value))
 
         if len(name) == 0:
-            return None
+            return "No identifier"
         else:
             return " ".join(name)
 
@@ -260,6 +282,16 @@ class Param:
             return None
         else:
             return self.section_list[section_index].entry_list
+
+    def get_section_entry(self, section_index: int = 0, entry_index: int = 0):
+        if section_index > len(self.section_list):
+            return None
+        else:
+            section = self.section_list[section_index]
+            if entry_index > len(section.entry_list):
+                return None
+            else:
+                return section.entry_list[entry_index]
 
     def to_bytes(self) -> bytes:
         file = PARAM_HEADER

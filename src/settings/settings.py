@@ -43,9 +43,10 @@ class Settings:
             ]
 
             id = parse_int(id)
-            address = parse_int(address)
             section = parse_int(section)
+            address = parse_int(address)
             size = parse_int(size)
+            description = bytes(description, "utf-8").decode("unicode_escape")
             shown = bool(shown)
 
             self.entries.append(
