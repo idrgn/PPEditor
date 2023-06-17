@@ -33,7 +33,7 @@ class Settings:
             if line.startswith("#") or line.strip() == "":
                 continue
 
-            row_entries = line.split(":")
+            row_entries = line.split(";")
 
             for _ in range(8 - len(row_entries)):
                 row_entries.append("")
