@@ -1,5 +1,32 @@
-## ID:SECTION:ADDRESS:SIZE:TYPE:NAME:DESCRIPTION:SHOW
+## FILE_ID;SECTION_INDEX;DATA_ADDRESS;DATA_SIZE;DATA_TYPE;NAME;DESCRIPTION;SHOW_ON_LIST
 
 # Classparam
-1:0:0x00:0x1f:Name:Internal name:string:True
-1:0:0x90:0x0f:Model:Model used by the class:string
+1;0;0x000;0x1f;Name;Internal name;string;True
+1;0;0x090;0x0f;Model;Class model;string
+1;0;0x040;0x04;Item slot [1];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
+1;0;0x044;0x04;Item slot [2];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
+1;0;0x048;0x04;Item slot [3];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
+1;0;0x04c;0x04;Item slot [4];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
+1;0;0x050;0x04;Item slot [5];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
+1;0;0x054;0x04;Item slot [6];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
+1;0;0x0b8;0x04;Multip model;Multiplayer model (identifer from charaparam);int
+1;0;0x0c0;0x04;Singlep model;Singleplayer model (identifier from charaparam);int
+1;0;0x020;0x04;Identifier;;int
+1;0;0x024;0x04;Identifier;;int
+1;0;0x030;0x04;Evolution [1];;int
+1;0;0x034;0x04;Evolution [2];;int
+1;0;0x038;0x04;Evolution [3];;int
+1;0;0x02c;0x04;Class type;0: Uberhero\n1: Darkhero;int
+1;0;0x028;0x04;Class tree;;int
+1;0;0x03c;0x04;Class tree;;int
+1;0;0x0e8;0x04;Reset item [1];;int
+1;0;0x0ec;0x04;Reset item [2];;int
+1;0;0x0f0;0x04;Reset item [3];;int
+1;0;0x0f4;0x04;Reset item [4];;int
+1;0;0x0f8;0x04;Reset item [5];;int
+1;0;0x0fc;0x04;Reset item [6];;int
+1;0;0x080;0x0f;Icon model;Class icon, can be seen at barracks;string
+
+1;1;0x000;0x1f;Name;Internal name;string;True
+1;1;0x028;0x04;Unit ID;;int
+1;1;0x080;0x0f;Icon;;string
