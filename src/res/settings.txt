@@ -16,7 +16,7 @@
 1;0;0x030;0x04;Evolution [1];;int
 1;0;0x034;0x04;Evolution [2];;int
 1;0;0x038;0x04;Evolution [3];;int
-1;0;0x02c;0x04;Class type;0: Uberhero\n1: Darkhero;int
+1;0;0x02c;0x04;Dark Hero;Is the unit a Dark Hero?;bool
 1;0;0x028;0x04;Class tree;;int
 1;0;0x03c;0x04;Class tree;;int
 1;0;0x0e8;0x04;Reset item [1];;int
