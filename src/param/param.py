@@ -1,4 +1,5 @@
 from struct import pack
+
 from const import PARAM_HEADER
 from data import (
     read_bool,
@@ -41,7 +42,7 @@ class Field:
             return read_char(data)
         elif type == "bool":
             return read_bool(data)
-        elif type == "str":
+        elif type == "str" or type == "string":
             return read_str(data)
         else:
             return None
@@ -62,7 +63,7 @@ class Field:
             return pack("c", self.value)
         elif type == "char":
             return pack("C", self.value)
-        elif type == "str":
+        elif type == "str" or type == "string":
             return string_to_bytearray(self.value, self.settings.size)
 
 
@@ -93,6 +94,18 @@ class Entry:
             )
 
         return raw_data
+
+    def get_name(self) -> str:
+        name = []
+
+        for field in self.fields:
+            if field.settings.shown:
+                name.append(str(field.value))
+
+        if len(name) == 0:
+            return None
+        else:
+            return " ".join(name)
 
 
 class Section:
@@ -233,6 +246,18 @@ class Param:
 
             section_index += 0x8
             data_index += len(raw_data)
+
+    def get_section_entry_amount(self, section_index: int = 0) -> int:
+        if section_index > len(self.section_list):
+            return None
+        else:
+            return self.section_list[section_index].entry_amount
+
+    def get_section_entries(self, section_index: int = 0) -> int:
+        if section_index > len(self.section_list):
+            return None
+        else:
+            return self.section_list[section_index].entry_list
 
     def to_bytes(self) -> bytes:
         file = PARAM_HEADER

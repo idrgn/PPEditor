@@ -55,11 +55,11 @@ class Settings:
             )
 
     def get_entries_in_param(self, param_id: int, section: int = None) -> list:
-        if section:
+        if section is not None:
             return [
                 entry
                 for entry in self.entries
-                if entry.id == param_id and entry.section == section
+                if (entry.id == param_id and entry.section == section)
             ]
         else:
             return [entry for entry in self.entries if entry.id == param_id]

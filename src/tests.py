@@ -1,7 +1,6 @@
 from data import resource_path
-from settings.settings import Settings
 from param.param import Param
-
+from settings.settings import Settings
 
 settings = Settings(open(resource_path("res/settings.txt")).readlines())
 param = Param(None, settings)

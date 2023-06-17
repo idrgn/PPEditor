@@ -64,7 +64,11 @@ def read_str(fdata: bytes, position: int = 0x0) -> str:
     while (last_byte := read_uchar(fdata, position + offset)) != 0x00:
         string_bytes.append(last_byte)
         offset += 1
-    string = unpack(f"{len(string_bytes)}s", string_bytes)[0].decode()
+    try:
+        string = unpack(f"{len(string_bytes)}s", string_bytes)[0].decode()
+    except UnicodeDecodeError as _:
+        string = unpack(f"{len(string_bytes)}s", string_bytes)[0].decode("shift_jis")
+
     return string
 
 
