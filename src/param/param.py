@@ -51,10 +51,12 @@ class Field:
         self.value = new_value
 
     def to_bytes(self):
+        type = self.settings.type
+
         if type == "uint":
-            return pack("i", self.value)
-        if type == "int":
-            return pack("I", self.value)
+            return self.value.to_bytes(4, byteorder="little", signed=False)
+        elif type == "int":
+            return self.value.to_bytes(4, byteorder="little", signed=True)
         elif type == "ushort":
             return pack("h", self.value)
         elif type == "short":
@@ -90,7 +92,7 @@ class Entry:
 
         for field in self.fields:
             raw_data = replace_byte_array(
-                raw_data, field.settings.position, field.to_bytes
+                raw_data, field.settings.address, field.to_bytes()
             )
 
         return raw_data
@@ -215,7 +217,7 @@ class Param:
         """
 
         self.ptr = read_uint(data, 0x8)
-        self.unk = read_byte_array(data, 0xC, 0x4)
+        self.unk = read_uint(data, 0xC)
         self.sections = read_uint(data, 0x10)
         self.unk2 = read_byte_array(data, 0x14, 0x8)
         self.id = read_uint(data, 0x18)
@@ -263,7 +265,7 @@ class Param:
         file = PARAM_HEADER
 
         file += pack(
-            "IIII",
+            "III",
             self.ptr,
             self.unk,
             self.sections,

@@ -57,8 +57,9 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
 
     def save_param_file(self):
         """
-        Saves BND file
+        Saves Param file
         """
+
         # Save backup if enabled in settings
         if not self.check_backup.isChecked:
             shutil.copy(self.path, f"{self.path}.bak")

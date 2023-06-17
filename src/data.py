@@ -65,7 +65,7 @@ def read_str(fdata: bytes, position: int = 0x0) -> str:
         string_bytes.append(last_byte)
         offset += 1
     try:
-        string = unpack(f"{len(string_bytes)}s", string_bytes)[0].decode()
+        string = unpack(f"{len(string_bytes)}s", string_bytes)[0].decode("utf-8")
     except UnicodeDecodeError as _:
         string = unpack(f"{len(string_bytes)}s", string_bytes)[0].decode("shift_jis")
 
@@ -73,7 +73,11 @@ def read_str(fdata: bytes, position: int = 0x0) -> str:
 
 
 def string_to_bytearray(string: str, required_size: int = None):
-    ba = string.encode("utf-8")
+    try:
+        ba = string.encode("shift_jis")
+    except Exception as e:
+        ba = string.encode("utf-8")
+
     if required_size:
         ba = ba + b"\x00" * (required_size - len(ba))
     return ba
