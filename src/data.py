@@ -46,7 +46,7 @@ def read_char(fdata: bytes, position: int = 0x0) -> int:
 
 
 def read_bool(fdata: bytes, position: int = 0x0) -> int:
-    return unpack("?", read_byte_array(fdata, position, 1) & 1)[0]
+    return unpack("?", read_byte_array(fdata, position, 1))[0]
 
 
 def read_float(fdata: bytes, position: int = 0x0) -> int:

@@ -84,9 +84,9 @@ class Field:
             return pack("f", self.value)
         elif type == "bool":
             if self.value:
-                return pack("c", 1)
+                return b"\x01"
             else:
-                return pack("c", 0)
+                return b"\x00"
         elif type == "str" or type == "string":
             return string_to_bytearray(self.value, self.settings.size)
 

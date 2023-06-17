@@ -6,6 +6,7 @@ from PyQt5 import QtWidgets
 
 from data import resource_path
 from interface import main_window
+from interface.check_box_field import QCheckBoxField
 from interface.line_edit_field import QLineEditField
 from param.param import Param
 from settings.settings import Settings
@@ -110,11 +111,15 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         for field in self.param.get_section_entry(
             current_section, current_entry
         ).fields:
-            editor = QLineEditField(self.sc_content)
-            editor.set_field(field)
             label = QtWidgets.QLabel(field.settings.name)
             label.setToolTip(field.settings.description)
-            self.fl_fields.addRow(label, editor)
+
+            if field.settings.type == "bool":
+                widget = QCheckBoxField(self.sc_content)
+            else:
+                widget = QLineEditField(self.sc_content)
+            widget.set_field(field)
+            self.fl_fields.addRow(label, widget)
 
     def clear_form_items(self):
         """
