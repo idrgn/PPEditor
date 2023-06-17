@@ -46,4 +46,7 @@ class QLineEditField(QLineEdit):
             self.setValidator(validator)
 
     def update_field_value(self, value: str):
-        self.field.set_value_from_string(value)
+        try:
+            self.field.set_value_from_string(value)
+        except Exception as _:
+            pass
