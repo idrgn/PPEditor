@@ -113,6 +113,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             editor = QLineEditField(self.sc_content)
             editor.set_field(field)
             label = QtWidgets.QLabel(field.settings.name)
+            label.setToolTip(field.settings.description)
             self.fl_fields.addRow(label, editor)
 
     def clear_form_items(self):
