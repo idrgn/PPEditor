@@ -74,7 +74,7 @@ E;color_type;Effect color types;None;Normal;Light;Inverted
 # All sections
 2;*;0x000;0x1f;Name;Internal name;str;True
 2;*;0x020;0x04;ID;Internal ID inside the section;int
-2;*;0x03a;0x03;*Pierce;Attacks pierce?;int
+2;*;0x03a;0x01;*Pierce;Attacks pierce?;bool
 
 2;*;0x0c0;0x04;*i vs slash;Incoming damage multiplier vs slash;float
 2;*;0x0c4;0x04;*i vs strike;Incoming damage multiplier vs strike;float
