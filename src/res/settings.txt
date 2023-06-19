@@ -1,4 +1,8 @@
 ## FILE_ID;SECTION_INDEX;DATA_ADDRESS;DATA_SIZE;DATA_TYPE;NAME;DESCRIPTION;SHOW_ON_LIST
+## E;TYPE;NAME;DESCRIPTION;NULL_VALUE;ENUM_1;ENUM_2;ENUM_3;ENUM_4...
+
+
+E;char;deco_type;Hideout decoration types;None;Decoration;Installation;Background
 
 ## Classparam
 # Section 1 - Class data
@@ -203,9 +207,9 @@
 9;0;0x013;0x01;Textype;Controls how the game loads the item texture;defined on section 4;char
 9;0;0x028;0x01;ID;Some ID (used for decorations);char
 9;0;0x00c;0x02;Base price;Base item price;short
-9;0;0x010;0x01;Variable 0;Decoration type (1. Decoration,0. Installation,2. Background);char
-9;0;0x011;0x01;Variable 1;Decoration type (1. Decoration,0. Installation,2. Background);char
-9;0;0x012;0x01;Variable 2;Decoration type (1. Decoration,0. Installation,2. Background);char
+9;0;0x010;0x01;Variable 0;Decoration type (1. Decoration,0. Installation,2. Background);enum;deco_type
+9;0;0x011;0x01;Variable 1;Decoration type (1. Decoration,0. Installation,2. Background);enum;deco_type
+9;0;0x012;0x01;Variable 2;Decoration type (1. Decoration,0. Installation,2. Background);enum;deco_type
 # Section 4 - Texture loading
 9;3;0x000;0x3c;Texture;Texture name or path;str;True
 9;3;0x03c;0x04;Identifier;Identifier, used in textype;section 1;int

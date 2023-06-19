@@ -13,7 +13,7 @@ from data import (
     replace_byte_array,
     string_to_bytearray,
 )
-from settings.settings import Settings, SettingsEntry
+from settings.settings import Settings, SettingsFieldEntry, SettingsEnumEntry
 
 
 class Field:
@@ -21,14 +21,14 @@ class Field:
     Field
     """
 
-    def __init__(self, id: int, settings: SettingsEntry, data: bytes):
+    def __init__(self, id: int, settings: SettingsFieldEntry, data: bytes):
         self.id = id
         self.settings = settings
         self.raw_data = data
         self.value = self.process_value(data)
 
     def process_value(self, data: bytes):
-        type = self.settings.type
+        type = self.settings.get_type()
         if type == "uint":
             return read_uint(data)
         elif type == "int":
@@ -54,7 +54,7 @@ class Field:
         self.value = new_value
 
     def set_value_from_string(self, new_value):
-        type = self.settings.type
+        type = self.settings.get_type()
 
         if type in ["uint", "int", "ushort", "short", "uchar", "char"]:
             self.value = int(new_value)
@@ -66,7 +66,7 @@ class Field:
             self.value = new_value
 
     def to_bytes(self):
-        type = self.settings.type
+        type = self.settings.get_type()
 
         if type == "uint":
             return self.value.to_bytes(4, byteorder="little", signed=False)
