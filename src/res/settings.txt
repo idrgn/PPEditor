@@ -1,19 +1,21 @@
-## FILE_ID;SECTION_INDEX;DATA_ADDRESS;DATA_SIZE;DATA_TYPE;NAME;DESCRIPTION;SHOW_ON_LIST
-## E;TYPE;NAME;DESCRIPTION;NULL_VALUE;ENUM_1;ENUM_2;ENUM_3;ENUM_4...
 
-
+### ENUMS
+### E;TYPE;NAME;DESCRIPTION;NULL_VALUE;ENUM_1;ENUM_2;ENUM_3;ENUM_4...
 E;char;deco_type;Hideout decoration types;None;Decoration;Installation;Background
+E;int;equip_slot_type;Item slots for classparam;None;Weapon;Helm;Unknown;Deffensive 1;Deffensive 2;Mount / Chariot;Mask
 
+### PARAM FILES
+### FILE_ID;SECTION_INDEX;DATA_ADDRESS;DATA_SIZE;DATA_TYPE;NAME;DESCRIPTION;SHOW_ON_LIST
 ## Classparam
 # Section 1 - Class data
 1;0;0x000;0x1f;Name;Internal name;str;True
 1;0;0x090;0x0f;Model;Class model;str
-1;0;0x040;0x04;Item slot [1];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
-1;0;0x044;0x04;Item slot [2];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
-1;0;0x048;0x04;Item slot [3];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
-1;0;0x04c;0x04;Item slot [4];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
-1;0;0x050;0x04;Item slot [5];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
-1;0;0x054;0x04; Item slot [6];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
+1;0;0x040;0x04;Item slot [1];;enum;equip_slot_type
+1;0;0x044;0x04;Item slot [2];;enum;equip_slot_type
+1;0;0x048;0x04;Item slot [3];;enum;equip_slot_type
+1;0;0x04c;0x04;Item slot [4];;enum;equip_slot_type
+1;0;0x050;0x04;Item slot [5];;enum;equip_slot_type
+1;0;0x054;0x04;Item slot [6];;enum;equip_slot_type
 1;0;0x0b8;0x04;Multip model;Multiplayer model (identifer from charaparam);int
 1;0;0x0c0;0x04;Singlep model;Singleplayer model (identifier from charaparam);int
 1;0;0x020;0x04;Identifier;;int
@@ -294,7 +296,7 @@ E;char;deco_type;Hideout decoration types;None;Decoration;Installation;Backgroun
 4;4;0x008;0x17;Item model;;str
 # Section 6 - Equip slot data
 4;5;0x000;0x02;Identifier;;short
-4;5;0x002;0x02;Slot content;0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;short
+4;5;0x002;0x02;Slot content;;enum;equip_slot_type
 4;5;0x004;0x0b;Slot icon;uconf078: Sword\nuconf079: Shield\nuconf080: Helm\nuconf081: Horse\nuconf134: Chariot;str;True
 
 
