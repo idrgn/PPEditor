@@ -67,7 +67,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
 
         # Save backup if enabled in settings
-        if not self.check_backup.isChecked:
+        if self.check_backup.isChecked:
             shutil.copy(self.path, f"{self.path}.bak")
 
         # Save file
