@@ -11,18 +11,27 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Patapon Param Editor</string>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="0">
      <widget class="QFrame" name="frame_entries">
+      <property name="locale">
+       <locale language="English" country="UnitedStates"/>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
       <layout class="QHBoxLayout" name="hl_entry_container">
        <item>
         <widget class="QFrame" name="frame">
+         <property name="locale">
+          <locale language="English" country="UnitedStates"/>
+         </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -32,6 +41,9 @@
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <widget class="QScrollArea" name="sc">
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
             </property>
@@ -77,6 +89,9 @@
                 <property name="enabled">
                  <bool>false</bool>
                 </property>
+                <property name="locale">
+                 <locale language="English" country="UnitedStates"/>
+                </property>
                 <property name="text">
                  <string>Entry 1</string>
                 </property>
@@ -87,12 +102,18 @@
                 <property name="enabled">
                  <bool>false</bool>
                 </property>
+                <property name="locale">
+                 <locale language="English" country="UnitedStates"/>
+                </property>
                </widget>
               </item>
               <item row="1" column="0">
                <widget class="QLabel" name="label_entry_2">
                 <property name="enabled">
                  <bool>false</bool>
+                </property>
+                <property name="locale">
+                 <locale language="English" country="UnitedStates"/>
                 </property>
                 <property name="text">
                  <string>Entry 2</string>
@@ -103,6 +124,9 @@
                <widget class="QLineEdit" name="le_entry_2">
                 <property name="enabled">
                  <bool>false</bool>
+                </property>
+                <property name="locale">
+                 <locale language="English" country="UnitedStates"/>
                 </property>
                </widget>
               </item>
@@ -118,6 +142,9 @@
     </item>
     <item row="1" column="1">
      <widget class="QFrame" name="frame_controls">
+      <property name="locale">
+       <locale language="English" country="UnitedStates"/>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -127,6 +154,9 @@
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
         <widget class="QLabel" name="lb_file_name">
+         <property name="locale">
+          <locale language="English" country="UnitedStates"/>
+         </property>
          <property name="text">
           <string>Filename:</string>
          </property>
@@ -134,6 +164,9 @@
        </item>
        <item row="2" column="0">
         <widget class="Line" name="line_4">
+         <property name="locale">
+          <locale language="English" country="UnitedStates"/>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -143,28 +176,45 @@
         <layout class="QFormLayout" name="formLayout">
          <item row="0" column="0">
           <widget class="QLabel" name="lb_section">
+           <property name="locale">
+            <locale language="English" country="UnitedStates"/>
+           </property>
            <property name="text">
             <string>Section</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="cb_sections"/>
+          <widget class="QComboBox" name="cb_sections">
+           <property name="locale">
+            <locale language="English" country="UnitedStates"/>
+           </property>
+          </widget>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="lb_entry">
+           <property name="locale">
+            <locale language="English" country="UnitedStates"/>
+           </property>
            <property name="text">
             <string>Entry</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QComboBox" name="cb_entries"/>
+          <widget class="QComboBox" name="cb_entries">
+           <property name="locale">
+            <locale language="English" country="UnitedStates"/>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
        <item row="6" column="0">
         <widget class="Line" name="line_3">
+         <property name="locale">
+          <locale language="English" country="UnitedStates"/>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -172,6 +222,9 @@
        </item>
        <item row="12" column="0">
         <widget class="Line" name="line">
+         <property name="locale">
+          <locale language="English" country="UnitedStates"/>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -181,6 +234,9 @@
         <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="1">
           <widget class="QPushButton" name="pb_paste_entry">
+           <property name="locale">
+            <locale language="English" country="UnitedStates"/>
+           </property>
            <property name="text">
             <string>Paste entry</string>
            </property>
@@ -188,6 +244,9 @@
          </item>
          <item row="0" column="0">
           <widget class="QPushButton" name="pb_copy_entry">
+           <property name="locale">
+            <locale language="English" country="UnitedStates"/>
+           </property>
            <property name="text">
             <string>Copy entry</string>
            </property>
@@ -195,6 +254,9 @@
          </item>
          <item row="1" column="0">
           <widget class="QPushButton" name="pb_remove_current_entry">
+           <property name="locale">
+            <locale language="English" country="UnitedStates"/>
+           </property>
            <property name="text">
             <string>Remove entry</string>
            </property>
@@ -202,6 +264,9 @@
          </item>
          <item row="1" column="1">
           <widget class="QPushButton" name="pb_add_new_emtry">
+           <property name="locale">
+            <locale language="English" country="UnitedStates"/>
+           </property>
            <property name="text">
             <string>Add new entry</string>
            </property>
@@ -211,6 +276,9 @@
        </item>
        <item row="13" column="0">
         <widget class="QFrame" name="frame_2">
+         <property name="locale">
+          <locale language="English" country="UnitedStates"/>
+         </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -220,16 +288,26 @@
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <widget class="QLabel" name="lb_raw_data">
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
             <property name="text">
              <string>Raw data</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QTextEdit" name="textEdit"/>
+           <widget class="QTextEdit" name="textEdit">
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QPushButton" name="pb_edit_raw_data">
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
             <property name="text">
              <string>Edit raw data</string>
             </property>
@@ -247,23 +325,37 @@
            </property>
            <item row="0" column="0">
             <widget class="QLabel" name="lb_section_size">
+             <property name="locale">
+              <locale language="English" country="UnitedStates"/>
+             </property>
              <property name="text">
               <string>Section size</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="le_section_size"/>
+            <widget class="QLineEdit" name="le_section_size">
+             <property name="locale">
+              <locale language="English" country="UnitedStates"/>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="lb_entry_amount">
+             <property name="locale">
+              <locale language="English" country="UnitedStates"/>
+             </property>
              <property name="text">
               <string>Entry amount</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="le_entry_anount"/>
+            <widget class="QLineEdit" name="le_entry_anount">
+             <property name="locale">
+              <locale language="English" country="UnitedStates"/>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -274,6 +366,9 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="locale">
+            <locale language="English" country="UnitedStates"/>
            </property>
            <property name="text">
             <string>Add new section</string>
