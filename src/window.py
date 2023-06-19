@@ -2,7 +2,7 @@ import os
 import shutil
 import sys
 
-from PyQt5 import QtWidgets
+from PyQt5 import QtGui, QtWidgets
 
 from data import resource_path
 from interface import main_window
@@ -18,6 +18,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.set_connections()
+        self.setWindowIcon(QtGui.QIcon(str(resource_path("res/icon.png"))))
 
         self.settings = Settings(open(resource_path("res/settings.txt")).readlines())
         self.param = Param(None, self.settings)
