@@ -58,9 +58,9 @@ class Field:
 
         if type in ["uint", "int", "ushort", "short", "uchar", "char"]:
             self.value = int(new_value)
-        elif type == bool:
+        elif type == "bool":
             self.value = bool(new_value)
-        elif type == float:
+        elif type == "float":
             self.value = float(new_value)
         elif type == "str" or type == "string":
             self.value = new_value
