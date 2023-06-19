@@ -83,9 +83,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
 
         self.cb_sections.clear()
         for section in self.param.section_list:
-            self.cb_sections.addItem(
-                f"Section {section.id+1} ({section.entry_amount} entries)"
-            )
+            self.cb_sections.addItem(f"{section.id+1} ({section.entry_amount} entries)")
 
         self.cb_entries.clear()
         for entry in self.param.get_section_entries():

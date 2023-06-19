@@ -48,5 +48,5 @@ class QLineEditField(QLineEdit):
     def update_field_value(self, value: str):
         try:
             self.field.set_value_from_string(value)
-        except Exception as _:
-            pass
+        except Exception as e:
+            print(f"Error when setting field value: {e}")
