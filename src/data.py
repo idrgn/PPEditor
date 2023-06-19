@@ -65,7 +65,9 @@ def read_float(fdata: bytes, position: int = 0x0) -> int:
 def read_str(fdata: bytes, position: int = 0x0) -> str:
     string_bytes = bytearray()
     offset = 0x0
-    while (last_byte := read_uchar(fdata, position + offset)) != 0x00:
+    while (last_byte := read_uchar(fdata, position + offset)) != 0x00 and offset < len(
+        fdata
+    ) - 1:
         string_bytes.append(last_byte)
         offset += 1
     try:
@@ -118,3 +120,11 @@ def parse_bool(string: str):
         return True
     else:
         return False
+
+
+def decode_string(string: str):
+    try:
+        result = string.decode("utf-8")
+    except UnicodeDecodeError as _:
+        result = string.decode("shift_jis")
+    return result
