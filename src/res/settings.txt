@@ -7,9 +7,13 @@ E;deco_type;Hideout decoration types;None;Decoration;Installation;Background
 E;equip_slot_type;Item slots for classparam;None;Weapon;Helm;Unknown;Deffensive 1;Deffensive 2;Mount / Chariot;Mask
 E;item_category;General item categories;None;P2 Items;Materials;Quest Items;Equipment;Key items;Unknown;Decorations;Accessory;Tickets;Team Cards;Team Flags
 E;item_equip_category;Item categories for equipment;None;Item;Sword;Blade;Spear;Pike;Lance;Arm;Dagger;Shiv;Greatsword;Greatblade;Axe;Club;Bow;Longbow;Crossbow;Tuba;Horn;Twinhorn;Staff;Scepter;Cannon;Howitzer;Laser;Helm;Shield;Greatshield;Shoulder;Cape;Boots;Horse;Warhorse;Chariot;Claw;Scythe;Decoration;Installation;Background;Team Card;Team Flag
+E;item_shop_category;Shop item category;None;Normal item;Card;Emblem;Theme
+E;item_display_type;Item display icon in shop;None;Default;Unknown;New
 E;item_rarity;Item rarity;None;Common;Enchanted;Unique;Super Unique;Ultimate
 E;equip_category;Equip categories;None;Sword;Blade;Spear;Pike;Lance;Arm;Dagger;Shiv;Greatsword;Greatblade;Axe;Club;Bow;Longbow;Crossbow;Tuba;Horn;Twinhorn;? ? ?;Staff;Scepter;Cannon;Howitzer;Laser;Helm;Shield;Greatshield;Shoulders;Cape;Boots;Horse;Warhorse;Chariot;Mask;? ? ?;Claw;Scythe
 E;equip_enchants;Equip enchantments;None;Unenchanted;Strength;God;Destructo;Holy;Slayer;Flame;Poison;HP;Mega;Armored;Weight;Endurance;Ice;Cure
+E;class_type;Class type;None;Uberhero;Dark Hero
+E;color_type;Effect color types;None;Normal;Light;Inverted
 
 ### PARAM FILES
 ### FILE_ID;SECTION_INDEX;DATA_ADDRESS;DATA_SIZE;DATA_TYPE;NAME;DESCRIPTION;SHOW_ON_LIST(OPTIONAL);ENUM(OPTIONAL);ENUM_NAME(OPTIONAL)
@@ -30,7 +34,7 @@ E;equip_enchants;Equip enchantments;None;Unenchanted;Strength;God;Destructo;Holy
 1;0;0x030;0x04;Evolution [1];;int
 1;0;0x034;0x04;Evolution [2];;int
 1;0;0x038;0x04;Evolution [3];;int
-1;0;0x02c;0x04;Class type;0: Uberhero\n1: Darkhero;int
+1;0;0x02c;0x04;Class type;;int;False;True;class_type
 1;0;0x028;0x04;Class tree;;int
 1;0;0x03c;0x04;Class tree;;int
 1;0;0x0e8;0x04;Reset item [1];;int
@@ -158,7 +162,7 @@ E;equip_enchants;Equip enchantments;None;Unenchanted;Strength;God;Destructo;Holy
 3;0;0x000;0x10;Name;Internal name;str;True
 3;0;0x010;0x02;Identifier;;short
 3;0;0x012;0x02;Anim data;Unknown;short
-3;0;0x018;0x02;Scaling;Attack element scaling\n 1: Unknown\n 2: Unknown;short
+3;0;0x018;0x02;Scaling;Attack element scaling (1 or 2): Unknown;short
 3;0;0x01a;0x02;Damage id;Damage identifier from damageparam;short
 3;0;0x028;0x0C;Model;Effect's visual model;str
 3;0;0x038;0x01;Sepparation;Disable/Enable sepparation from source bone;bool
@@ -176,7 +180,7 @@ E;equip_enchants;Equip enchantments;None;Unenchanted;Strength;God;Destructo;Holy
 3;0;0x06e;0x02;Width;Hitbox width;short
 3;0;0x070;0x02;Height;Hitbox height;short
 3;0;0x074;0x0C;Collission ph;Collission placeholder name;str
-3;0;0x020;0x01;Color;0: Normal color\n1: Light\n2: Inverted;char
+3;0;0x020;0x01;Color;;char;False;True;color_type
 3;0;0x0e8;0x04;P2 effect.bin;Patapon 2 effect from systemdata/effect.bin;int
 3;0;0x085;0x01;Unknown;Has something to do with gravity;char
 3;0;0x090;0x04;Audio id;Audio to be played;int
@@ -427,10 +431,10 @@ E;equip_enchants;Equip enchantments;None;Unenchanted;Strength;God;Destructo;Holy
 # Section 1 - Item data
 21;0;0x000;0x02;Identifier;;short
 21;0;0x002;0x02;Item id;ID of the item;short
-21;0;0x004;0x01;Item Type;0: Normal item\n1: Card\n2: Emblem\n3: Theme;char
+21;0;0x004;0x01;Item Type;;char;False;True;item_shop_category
 21;0;0x007;0x01;Required lv;Required team level to unlock the item in the shop;char
 21;0;0x008;0x04;Price;Item's price in star shards;int
-21;0;0x005;0x01;Display;0: Default\n1: Unknown\n2: New;char
+21;0;0x005;0x01;Display;;char;False;True;item_display_type
 21;0;0x006;0x01;Enabled;Disable/Enable the item;char
 
 ## Squadactivityparam
