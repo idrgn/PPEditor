@@ -117,6 +117,8 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         Loads field list of current entry
         """
+        scroll_position = self.sc.verticalScrollBar().value()
+        self.sc.setVisible(False)
         self.clear_form_items()
 
         current_section = self.cb_sections.currentIndex()
@@ -140,6 +142,9 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 widget = QLineEditField(self.sc_content)
             widget.set_field(field)
             self.fl_fields.addRow(label, widget)
+
+        self.sc.verticalScrollBar().setValue(scroll_position)
+        self.sc.setVisible(True)
 
     def clear_form_items(self):
         """
