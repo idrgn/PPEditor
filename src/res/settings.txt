@@ -1,14 +1,15 @@
 ## FILE_ID;SECTION_INDEX;DATA_ADDRESS;DATA_SIZE;DATA_TYPE;NAME;DESCRIPTION;SHOW_ON_LIST
 
-# Classparam
-1;0;0x000;0x1f;Name;Internal name;string;True
-1;0;0x090;0x0f;Model;Class model;string
+## Classparam
+# Section 1 - Class data
+1;0;0x000;0x1f;Name;Internal name;str;True
+1;0;0x090;0x0f;Model;Class model;str
 1;0;0x040;0x04;Item slot [1];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
 1;0;0x044;0x04;Item slot [2];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
 1;0;0x048;0x04;Item slot [3];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
 1;0;0x04c;0x04;Item slot [4];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
 1;0;0x050;0x04;Item slot [5];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
-1;0;0x054;0x04;Item slot [6];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
+1;0;0x054;0x04; Item slot [6];0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;int
 1;0;0x0b8;0x04;Multip model;Multiplayer model (identifer from charaparam);int
 1;0;0x0c0;0x04;Singlep model;Singleplayer model (identifier from charaparam);int
 1;0;0x020;0x04;Identifier;;int
@@ -16,7 +17,7 @@
 1;0;0x030;0x04;Evolution [1];;int
 1;0;0x034;0x04;Evolution [2];;int
 1;0;0x038;0x04;Evolution [3];;int
-1;0;0x02c;0x04;Dark Hero;Is the unit a Dark Hero?;bool
+1;0;0x02c;0x04;Class type;0: Uberhero\n1: Darkhero;int
 1;0;0x028;0x04;Class tree;;int
 1;0;0x03c;0x04;Class tree;;int
 1;0;0x0e8;0x04;Reset item [1];;int
@@ -25,8 +26,444 @@
 1;0;0x0f4;0x04;Reset item [4];;int
 1;0;0x0f8;0x04;Reset item [5];;int
 1;0;0x0fc;0x04;Reset item [6];;int
-1;0;0x080;0x0f;Icon model;Class icon, can be seen at barracks;string
-
-1;1;0x000;0x1f;Name;Internal name;string;True
+1;0;0x080;0x0f;Icon model;Class icon;can be seen at barracks;str
+# Section 2 - Item unlocks
+1;1;0x000;0x1f;Name;Internal name;str;True
 1;1;0x028;0x04;Unit ID;;int
-1;1;0x080;0x0f;Icon;;string
+1;1;0x080;0x0f;Icon;;str
+1;1;0x090;0x0f;Icon;;str
+1;1;0x0a0;0x0f;Icon;;str
+1;1;0x0b0;0x0f;Icon;;str
+# Section 4 - Class unlocks
+1;3;0x000;0x01;ID;Internal identifier;char
+1;3;0x001;0x01;Unit;Unit identifier;char
+1;3;0x002;0x01;Flag;Trigger class tree unlock flag?;char
+1;3;0x003;0x01;Unlock level;Unit unlock level;char
+1;3;0x004;0x01;Unknown;Unknown value;char
+1;3;0x005;0x01;Unlock level ?;Unit unlock level?;char
+1;3;0x006;0x01;Req 1 ID;Required unit 1 ID;char
+1;3;0x007;0x01;Req 1 Lv;Required unit 1 level;char
+1;3;0x008;0x01;Req 2 ID;Required unit 2 ID;char
+1;3;0x009;0x01;Req 2 Lv;Required unit 2 level;char
+1;3;0x00a;0x01;Req 3 ID;Required unit 3 ID;char
+1;3;0x00b;0x01;Req 3 Lv;Required unit 3 level;char
+1;3;0x00c;0x01;Req 4 ID;Required unit 4 ID;char
+1;3;0x00d;0x01;Req 4 Lv;Required unit 4 level;char
+1;3;0x00e;0x01;Req 5 ID;Required unit 5 ID;char
+1;3;0x00f;0x01;Req 5 Lv;Required unit 5 level;char
+
+
+## Damageparam
+# All sections
+2;*;0x000;0x1f;Name;Internal name;str;True
+2;*;0x020;0x04;ID;Internal ID inside the section;int
+2;*;0x03a;0x03;*Pierce;Attacks pierce?;int
+
+2;*;0x0c0;0x04;*i vs slash;Incoming damage multiplier vs slash;float
+2;*;0x0c4;0x04;*i vs strike;Incoming damage multiplier vs strike;float
+2;*;0x0c8;0x04;*i vs stab;Incoming damage multiplier vs stab;float
+2;*;0x0cc;0x04;*i vs crush;Incoming damage multiplier vs crush;float
+2;*;0x0d0;0x04;*i vs fire;Incoming damage multiplier vs fire;float
+2;*;0x0d4;0x04;*i vs ice;Incoming damage multiplier vs ice;float
+2;*;0x0d8;0x04;*i vs lightning;Incoming damage multiplier vs lightning;float
+2;*;0x0dc;0x04;*i vs poison;Incoming damage multiplier vs poison;float
+2;*;0x0e0;0x04;*i vs sound;Incoming damage multiplier vs sound;float
+2;*;0x0e4;0x04;*i vs light;Incoming damage multiplier vs light;float
+2;*;0x0e8;0x04;*i vs darkness;Incoming damage multiplier vs darkness;float
+
+2;*;0x024;0x04;Health;;float
+2;*;0x02c;0x04;fever movement speed;;float
+2;*;0x030;0x04;attack movement speed;;float
+2;*;0x034;0x04;Attack speed;Attack speed (lower is faster);float
+
+2;*;0x03c;0x04;Min damage;Minimum damage;float
+2;*;0x040;0x04;Max damage;Maximum damage;float
+
+2;*;0x084;0x04;*d vs demons;Damage multiplier vs demons;float
+2;*;0x088;0x04;*d vs undead;Damage multiplier vs undeads;float
+2;*;0x08c;0x04;*d vs shells;Damage multiplier vs shells;float
+2;*;0x090;0x04;*d vs dragons;Damage multiplier vs dragons;float
+2;*;0x094;0x04;*d vs giants;Damage multiplier vs giants;float
+2;*;0x098;0x04;*d vs wood;Damage multiplier vs wood;float
+2;*;0x09c;0x04;*d vs stone;Damage multiplier vs stone;float
+2;*;0x0a0;0x04;*d vs metal;Damage multiplier vs metal;float
+
+2;*;0x10a;0x01;critical immunity;;char
+2;*;0x10b;0x01;knockback immunity;;char
+2;*;0x10c;0x01;stagger immunity;;char
+2;*;0x10d;0x01;burn immunity;;char
+2;*;0x10e;0x01;sleep immunity;;char
+2;*;0x10f;0x01;freeze immunity;;char
+2;*;0x110;0x01;poison immunity;;char
+2;*;0x111;0x01;tumble immunity;;char
+
+2;*;0x74;0x01;slash elem;;char
+2;*;0x75;0x01;strike elem;;char
+2;*;0x76;0x01;stab elem;;char
+2;*;0x77;0x01;crush elem;;char
+2;*;0x78;0x01;fire elem;;char
+2;*;0x79;0x01;ice elem;;char
+2;*;0x7a;0x01;lightning elem;;char
+2;*;0x7b;0x01;poison elem;;char
+2;*;0x7c;0x01;sound elem;;char
+2;*;0x7d;0x01;light elem;;char
+2;*;0x7e;0x01;darkness elem;;char
+2;*;0x7f;0x01;burn elem;;char
+2;*;0x80;0x01;poison elem;;char
+
+2;*;0x048;0x04;kb power;;float
+2;*;0x04c;0x04;shield breaker;;float
+
+2;*;0x058;0x04;crit %;;float
+2;*;0x05c;0x04;knockback %;;float
+2;*;0x060;0x04;stagger %;;float
+2;*;0x064;0x04;burn %;;float
+2;*;0x068;0x04;sleep %;;float
+2;*;0x06c;0x04;freeze %;;float
+2;*;0x070;0x04;poison %;;float
+
+2;*;0x0b4;0x01;demon element;;char
+2;*;0x0b5;0x01;undead element;;char
+2;*;0x0b6;0x01;shell element;;char
+2;*;0x0b7;0x01;dragon element;;char
+2;*;0x0b8;0x01;giant element;;char
+2;*;0x0b9;0x01;wood element;;char
+2;*;0x0ba;0x01;stone element;;char
+2;*;0x0bb;0x01;metal element;;char
+
+2;*;0x0ec;0x04;crit resist %;;float
+2;*;0x0f0;0x04;kb resist %;;float
+2;*;0x0f4;0x04;stagger resist %;;float
+2;*;0x0f8;0x04;burn resist %;;float
+2;*;0x0fc;0x04;sleep resist %;;float
+2;*;0x100;0x04;freeze resist %;;float
+2;*;0x104;0x04;poison resist %;;float
+
+
+## Effectparam
+# Section 1 - Effect data
+3;0;0x000;0x10;Name;Internal name;str;True
+3;0;0x010;0x02;Identifier;;short
+3;0;0x012;0x02;Anim data;Unknown;short
+3;0;0x018;0x02;Scaling;Attack element scaling\n 1: Unknown\n 2: Unknown;short
+3;0;0x01a;0x02;Damage id;Damage identifier from damageparam;short
+3;0;0x028;0x0C;Model;Effect's visual model;str
+3;0;0x038;0x01;Sepparation;Disable/Enable sepparation from source bone;bool
+3;0;0x039;0x01;Texture pos;Setting it to zero causes T-Pose;bool
+3;0;0x03a;0x01;Bounce;Disable/Enable bouces on surfaces;bool
+3;0;0x03b;0x01;Disappear;Disable/Enable dissappearance on collission with ground;bool
+3;0;0x03c;0x01;Fall;Disable/Enable falling trough the ground;bool
+3;0;0x03d;0x01;Bounces;Number of bounces;char
+3;0;0x050;0x04;Weigh;;float
+3;0;0x054;0x04;Angle x;;float
+3;0;0x058;0x04;Angle y;;float
+3;0;0x060;0x04;Speed;Movement speed;float
+3;0;0x064;0x01;Hit cd;Cooldown between hits;bool
+3;0;0x068;0x01;Collission;Disable/Enable collission;bool
+3;0;0x06e;0x02;Width;Hitbox width;short
+3;0;0x070;0x02;Height;Hitbox height;short
+3;0;0x074;0x0C;Collission ph;Collission placeholder name;str
+3;0;0x020;0x01;Color;0: Normal color\n1: Light\n2: Inverted;char
+3;0;0x0e8;0x04;P2 effect.bin;Patapon 2 effect from systemdata/effect.bin;int
+3;0;0x085;0x01;Unknown;Has something to do with gravity;char
+3;0;0x090;0x04;Audio id;Audio to be played;int
+# Section 3 - Combos
+3;2;0x000;0x1f;Name;Internal name;str;True
+3;2;0x020;0x04;Source;Source effect;int
+3;2;0x024;0x04;Interaction;Interaction type;int
+3;2;0x028;0x04;Called;Called effect;int
+
+## Generatorparam
+# Section 0 - Gimcs
+3;0;0x00;0x17;Name;Internal name;str;True
+3;0;0x20;0x02;ent type 1;char. Normal units\n2. DHs\n3. Other elements (interactive entities, rocks, grass...)\n4. Normal enemies\n5. Bosses / minibosses;short
+3;0;0x68;0x02;ent type 2;-1: Undefined\n0: Normal unit\n1: DH unit\n2: Passive enemy\n3: Miniboss\n4: Boss\n5: Structure\n6: Ground objects\n7: Grass;short
+3;0;0x6a;0x01;eq 1 op 1;01: Sword\n02: Blade\n03: Spear\n04: Pike\n05: Lance\n06: Arm\n07: Dagger\n08: Shiv\n09: Greatsword\n10: Greatblade\n11: Axe\n12: Club\n13: Bow\n14: Longbow\n15: Crossbow\n16: Tuba\n17: Horn\n18: Twinhorn\n19: Staff\n20: Scepter\n21: Cannon\n22: Howitzer\n23: Laser\n24: Helm\n25: Shield\n26: Greatshield\n27: Shoulders\n28: Cape\n29: Boots\n30: Horse\n31: Warhorse\n32: Chariot\n33: Claw\n34: Scythe\n\n255: None;char
+
+
+## Gimmickparam
+# Section 0 - Gimcs
+7;0;0x00;0x1f;Name;Internal name;str;True
+7;0;0x18;0x04;ID;Identifier;int
+7;0;0x28;0x09;Gimmick;Gimmick name;str
+
+
+## Itemparam
+# Section 1 - Item data
+9;0;0x014;0x13;Texture;Display texture, used on inventory;str;True
+9;0;0x000;0x04;Internal id;Internal item identifier;int
+9;0;0x004;0x02;External id;External item identifier;short
+9;0;0x006;0x02;Equip id;Contains item equip data from weaponparam: model;stats...;short
+9;0;0x038;0x02;Name;Item name from itemmsg.msg file;short
+9;0;0x03a;0x02;Description;Item description from itemmsg.msg file;short
+9;0;0x008;0x02;Rarity;0: Common\n1: Enchanted\n2: Unique\n3: Super Unique\n4: Ultimate\n\nColor is only displayed if item type is 3;short
+9;0;0x00f;0x01;Item type;0: P2 Items\n1: Materials\n2: Quest Items\n3: Equipment\n4: Key items\n5: Unknown\n6: Decorations\n7: Accessory\n8: Tickets\n9: Team Cards\n10: Team Flags;char
+9;0;0x00e;0x01;Enchantment;0: None\n1: Strength\n2: God\n3: Destructo\n4: Holy\n5: Slayer\n6: Flame\n7: Poison\n8: HP\n9: Mega\n10: Armored\n11: Weight\n12: Endurance\n13: Ice\n14: Cure;char
+9;0;0x032;0x02;Item category;01: Sword\n02: Blade\n03: Spear\n04: Pike\n05: Lance\n06: Arm\n07: Dagger\n08: Shiv\n09: Greatsword\n10: Greatblade\n11: Axe\n12: Club\n13: Bow\n14: Longbow\n15: Crossbow\n16: Tuba\n17: Horn\n18: Twinhorn\n19: Staff\n20: Scepter\n21: Cannon\n22: Howitzer\n23: Laser\n24: Helm\n25: Shield\n26: Greatshield\n27: Shoulders\n28: Cape\n29: Boots\n30: Horse\n31: Warhorse\n32: Chariot\n33: Claw\n34: Scythe\n\n255: None;short
+9;0;0x013;0x01;Textype;Controls how the game loads the item texture;defined on section 4;char
+9;0;0x028;0x01;ID;Some ID (used for decorations);char
+9;0;0x00c;0x02;Base price;Base item price;short
+9;0;0x010;0x01;Variable 0;Decoration type (1. Decoration,0. Installation,2. Background);char
+9;0;0x011;0x01;Variable 1;Decoration type (1. Decoration,0. Installation,2. Background);char
+9;0;0x012;0x01;Variable 2;Decoration type (1. Decoration,0. Installation,2. Background);char
+# Section 4 - Texture loading
+9;3;0x000;0x3c;Texture;Texture name or path;str;True
+9;3;0x03c;0x04;Identifier;Identifier, used in textype;section 1;int
+# Section 5 - Item positions
+9;4;0x00;0x04;Identifier;;int
+9;4;0x08;0x03;Hero offset;;short
+9;4;0x0a;0x03;Hero size;;short
+9;4;0x10;0x03;Hero xpos;;short
+9;4;0x12;0x03;Hero ypos;;short
+9;4;0x14;0x03;Pon offset;;short
+9;4;0x16;0x03;Pon size;;short
+9;4;0x18;0x03;Pon xpos;;short
+9;4;0x1a;0x03;Pon ypos;;short
+
+
+## Equipparam
+# Section 1 - Pon equip position
+4;0;0x000;0x04;Identifier;Entry identifier;int
+4;0;0x004;0x07;Item 00;Indicates where the weapon goes;str
+4;0;0x00c;0x07;Item 01;Unknown;str
+4;0;0x014;0x07;Item 02;Unknown;str
+4;0;0x01c;0x07;Item 03;Indicates where the helm goes;str
+4;0;0x024;0x07;Item 04;Unknown;str
+4;0;0x02c;0x07;Item 05;Indicates where the cape / boots1 / shield? go;str
+4;0;0x038;0x0b;Item 06;Indicates where the boots2 go;str
+4;0;0x044;0x0b;Item 07;Unknown;str
+4;0;0x050;0x07;Item 08;Indicates where mount / chariot1 go;str
+4;0;0x058;0x07;Item 09;Indicates where chariot2 goes;str
+4;0;0x060;0x07;Item 10;Unknown;str
+# Section 2 - Hero item position
+4;1;0x000;0x04;Identifier;;int
+4;1;0x004;0x0F;Item 00;;str
+4;1;0x014;0x0F;Item 01;;str
+4;1;0x024;0x0F;Item 02;;str
+4;1;0x044;0x07;Item 03;;str
+4;1;0x04c;0x0b;Item 04;;str
+4;1;0x058;0x0b;Item 05;;str
+4;1;0x064;0x0b;Item 06;;str
+4;1;0x070;0x0b;Item 07;;str
+4;1;0x07c;0x0b;Item 08;;str
+4;1;0x088;0x0b;Item 09;;str
+4;1;0x094;0x07;Item 10;;str
+4;1;0x09c;0x07;Item 11;;str
+4;1;0x0a4;0x07;Item 12;;str
+4;1;0x0ac;0x07;Item 13;;str
+4;1;0x0b4;0x07;Item 14;;str
+4;1;0x0bc;0x07;Item 15;;str
+# Section 3 - Unknown
+4;2;0x000;0x01;Unknown [1];;char
+4;2;0x001;0x01;Unknown [2];;char
+4;2;0x002;0x01;Unknown [3];;char
+4;2;0x003;0x01;Unknown [4];;char
+# Section 4 - Evolution
+4;3;0x000;0x01;Identifier;;char
+4;3;0x002;0x01;Identifier;;char
+4;3;0x003;0x01;Item unl [1];;char
+4;3;0x004;0x01;⟵ at level;;char
+4;3;0x005;0x01;Item unl [2];;char
+4;3;0x006;0x01;⟵ at level;;char
+4;3;0x007;0x01;Item unl [3];;char
+4;3;0x008;0x01;⟵ at level;;char
+4;3;0x009;0x01;Item unl [4];;char
+4;3;0x00a;0x01;⟵ at level;;char
+4;3;0x00b;0x01;Item unl [5];;char
+4;3;0x00c;0x01;⟵ at level;;char
+4;3;0x00d;0x01;Item unl [6];;char
+4;3;0x00e;0x01;⟵ at level;;char
+4;3;0x00f;0x01;Item unl [7];;char
+4;3;0x010;0x01;⟵ at level;;char
+4;3;0x011;0x01;Item unl [8];;char
+4;3;0x012;0x01;⟵ at level;;char
+4;3;0x001;0x01;Unknown;;char
+4;3;0x013;0x01;Unknown;;char
+# Section 5 - Unknown
+4;4;0x000;0x01;Unknown [1];;char
+4;4;0x001;0x01;Unknown [2];;char
+4;4;0x002;0x01;Unknown [3];;char
+4;4;0x003;0x01;Unknown [4];;char
+4;4;0x004;0x01;Unknown [5];;char
+4;4;0x005;0x01;Unknown [6];;char
+4;4;0x006;0x02;Item id;Item identifier from itemparam;short
+4;4;0x008;0x17;Item model;;str
+# Section 6 - Equip slot data
+4;5;0x000;0x02;Identifier;;short
+4;5;0x002;0x02;Slot content;0: Weapon\n1: Helm\n2: Unknown\n3: Deffensive 1\n4: Deffensive 2\n5: Mount / Chariot\n6: Mask;short
+4;5;0x004;0x0b;Slot icon;uconf078: Sword\nuconf079: Shield\nuconf080: Helm\nuconf081: Horse\nuconf134: Chariot;str;True
+
+
+## Menudataparam
+# All sections
+12;*;0x004;0x13;Name;Stuff name;str
+12;*;0x03f;0x01;Disabled;;char
+12;*;0x01c;0x02;x pos;;short
+12;*;0x01e;0x02;y pos;;short
+
+
+## Originstatusparam
+# All sections
+17;*;0x000;0x1f;Name;Entity/Item/Effect name;str;True
+17;*;0x020;0x02;Section id;Identifier inside the section;short
+17;*;0x030;0x04;March mspd;Default marching movement speed;float
+17;*;0x034;0x04;Attack mspd;Default attack movement speed;float
+17;*;0x038;0x04;Attack speed;Attack speed (lower is faster);float
+17;*;0x03C;0x01;Pierce;Disable/Enable attack piercing;bool
+17;*;0x024;0x04;Health;;float
+17;*;0x028;0x04;⟵ per level;Health per level;float
+17;*;0x040;0x04;Min damage;Minimum damage;float
+17;*;0x044;0x04;⟵ per level;Minimum damage per level;float
+17;*;0x048;0x04;Max damage;Maximum damage;float
+17;*;0x04c;0x04;⟵ per level;Maximum damage per level;float
+17;*;0x054;0x04;KB power;Knockback power;float
+17;*;0x058;0x04;⟵ per level;Knockback power per level;float
+17;*;0x05c;0x04;Shield breaker;;float
+17;*;0x060;0x04;⟵ per level;Shield breaker per level;float
+17;*;0x06c;0x04;Crit chance;Critical strike chance;float
+17;*;0x088;0x04;⟵ per level;Critical strike chance per level;float
+17;*;0x070;0x04;KB chance;Knockback chance;float
+17;*;0x08C;0x04;⟵ per level;Knockback chance per level;float
+17;*;0x074;0x04;Stagg chance;Stagger chance;float
+17;*;0x090;0x04;⟵ per level;Stagger chance per level;float
+17;*;0x078;0x04;Burn chance;;float
+17;*;0x094;0x04;⟵ per level;Burn chance per level;float
+17;*;0x07C;0x04;Sleep chance;;float
+17;*;0x098;0x04;⟵ per level;Sleep chance per level;float
+17;*;0x080;0x04;Freeze chance;;float
+17;*;0x09c;0x04;⟵ per level;Freeze chance per level;float
+17;*;0x084;0x04;Poison chance;;float
+17;*;0x0A0;0x04;⟵ per level;Poison chance per level;float
+17;*;0x0b4;0x04;*d vs demons;Damage multiplier vs demons;float
+17;*;0x0d4;0x04;⟵ per level;Damage multiplier vs demons per level;float
+17;*;0x0b8;0x04;*d vs undead;Damage multiplier vs undeads;float
+17;*;0x0d8;0x04;⟵ per level;Damage multiplier vs undeads per level;float
+17;*;0x0bc;0x04;*d vs shells;Damage multiplier vs shells;float
+17;*;0x0dc;0x04;⟵ per level;Damage multiplier vs shells per level;float
+17;*;0x0c0;0x04;*d vs dragons;Damage multiplier vs dragons;float
+17;*;0x0e0;0x04;⟵ per level;Damage multiplier vs dragons per level;float
+17;*;0x0c4;0x04;*d vs giants;Damage multiplier vs giants;float
+17;*;0x0e4;0x04;⟵ per level;Damage multiplier vs giants per level;float
+17;*;0x0c8;0x04;*d vs wood;Damage multiplier vs wood;float
+17;*;0x0e8;0x04;⟵ per level;Damage multiplier vs wood per level;float
+17;*;0x0cc;0x04;*d vs stone;Damage multiplier vs stone;float
+17;*;0x0ec;0x04;⟵ per level;Damage multiplier vs stone per level;float
+17;*;0x0d0;0x04;*d vs metal;Damage multiplier vs metal;float
+17;*;0x0f0;0x04;⟵ per level;Damage multiplier vs metal per level;float
+17;*;0x0f4;0x04;Defence;;float
+17;*;0x0f8;0x04;⟵ per level;Defence per level;float
+17;*;0x0fc;0x04;Shield evasion;;float
+17;*;0x100;0x04;⟵ per level;Shield evasion per level;float
+17;*;0x104;0x04;Weight;;float
+17;*;0x108;0x04;⟵ per level;Weight per level;float
+17;*;0x144;0x04;Crit res;Critical strike resistance;float
+17;*;0x160;0x04;⟵ per level;Critical strike resistance per level;float
+17;*;0x148;0x04;KB res;Knockback resistance;float
+17;*;0x164;0x04;⟵ per level;Knockback resistance per level;float
+17;*;0x14c;0x04;Stagger res;Stagger resistance;float
+17;*;0x168;0x04;⟵ per level;Stagger resistance per level;float
+17;*;0x150;0x04;Burn res;Burn resistance;float
+17;*;0x16c;0x04;⟵ per level;Burn resistance per level;float
+17;*;0x154;0x04;Sleep res;Sleep resistance;float
+17;*;0x170;0x04;⟵ per level;Sleep resistance per level;float
+17;*;0x158;0x04;Freeze res;Freeze resistance;float
+17;*;0x174;0x04;⟵ per level;Freeze resistance per level;float
+17;*;0x15c;0x04;Poison res;Poison resistance;float
+17;*;0x178;0x04;⟵ per level;Poison resistance per level;float
+17;*;0x118;0x04;*i vs slash;Incoming damage multiplier vs slash;float
+17;*;0x11c;0x04;*i vs strike;Incoming damage multiplier vs strike;float
+17;*;0x120;0x04;*i vs stab;Incoming damage multiplier vs stab;float
+17;*;0x124;0x04;*i vs crush;Incoming damage multiplier vs crush;float
+17;*;0x128;0x04;*i vs fire;Incoming damage multiplier vs fire;float
+17;*;0x12c;0x04;*i vs ice;Incoming damage multiplier vs ice;float
+17;*;0x130;0x04;*i vs lightning;Incoming damage multiplier vs lightning;float
+17;*;0x134;0x04;*i vs poison;Incoming damage multiplier vs poison;float
+17;*;0x138;0x04;*i vs sound;Incoming damage multiplier vs sound;float
+17;*;0x13c;0x04;*i vs light;Incoming damage multiplier vs light;float
+17;*;0x140;0x04;*i vs darkness;Incoming damage multiplier vs darkness;float
+17;*;0x0a4;0x01;Slash elem;Disable/Enable slash attack element;bool
+17;*;0x0a5;0x01;Strike elem;Disable/Enable strike attack element;bool
+17;*;0x0a6;0x01;Stab elem;Disable/Enable stab attack element;bool
+17;*;0x0a7;0x01;Crush elem;Disable/Enable crush attack element;bool
+17;*;0x0a8;0x01;Fire elem;Disable/Enable fire attack element;bool
+17;*;0x0a9;0x01;Ice elem;Disable/Enable ice attack element;bool
+17;*;0x0aa;0x01;Lightning elem;Disable/Enable lightning attack element;bool
+17;*;0x0ab;0x01;Poison elem;Disable/Enable poisom attack element;bool
+17;*;0x0ac;0x01;Sound elem;Disable/Enable sound attack element;bool
+17;*;0x0ad;0x01;Light elem;Disable/Enable light attack element;bool
+17;*;0x0ae;0x01;Darkness elem;Disable/Enable darkness attack element;bool
+17;*;0x0af;0x01;Burn elem;Disable/Enable burn attack element;bool
+17;*;0x0b0;0x01;Poison elem;Disable/Enable poison attack element;bool
+17;*;0x17e;0x01;∞ critical res;Disable/Enable critical immunity;bool
+17;*;0x17f;0x01;∞ kb res;Disable/Enable knockback immunity;bool
+17;*;0x180;0x01;∞ stagger res;Disable/Enable stagger immunity;bool
+17;*;0x181;0x01;∞ burn res;Disable/Enable burn immunity;bool
+17;*;0x182;0x01;∞ sleep res;Disable/Enable sleep immunity;bool
+17;*;0x183;0x01;∞ freeze res;Disable/Enable freeze immunity;bool
+17;*;0x184;0x01;∞ poison res;Disable/Enable poison immunity;bool
+17;*;0x185;0x01;∞ tumble res;Disable/Enable tumble immunity;bool
+17;*;0x10c;0x04;Unknown 0;Unknown value 0;int
+17;*;0x110;0x04;Unknown 1;Unknown value 1;int
+17;*;0x114;0x04;Unknown 2;Unknown value 2;int
+17;*;0x150;0x04;Unknown 3;Unknown value 3;int
+17;*;0x02c;0x04;Unknown 4;Unknown value 4;int
+17;*;0x164;0x02;Unknown 5;Unknown value 5;short
+17;*;0x166;0x02;Unknown 6;Unknown value 6;short
+17;*;0x022;0x02;Global id;Global identifier across the whole param file;short
+
+
+## Shopitemparam
+# Section 1 - Item data
+21;0;0x000;0x02;Identifier;;short
+21;0;0x002;0x02;Item id;ID of the item;short
+21;0;0x004;0x01;Item Type;0: Normal item\n1: Card\n2: Emblem\n3: Theme;char
+21;0;0x007;0x01;Required lv;Required team level to unlock the item in the shop;char
+21;0;0x008;0x04;Price;Item's price in star shards;int
+21;0;0x005;0x01;Display;0: Default\n1: Unknown\n2: New;char
+21;0;0x006;0x01;Enabled;Disable/Enable the item;char
+
+## Squadactivityparam
+# Section 1
+24;0;0x000;0x1f;Name;;str;True
+
+
+## Weaponparam
+# Section 1 - Equip data
+28;0;0x000;0x02;Identifier;Identifier inside the section;short
+28;0;0x016;0x11;Item model;;str;True
+28;0;0x002;0x02;Stat id 0;Equal to Section ID inside originstatusparam;short
+28;0;0x00e;0x02;Stat id 1;This is equal to Global ID inside originstatusparam;short;False
+28;0;0x006;0x02;Rarity;0: Default\n1: Common\n2: Unique\n    Super Unique\n    Ultimate\n\nThis changes the item's background color\nCommon items appear on armory even if they're not owned;2
+28;0;0x009;0x01;Category;00: Sword\n01: Blade\n02: Spear\n03: Pike\n04: Lance\n05: Arm\n06: Dagger\n07: Shiv\n08: Greatsword\n09: Greatblade\n10: Axe\n11: Club\n12: Bow\n13: Longbow\n14: Crossbow\n15: Tuba\n16: Horn\n17: Twinhorn\n18: ? ? ?\n19: Staff\n20: Scepter\n21: Cannon\n22: Howitzer\n23: Laser\n24: Helm\n25: Shield\n26: Greatshield\n27: Shoulders\n28: Cape\n29: Boots\n30: Horse\n31: Warhorse\n32: Chariot\n33: Mask\n34: ? ? ?\n35: Claw\n36: Scythe\n\n255: None;char
+28;0;0x008;0x01;Position;;char
+28;0;0x004;0x02;Unknown [1];;short
+28;0;0x00a;0x02;Unknown [2];;short
+28;0;0x00c;0x02;Unknown [3];;short
+28;0;0x010;0x02;Unknown [4];;short
+28;0;0x012;0x02;Unknown [5];;short
+# Section 2 - Equip models
+28;1;0x000;0x0f;Model name;;str;True
+
+## Skilltablepalram
+# Section 1 - Skill table
+23;0;0x000;0x1f;Type;Type of unlock;str;True
+23;0;0x024;0x04;Internal ID;;int
+23;0;0x028;0x04;Class ID;;int
+23;0;0x040;0x04;SS 1 ID;;int
+23;0;0x044;0x04;SS 1 Llevel;;int
+23;0;0x048;0x04;SS 2 ID;;int
+23;0;0x04c;0x04;SS 2 Llevel;;int
+23;0;0x050;0x04;SS 3 ID;;int
+23;0;0x054;0x04;SS 3 Llevel;;int
+23;0;0x058;0x04;SS 4 ID;;int
+23;0;0x05c;0x04;SS 4 Llevel;;int
+23;0;0x060;0x04;SS 5 ID;;int
+23;0;0x064;0x04;SS 5 Llevel;;int
+23;0;0x068;0x04;SS 6 ID;;int
+23;0;0x06c;0x04;SS 6 Llevel;;int
+
+## Roundtableparam
+# Section 2 - Levelup data
+33;1;0x000;0x04;Type;Type of unlock;int
+33;1;0x004;0x04;Team points;Team points required for unlock;int
+33;1;0x008;0x04;Reward;Amount of star shards for the reward;int

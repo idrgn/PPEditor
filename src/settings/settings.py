@@ -42,8 +42,11 @@ class Settings:
                 e.strip() for e in row_entries
             ]
 
-            id = parse_int(id)
-            section = parse_int(section)
+            id = int(id)
+
+            if section != "*":
+                section = int(section)
+
             address = parse_int(address)
             size = parse_int(size)
             description = bytes(description, "utf-8").decode("unicode_escape")
@@ -60,7 +63,10 @@ class Settings:
             return [
                 entry
                 for entry in self.entries
-                if (entry.id == param_id and entry.section == section)
+                if (
+                    entry.id == param_id
+                    and (entry.section == section or entry.section == "*")
+                )
             ]
         else:
             return [entry for entry in self.entries if entry.id == param_id]
