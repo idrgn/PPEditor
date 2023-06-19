@@ -111,3 +111,10 @@ def parse_int(string: str):
             integer_value = None
 
     return integer_value
+
+
+def parse_bool(string: str):
+    if string.lower == "true":
+        return True
+    else:
+        return False

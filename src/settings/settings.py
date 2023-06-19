@@ -1,4 +1,4 @@
-from data import parse_int
+from data import parse_bool, parse_int
 
 
 class SettingsEnumEntry:
@@ -10,6 +10,9 @@ class SettingsEnumEntry:
         self.description = description
         self.null_value = null_value
         self.values = values
+
+    def get_values(self):
+        return [self.null_value] + self.values
 
 
 class SettingsFieldEntry:
@@ -72,7 +75,7 @@ class Settings:
             address = parse_int(address)
             size = parse_int(size)
             description = bytes(description, "utf-8").decode("unicode_escape")
-            shown = bool(shown)
+            shown = parse_bool(shown)
             enum = None
 
             if type == "enum":
