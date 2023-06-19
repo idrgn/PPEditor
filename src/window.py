@@ -60,6 +60,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             self.param.load_from_data(data)
             self.output_path = os.path.dirname(os.path.abspath(self.path))
             self.file_name = os.path.basename(os.path.abspath(self.path))
+            self.lb_file_name.setText(f"Filename: {self.file_name}")
             self.refresh()
 
     def save_param_file(self):
