@@ -71,8 +71,8 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             shutil.copy(self.path, f"{self.path}.bak")
 
         # Save file
-        data_to_save = self.param.to_bytes()
         if self.path and self.param:
+            data_to_save = self.param.to_bytes()
             with open(self.path, "wb") as f:
                 f.write(data_to_save)
 
