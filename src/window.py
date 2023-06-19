@@ -82,21 +82,35 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         if self.param is None:
             return
 
-        self.cb_sections.clear()
-        for section in self.param.section_list:
-            self.cb_sections.addItem(f"{section.id+1} ({section.entry_amount} entries)")
-
-        self.cb_entries.clear()
-        for entry in self.param.get_section_entries():
-            self.cb_entries.addItem(f"{entry.id+1} ({entry.get_name()})")
+        self.load_sections()
+        self.load_entries()
 
     def selected_section_changed(self):
         """
         Loads entry list of selected section
         """
+        self.load_entries()
+
+    def load_sections(self):
+        """
+        Loads sections
+        """
+        self.cb_sections.clear()
+        for section in self.param.section_list:
+            self.cb_sections.addItem(f"{section.id+1} ({section.entry_amount} entries)")
+
+    def load_entries(self):
+        """
+        Loads entries
+        """
         self.cb_entries.clear()
         for entry in self.param.get_section_entries(self.cb_sections.currentIndex()):
-            self.cb_entries.addItem(f"{entry.id+1} ({entry.get_name()})")
+            entry_name = entry.get_name()
+            if entry_name == "":
+                self.cb_entries.addItem(f"{entry.id}")
+
+            else:
+                self.cb_entries.addItem(f"{entry.id}: {entry_name}")
 
     def selected_entry_changed(self):
         """

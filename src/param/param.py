@@ -132,6 +132,8 @@ class Entry:
         if len(name) == 0:
             return "No identifier"
         else:
+            while "" in name:
+                name.remove("")
             return " - ".join(name)
 
 
