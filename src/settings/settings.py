@@ -3,9 +3,8 @@ from data import parse_bool, parse_int
 
 class SettingsEnumEntry:
     def __init__(
-        self, type: str, name: str, description: str, null_value: str, values: list
+        self, name: str, description: str, null_value: str, values: list
     ) -> None:
-        self.type = type
         self.name = name
         self.description = description
         self.null_value = null_value
@@ -13,6 +12,15 @@ class SettingsEnumEntry:
 
     def get_values(self):
         return [self.null_value] + self.values
+
+    def get_value(self, index: int):
+        if index == -1:
+            return self.null_value
+        else:
+            if index >= len(self.values):
+                return "Unknown"
+            else:
+                return self.values[index]
 
 
 class SettingsFieldEntry:
@@ -38,12 +46,6 @@ class SettingsFieldEntry:
         self.shown = shown
         self.enum = enum
 
-    def get_type(self):
-        if self.enum is not None:
-            return self.enum.type
-        else:
-            return self.type
-
 
 class Settings:
     def __init__(self, data: list = []) -> None:
@@ -60,12 +62,21 @@ class Settings:
 
             row_entries = line.split(";")
 
-            for _ in range(8 - len(row_entries)):
+            for _ in range(10 - len(row_entries)):
                 row_entries.append("")
 
-            id, section, address, size, name, description, type, shown = [
-                e.strip() for e in row_entries
-            ]
+            (
+                id,
+                section,
+                address,
+                size,
+                name,
+                description,
+                type,
+                shown,
+                has_enum,
+                enum_name,
+            ) = [e.strip() for e in row_entries]
 
             id = int(id)
 
@@ -76,15 +87,24 @@ class Settings:
             size = parse_int(size)
             description = bytes(description, "utf-8").decode("unicode_escape")
             shown = parse_bool(shown)
-            enum = None
+            has_enum = parse_bool(has_enum)
 
-            if type == "enum":
-                enum_name = row_entries[-1].strip()
+            if has_enum:
                 enum = self.get_enum(enum_name)
+            else:
+                enum = None
 
             self.field_entries.append(
                 SettingsFieldEntry(
-                    id, section, address, size, name, description, type, shown, enum
+                    id,
+                    section,
+                    address,
+                    size,
+                    name,
+                    description,
+                    type,
+                    shown,
+                    enum,
                 )
             )
 
@@ -95,11 +115,11 @@ class Settings:
 
             enum = [e.strip() for e in line.split(";")]
 
-            type, name, description, null_value = enum[1:5]
-            values = enum[5:]
+            name, description, null_value = enum[1:4]
+            values = enum[4:]
 
             self.enum_entries.append(
-                SettingsEnumEntry(type, name, description, null_value, values)
+                SettingsEnumEntry(name, description, null_value, values)
             )
 
     def get_entries_in_param(self, param_id: int, section: int = None) -> list:

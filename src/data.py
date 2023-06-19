@@ -114,7 +114,7 @@ def parse_int(string: str):
 
 
 def parse_bool(string: str):
-    if string.lower == "true":
+    if string.lower() == "true":
         return True
     else:
         return False

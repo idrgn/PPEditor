@@ -1,21 +1,28 @@
 
+
+
 ### ENUMS
 ### E;TYPE;NAME;DESCRIPTION;NULL_VALUE;ENUM_1;ENUM_2;ENUM_3;ENUM_4...
-E;char;deco_type;Hideout decoration types;None;Decoration;Installation;Background
-E;int;equip_slot_type;Item slots for classparam;None;Weapon;Helm;Unknown;Deffensive 1;Deffensive 2;Mount / Chariot;Mask
+E;deco_type;Hideout decoration types;None;Decoration;Installation;Background
+E;equip_slot_type;Item slots for classparam;None;Weapon;Helm;Unknown;Deffensive 1;Deffensive 2;Mount / Chariot;Mask
+E;item_category;General item categories;None;P2 Items;Materials;Quest Items;Equipment;Key items;Unknown;Decorations;Accessory;Tickets;Team Cards;Team Flags
+E;item_equip_category;Item categories for equipment;None;Item;Sword;Blade;Spear;Pike;Lance;Arm;Dagger;Shiv;Greatsword;Greatblade;Axe;Club;Bow;Longbow;Crossbow;Tuba;Horn;Twinhorn;Staff;Scepter;Cannon;Howitzer;Laser;Helm;Shield;Greatshield;Shoulder;Cape;Boots;Horse;Warhorse;Chariot;Claw;Scythe;Decoration;Installation;Background;Team Card;Team Flag
+E;item_rarity;Item rarity;None;Common;Enchanted;Unique;Super Unique;Ultimate
+E;equip_category;Equip categories;None;Sword;Blade;Spear;Pike;Lance;Arm;Dagger;Shiv;Greatsword;Greatblade;Axe;Club;Bow;Longbow;Crossbow;Tuba;Horn;Twinhorn;? ? ?;Staff;Scepter;Cannon;Howitzer;Laser;Helm;Shield;Greatshield;Shoulders;Cape;Boots;Horse;Warhorse;Chariot;Mask;? ? ?;Claw;Scythe
+E;equip_enchants;Equip enchantments;None;Unenchanted;Strength;God;Destructo;Holy;Slayer;Flame;Poison;HP;Mega;Armored;Weight;Endurance;Ice;Cure
 
 ### PARAM FILES
-### FILE_ID;SECTION_INDEX;DATA_ADDRESS;DATA_SIZE;DATA_TYPE;NAME;DESCRIPTION;SHOW_ON_LIST
+### FILE_ID;SECTION_INDEX;DATA_ADDRESS;DATA_SIZE;DATA_TYPE;NAME;DESCRIPTION;SHOW_ON_LIST(OPTIONAL);ENUM(OPTIONAL);ENUM_NAME(OPTIONAL)
 ## Classparam
 # Section 1 - Class data
 1;0;0x000;0x1f;Name;Internal name;str;True
 1;0;0x090;0x0f;Model;Class model;str
-1;0;0x040;0x04;Item slot [1];;enum;equip_slot_type
-1;0;0x044;0x04;Item slot [2];;enum;equip_slot_type
-1;0;0x048;0x04;Item slot [3];;enum;equip_slot_type
-1;0;0x04c;0x04;Item slot [4];;enum;equip_slot_type
-1;0;0x050;0x04;Item slot [5];;enum;equip_slot_type
-1;0;0x054;0x04;Item slot [6];;enum;equip_slot_type
+1;0;0x040;0x04;Item slot [1];;int;False;True;equip_slot_type
+1;0;0x044;0x04;Item slot [2];;int;False;True;equip_slot_type
+1;0;0x048;0x04;Item slot [3];;int;False;True;equip_slot_type
+1;0;0x04c;0x04;Item slot [4];;int;False;True;equip_slot_type
+1;0;0x050;0x04;Item slot [5];;int;False;True;equip_slot_type
+1;0;0x054;0x04;Item slot [6];;int;False;True;equip_slot_type
 1;0;0x0b8;0x04;Multip model;Multiplayer model (identifer from charaparam);int
 1;0;0x0c0;0x04;Singlep model;Singleplayer model (identifier from charaparam);int
 1;0;0x020;0x04;Identifier;;int
@@ -179,12 +186,10 @@ E;int;equip_slot_type;Item slots for classparam;None;Weapon;Helm;Unknown;Deffens
 3;2;0x024;0x04;Interaction;Interaction type;int
 3;2;0x028;0x04;Called;Called effect;int
 
+
 ## Generatorparam
 # Section 0 - Gimcs
 3;0;0x00;0x17;Name;Internal name;str;True
-3;0;0x20;0x02;ent type 1;char. Normal units\n2. DHs\n3. Other elements (interactive entities, rocks, grass...)\n4. Normal enemies\n5. Bosses / minibosses;short
-3;0;0x68;0x02;ent type 2;-1: Undefined\n0: Normal unit\n1: DH unit\n2: Passive enemy\n3: Miniboss\n4: Boss\n5: Structure\n6: Ground objects\n7: Grass;short
-3;0;0x6a;0x01;eq 1 op 1;01: Sword\n02: Blade\n03: Spear\n04: Pike\n05: Lance\n06: Arm\n07: Dagger\n08: Shiv\n09: Greatsword\n10: Greatblade\n11: Axe\n12: Club\n13: Bow\n14: Longbow\n15: Crossbow\n16: Tuba\n17: Horn\n18: Twinhorn\n19: Staff\n20: Scepter\n21: Cannon\n22: Howitzer\n23: Laser\n24: Helm\n25: Shield\n26: Greatshield\n27: Shoulders\n28: Cape\n29: Boots\n30: Horse\n31: Warhorse\n32: Chariot\n33: Claw\n34: Scythe\n\n255: None;char
 
 
 ## Gimmickparam
@@ -202,16 +207,16 @@ E;int;equip_slot_type;Item slots for classparam;None;Weapon;Helm;Unknown;Deffens
 9;0;0x006;0x02;Equip id;Contains item equip data from weaponparam: model;stats...;short
 9;0;0x038;0x02;Name;Item name from itemmsg.msg file;short
 9;0;0x03a;0x02;Description;Item description from itemmsg.msg file;short
-9;0;0x008;0x02;Rarity;0: Common\n1: Enchanted\n2: Unique\n3: Super Unique\n4: Ultimate\n\nColor is only displayed if item type is 3;short
-9;0;0x00f;0x01;Item type;0: P2 Items\n1: Materials\n2: Quest Items\n3: Equipment\n4: Key items\n5: Unknown\n6: Decorations\n7: Accessory\n8: Tickets\n9: Team Cards\n10: Team Flags;char
-9;0;0x00e;0x01;Enchantment;0: None\n1: Strength\n2: God\n3: Destructo\n4: Holy\n5: Slayer\n6: Flame\n7: Poison\n8: HP\n9: Mega\n10: Armored\n11: Weight\n12: Endurance\n13: Ice\n14: Cure;char
-9;0;0x032;0x02;Item category;01: Sword\n02: Blade\n03: Spear\n04: Pike\n05: Lance\n06: Arm\n07: Dagger\n08: Shiv\n09: Greatsword\n10: Greatblade\n11: Axe\n12: Club\n13: Bow\n14: Longbow\n15: Crossbow\n16: Tuba\n17: Horn\n18: Twinhorn\n19: Staff\n20: Scepter\n21: Cannon\n22: Howitzer\n23: Laser\n24: Helm\n25: Shield\n26: Greatshield\n27: Shoulders\n28: Cape\n29: Boots\n30: Horse\n31: Warhorse\n32: Chariot\n33: Claw\n34: Scythe\n\n255: None;short
+9;0;0x008;0x02;Rarity;;short;False;True;item_rarity
+9;0;0x00f;0x01;Item type;;char;False;True;item_category
+9;0;0x00e;0x01;Enchantment;;char;False;True;equip_enchants
+9;0;0x032;0x02;Item category;;short;True;True;item_equip_category
 9;0;0x013;0x01;Textype;Controls how the game loads the item texture;defined on section 4;char
 9;0;0x028;0x01;ID;Some ID (used for decorations);char
 9;0;0x00c;0x02;Base price;Base item price;short
-9;0;0x010;0x01;Variable 0;Decoration type (1. Decoration,0. Installation,2. Background);enum;deco_type
-9;0;0x011;0x01;Variable 1;Decoration type (1. Decoration,0. Installation,2. Background);enum;deco_type
-9;0;0x012;0x01;Variable 2;Decoration type (1. Decoration,0. Installation,2. Background);enum;deco_type
+9;0;0x010;0x01;Variable 0;Decoration type (1. Decoration,0. Installation,2. Background);char
+9;0;0x011;0x01;Variable 1;Decoration type (1. Decoration,0. Installation,2. Background);char
+9;0;0x012;0x01;Variable 2;Decoration type (1. Decoration,0. Installation,2. Background);char
 # Section 4 - Texture loading
 9;3;0x000;0x3c;Texture;Texture name or path;str;True
 9;3;0x03c;0x04;Identifier;Identifier, used in textype;section 1;int
@@ -296,7 +301,7 @@ E;int;equip_slot_type;Item slots for classparam;None;Weapon;Helm;Unknown;Deffens
 4;4;0x008;0x17;Item model;;str
 # Section 6 - Equip slot data
 4;5;0x000;0x02;Identifier;;short
-4;5;0x002;0x02;Slot content;;enum;equip_slot_type
+4;5;0x002;0x02;Slot content;;short;False;True;equip_slot_type
 4;5;0x004;0x0b;Slot icon;uconf078: Sword\nuconf079: Shield\nuconf080: Helm\nuconf081: Horse\nuconf134: Chariot;str;True
 
 
@@ -439,8 +444,8 @@ E;int;equip_slot_type;Item slots for classparam;None;Weapon;Helm;Unknown;Deffens
 28;0;0x016;0x11;Item model;;str;True
 28;0;0x002;0x02;Stat id 0;Equal to Section ID inside originstatusparam;short
 28;0;0x00e;0x02;Stat id 1;This is equal to Global ID inside originstatusparam;short;False
-28;0;0x006;0x02;Rarity;0: Default\n1: Common\n2: Unique\n    Super Unique\n    Ultimate\n\nThis changes the item's background color\nCommon items appear on armory even if they're not owned;2
-28;0;0x009;0x01;Category;00: Sword\n01: Blade\n02: Spear\n03: Pike\n04: Lance\n05: Arm\n06: Dagger\n07: Shiv\n08: Greatsword\n09: Greatblade\n10: Axe\n11: Club\n12: Bow\n13: Longbow\n14: Crossbow\n15: Tuba\n16: Horn\n17: Twinhorn\n18: ? ? ?\n19: Staff\n20: Scepter\n21: Cannon\n22: Howitzer\n23: Laser\n24: Helm\n25: Shield\n26: Greatshield\n27: Shoulders\n28: Cape\n29: Boots\n30: Horse\n31: Warhorse\n32: Chariot\n33: Mask\n34: ? ? ?\n35: Claw\n36: Scythe\n\n255: None;char
+28;0;0x006;0x02;Rarity;;char;False;True;item_rarity
+28;0;0x009;0x01;Category;;char;True;True;equip_category
 28;0;0x008;0x01;Position;;char
 28;0;0x004;0x02;Unknown [1];;short
 28;0;0x00a;0x02;Unknown [2];;short

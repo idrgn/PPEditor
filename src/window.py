@@ -116,12 +116,11 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             if field.settings.type == "bool":
                 widget = QCheckBoxField(self.sc_content)
             elif (
-                field.settings.type == "enum"
+                field.settings.enum
                 and field.value >= -1
                 and field.value < len(field.settings.enum.get_values()) - 1
             ):
                 widget = QComboBoxField(self.frame_controls)
-                widget.add_options(field.settings.enum.get_values())
             else:
                 widget = QLineEditField(self.sc_content)
             widget.set_field(field)
