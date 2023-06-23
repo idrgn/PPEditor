@@ -29,7 +29,7 @@ class Field:
 
     def process_value(self, data: bytes):
         type = self.settings.type
-        if type == "uint":
+        if type == "uint" or type == "rgba":
             return read_uint(data)
         elif type == "int":
             return read_int(data)
@@ -56,7 +56,7 @@ class Field:
     def set_value_from_string(self, new_value):
         type = self.settings.type
 
-        if type in ["uint", "int", "ushort", "short", "uchar", "char"]:
+        if type in ["uint", "int", "ushort", "short", "uchar", "char", "rgba"]:
             self.value = int(new_value)
         elif type == "bool":
             self.value = bool(new_value)
@@ -68,7 +68,7 @@ class Field:
     def to_bytes(self):
         type = self.settings.type
 
-        if type == "uint":
+        if type == "uint" or type == "rgba":
             return self.value.to_bytes(4, byteorder="little", signed=False)
         elif type == "int":
             return self.value.to_bytes(4, byteorder="little", signed=True)

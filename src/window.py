@@ -7,6 +7,7 @@ from PyQt5 import QtGui, QtWidgets
 from data import resource_path
 from interface import main_window
 from interface.check_box_field import QCheckBoxField
+from interface.color_picker_field import QColorPickerField
 from interface.combo_box_field import QComboBoxField
 from interface.line_edit_field import QLineEditField
 from param.param import Param
@@ -140,6 +141,8 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 and field.value < len(field.settings.enum.get_values()) - 1
             ):
                 widget = QComboBoxField(self.frame_controls)
+            elif field.settings.type == "rgba":
+                widget = QColorPickerField(self.sc_content)
             else:
                 widget = QLineEditField(self.sc_content)
             widget.set_field(field)

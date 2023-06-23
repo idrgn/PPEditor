@@ -1,6 +1,3 @@
-
-
-
 ### ENUMS
 ### E;TYPE;NAME;DESCRIPTION;NULL_VALUE;ENUM_1;ENUM_2;ENUM_3;ENUM_4...
 E;deco_type;Hideout decoration types;None;Decoration;Installation;Background
@@ -627,14 +624,14 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 5;0;0x02C;0x04;Aura X Position (UH);X Position of circle aura selection highlight;float
 5;0;0x030;0x04;Aura Y Position (UH);X Position of circle aura selection highlight;float
 5;0;0x034;0x04;Aura Scale (UH);Scale of circle aura selection highlight;float
-5;0;0x038;0x04;Aura Color (UH);RGBA Hex Color of circle aura selection highlight;int
+5;0;0x038;0x04;Aura Color (UH);RGBA Hex Color of circle aura selection highlight;rgba
 
 5;0;0x042;0x04;Message Index (DH);Dispaly message index from systemmsg;int
 5;0;0x050;0x1f;Name (DH);Internal Name;str
 5;0;0x060;0x04;Aura X Position (DH);X Position of circle aura selection highlight;float
 5;0;0x064;0x04;Aura Y Position (DH);X Position of circle aura selection highlight;float
 5;0;0x068;0x04;Aura Scale (DH);Scale of circle aura selection highlight;float
-5;0;0x06C;0x04;Aura Color (DH);RGBA Hex Color of circle aura selection highlight;int
+5;0;0x06C;0x04;Aura Color (DH);RGBA Hex Color of circle aura selection highlight;rgba
 
 
 ## Battlecommandparam
