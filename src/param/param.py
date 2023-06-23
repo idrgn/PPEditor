@@ -9,7 +9,9 @@ from data import (
     read_int,
     read_short,
     read_str,
+    read_uchar,
     read_uint,
+    read_ushort,
     replace_byte_array,
     string_to_bytearray,
 )
@@ -36,11 +38,11 @@ class Field:
         elif type == "short":
             return read_short(data)
         elif type == "ushort":
-            return read_short(data)
+            return read_ushort(data)
         elif type == "char":
             return read_char(data)
         elif type == "uchar":
-            return read_char(data)
+            return read_uchar(data)
         elif type == "bool":
             return read_bool(data)
         elif type == "float":
