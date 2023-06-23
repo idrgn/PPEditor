@@ -226,9 +226,10 @@ class Param:
 
         # Header values
         self.ptr = None
-        self.unk = None
+        self.unk1 = None
         self.sections = None
         self.unk2 = None
+        self.unk3 = None
         self.id = None
 
         # Section list
@@ -246,10 +247,11 @@ class Param:
         """
 
         self.ptr = read_uint(data, 0x8)
-        self.unk = read_uint(data, 0xC)
+        self.unk1 = read_uint(data, 0xC)
         self.sections = read_uint(data, 0x10)
-        self.unk2 = read_byte_array(data, 0x14, 0x8)
+        self.unk2 = read_uint(data, 0x14)
         self.id = read_uint(data, 0x18)
+        self.unk3 = read_uint(data, 0x1C)
 
     def process_data(self, data: bytes):
         """
@@ -301,28 +303,40 @@ class Param:
                 return section.entry_list[entry_index]
 
     def to_bytes(self) -> bytes:
+        # 0x0 - 0x4
         file = PARAM_HEADER
 
+        # 0x8 - 0xC - 0x10
         file += pack(
             "III",
             self.ptr,
-            self.unk,
+            self.unk1,
             self.sections,
         )
 
-        file += self.unk2
-
+        # 0x14 - 0x18 - 0x1C
         file += pack(
-            "I",
+            "III",
+            self.unk2,
             self.id,
+            self.unk3,
         )
 
-        section_data = b""
+        section_contents = b""
 
+        # Write section info and append content
         for section in self.section_list:
             file += pack("II", section.entry_amount, section.entry_size)
-            section_data += section.to_bytes()
+            section_contents += section.to_bytes()
 
-        file += section_data
+        # Fill with zeroes
+        if len(file) % 0x10 != 0:
+            file += b"\x00" * (file % 0x10)
+
+        # Overwrite base pointer with starting position of data
+        file = replace_byte_array(file, 0x8, pack("I", len(file)))
+
+        # Append section content
+        file += section_contents
 
         return file
