@@ -3,6 +3,7 @@ import typing
 from PyQt5.QtWidgets import (
     QComboBox,
     QDialog,
+    QDialogButtonBox,
     QListView,
     QListWidget,
     QVBoxLayout,
@@ -78,12 +79,23 @@ class ListDialog(QDialog):
     def __init__(self, items: list, selected: int = 0):
         super().__init__()
         self.setWindowTitle("Select an entry")
+
+        # List
         self.list_widget = QListWidget(self)
         self.list_widget.addItems(items)
         self.list_widget.itemDoubleClicked.connect(self.accept)
-        # self.list_widget.setCurrentIndex(selected)
+        self.list_widget.setCurrentRow(selected)
+
+        # Buttons
+        button_box = QDialogButtonBox()
+        select_button = button_box.addButton("Select", QDialogButtonBox.AcceptRole)
+        cancel_button = button_box.addButton("Cancel", QDialogButtonBox.RejectRole)
+        select_button.clicked.connect(self.accept)
+        cancel_button.clicked.connect(self.reject)
+
         layout = QVBoxLayout()
         layout.addWidget(self.list_widget)
+        layout.addWidget(button_box)
         self.setLayout(layout)
 
     def get_selected_item(self):
