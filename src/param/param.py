@@ -70,27 +70,33 @@ class Field:
     def to_bytes(self):
         type = self.settings.type
 
-        if type == "uint" or type == "rgba":
-            return self.value.to_bytes(4, byteorder="little", signed=False)
-        elif type == "int":
-            return self.value.to_bytes(4, byteorder="little", signed=True)
-        elif type == "ushort":
-            return pack("h", self.value)
-        elif type == "short":
-            return pack("H", self.value)
-        elif type == "uchar":
-            return pack("c", self.value)
-        elif type == "char":
-            return pack("C", self.value)
-        elif type == "float":
-            return pack("f", self.value)
-        elif type == "bool":
-            if self.value:
-                return b"\x01"
-            else:
-                return b"\x00"
-        elif type == "str" or type == "string":
-            return string_to_bytearray(self.value, self.settings.size)
+        try:
+            if type == "uint" or type == "rgba":
+                return self.value.to_bytes(4, byteorder="little", signed=False)
+            elif type == "int":
+                return self.value.to_bytes(4, byteorder="little", signed=True)
+            elif type == "ushort":
+                return self.value.to_bytes(2, byteorder="little", signed=False)
+            elif type == "short":
+                return self.value.to_bytes(2, byteorder="little", signed=True)
+            elif type == "uchar":
+                return self.value.to_bytes(1, byteorder="little", signed=False)
+            elif type == "char":
+                return self.value.to_bytes(1, byteorder="little", signed=True)
+            elif type == "float":
+                return pack("f", self.value)
+            elif type == "bool":
+                if self.value:
+                    return b"\x01"
+                else:
+                    return b"\x00"
+            elif type == "str" or type == "string":
+                return string_to_bytearray(self.value, self.settings.size)
+        except Exception as e:
+            print(
+                f"Error when processing entry {self.settings.name} with value {self.value}"
+            )
+            print(f"Error message: {e}")
 
 
 class Entry:
@@ -331,7 +337,7 @@ class Param:
 
         # Fill with zeroes
         if len(file) % 0x10 != 0:
-            file += b"\x00" * (file % 0x10)
+            file += b"\x00" * (len(file) % 0x10)
 
         # Overwrite base pointer with starting position of data
         file = replace_byte_array(file, 0x8, pack("I", len(file)))
