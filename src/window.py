@@ -21,7 +21,23 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.set_connections()
         self.setWindowIcon(QtGui.QIcon(str(resource_path("res/icon.png"))))
 
-        self.settings = Settings(open(resource_path("res/settings.txt")).readlines())
+        # Load settings from settings file
+        self.settings = Settings()
+
+        # Add the enums from msg files
+        directory = resource_path("res/msg/")
+        for filename in os.listdir(directory):
+            f = os.path.join(directory, filename)
+            with open(resource_path(f), "rb") as file:
+                data = file.read()
+                self.settings.add_enum_from_msg(os.path.splitext(filename)[0], data)
+
+        # Load other data
+        data = open(resource_path("res/settings.txt")).readlines()
+        self.settings.load_enums_from_data(data)
+        self.settings.load_fields_from_data(data)
+
+        # Create param file
         self.param = Param(None, self.settings)
         self.path = None
 

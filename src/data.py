@@ -1,7 +1,7 @@
 import os
 import sys
 from pathlib import Path
-from struct import unpack
+from struct import pack, unpack
 
 
 def resource_path(relative_path: str) -> Path:
@@ -72,6 +72,22 @@ def read_str(fdata: bytes, position: int = 0x0) -> str:
         offset += 1
     try:
         string = unpack(f"{len(string_bytes)}s", string_bytes)[0].decode("utf-8")
+    except UnicodeDecodeError as _:
+        string = unpack(f"{len(string_bytes)}s", string_bytes)[0].decode("shift_jis")
+
+    return string
+
+
+def read_str_short(fdata: bytes, position: int = 0x0) -> str:
+    string_bytes = bytearray()
+    offset = 0x0
+    while (
+        last_bytes := read_ushort(fdata, position + offset)
+    ) != 0x00 and offset < len(fdata) - 1:
+        string_bytes += pack("H", last_bytes)
+        offset += 2
+    try:
+        string = unpack(f"{len(string_bytes)}s", string_bytes)[0].decode("utf-16")
     except UnicodeDecodeError as _:
         string = unpack(f"{len(string_bytes)}s", string_bytes)[0].decode("shift_jis")
 

@@ -1,5 +1,5 @@
 ### ENUMS
-### E;TYPE;NAME;DESCRIPTION;NULL_VALUE;ENUM_1;ENUM_2;ENUM_3;ENUM_4...
+### E;NAME;DESCRIPTION;NULL_VALUE;ENUM_1;ENUM_2;ENUM_3;ENUM_4...
 E;deco_type;Hideout decoration types;None;Decoration;Installation;Background
 E;equip_slot_type;Item slots for classparam;None;Weapon;Helm;Unknown;Deffensive 1;Deffensive 2;Mount / Chariot;Mask
 E;item_category;General item categories;None;P2 Items;Materials;Quest Items;Equipment;Key items;Unknown;Decorations;Accessory;Tickets;Team Cards;Team Flags
@@ -215,8 +215,8 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 9;0;0x000;0x04;Internal id;Internal item identifier;int
 9;0;0x004;0x02;External id;External item identifier;short
 9;0;0x006;0x02;Equip id;Contains item equip data from weaponparam: model;stats...;short
-9;0;0x038;0x02;Name;Item name from itemmsg.msg file;short
-9;0;0x03a;0x02;Description;Item description from itemmsg.msg file;short
+9;0;0x038;0x02;Name;Item name from itemmsg.msg file;short;False;True;msg_itemmsg
+9;0;0x03a;0x02;Description;Item description from itemmsg.msg file;short;False;True;msg_itemmsg
 9;0;0x008;0x02;Rarity;;short;False;True;item_rarity
 9;0;0x00f;0x01;Item type;;char;False;True;item_category
 9;0;0x00e;0x01;Enchantment;;char;False;True;equip_enchants

@@ -1,17 +1,20 @@
-from data import parse_bool, parse_int
+from data import parse_bool, parse_int, read_int, read_str_short
 
 
 class SettingsEnumEntry:
     def __init__(
-        self, name: str, description: str, null_value: str, values: list
+        self, name: str, description: str, values: list, null_value: str = None
     ) -> None:
         self.name = name
         self.description = description
-        self.null_value = null_value
         self.values = values
+        self.null_value = null_value
 
     def get_values(self):
-        return [self.null_value] + self.values
+        if self.null_value is not None:
+            return [self.null_value] + self.values
+        else:
+            return self.values
 
     def get_value(self, index: int):
         if index == -1:
@@ -118,9 +121,7 @@ class Settings:
             name, description, null_value = enum[1:4]
             values = enum[4:]
 
-            self.enum_entries.append(
-                SettingsEnumEntry(name, description, null_value, values)
-            )
+            self.add_enum(name, description, values, null_value)
 
     def get_entries_in_param(self, param_id: int, section: int = None) -> list:
         if section is not None:
@@ -137,3 +138,20 @@ class Settings:
 
     def get_enum(self, enum_name: str) -> SettingsEnumEntry:
         return [enum for enum in self.enum_entries if enum.name == enum_name][0]
+
+    def add_enum(self, name, description, values, null_value: str = None):
+        self.enum_entries.append(
+            SettingsEnumEntry(name, description, values, null_value)
+        )
+
+    def add_enum_from_msg(self, name, data):
+        values = []
+
+        entry_amount = read_int(data, 0x0)
+
+        for i in range(entry_amount):
+            entry_index = read_int(data, 0x8 + i * 4)
+            entry_message = read_str_short(data, entry_index)
+            values.append(entry_message)
+
+        self.enum_entries.append(SettingsEnumEntry(f"msg_{name}", None, values, None))
