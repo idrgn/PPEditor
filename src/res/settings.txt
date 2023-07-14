@@ -45,7 +45,7 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 1;0;0x0f4;0x04;Reset item [4];;int
 1;0;0x0f8;0x04;Reset item [5];;int
 1;0;0x0fc;0x04;Reset item [6];;int
-1;0;0x080;0x0f;Icon model;Class icon;can be seen at barracks;str
+1;0;0x080;0x0f;Icon model;Class icon, can be seen at barracks;str
 # Section 2 - Item unlocks
 1;1;0x000;0x1f;Name;Internal name;str;True
 1;1;0x028;0x04;Unit ID;;int
@@ -214,14 +214,14 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 9;0;0x014;0x13;Texture;Display texture, used on inventory;str;True
 9;0;0x000;0x04;Internal id;Internal item identifier;int
 9;0;0x004;0x02;External id;External item identifier;short
-9;0;0x006;0x02;Equip id;Contains item equip data from weaponparam: model;stats...;short
+9;0;0x006;0x02;Equip id;Contains item equip data from weaponparam: model, stats...;short
 9;0;0x038;0x02;Name;Item name from itemmsg.msg file;short;False;True;msg_itemmsg
 9;0;0x03a;0x02;Description;Item description from itemmsg.msg file;short;False;True;msg_itemmsg
 9;0;0x008;0x02;Rarity;;short;False;True;item_rarity
 9;0;0x00f;0x01;Item type;;char;False;True;item_category
 9;0;0x00e;0x01;Enchantment;;char;False;True;equip_enchants
 9;0;0x032;0x02;Item category;;short;True;True;item_equip_category
-9;0;0x013;0x01;Textype;Controls how the game loads the item texture;defined on section 4;char
+9;0;0x013;0x01;Textype;Controls how the game loads the item texture, defined on section 4;char
 9;0;0x028;0x01;ID;Some ID (used for decorations);char
 9;0;0x00c;0x02;Base price;Base item price;short
 9;0;0x010;0x01;Variable 0;Decoration type (1. Decoration,0. Installation,2. Background);char
@@ -229,7 +229,7 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 9;0;0x012;0x01;Variable 2;Decoration type (1. Decoration,0. Installation,2. Background);char
 # Section 4 - Texture loading
 9;3;0x000;0x3c;Texture;Texture name or path;str;True
-9;3;0x03c;0x04;Identifier;Identifier, used in textype;section 1;int
+9;3;0x03c;0x04;Identifier;Identifier, used in textype, section 1;int
 # Section 5 - Item positions
 9;4;0x00;0x04;Identifier;;int
 9;4;0x08;0x03;Hero offset;;short
