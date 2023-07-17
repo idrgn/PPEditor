@@ -381,6 +381,7 @@
     </property>
     <addaction name="action_load"/>
     <addaction name="action_save"/>
+    <addaction name="action_save_as"/>
     <addaction name="action_refresh"/>
    </widget>
    <widget class="QMenu" name="menuMode">
@@ -414,20 +415,32 @@
    <property name="text">
     <string>Load</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="action_save">
    <property name="text">
     <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="action_refresh">
    <property name="text">
     <string>Refresh</string>
    </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
   </action>
   <action name="action_p1">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>Patapon 1</string>
@@ -437,6 +450,9 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Patapon 2</string>
    </property>
@@ -444,6 +460,9 @@
   <action name="action_p3">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>Patapon 3</string>
@@ -467,7 +486,15 @@
   </action>
   <action name="action_about">
    <property name="text">
-    <string>Abou</string>
+    <string>About</string>
+   </property>
+  </action>
+  <action name="action_save_as">
+   <property name="text">
+    <string>Save as</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+S</string>
    </property>
   </action>
  </widget>
