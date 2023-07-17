@@ -19,6 +19,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.set_connections()
+        self.set_action_state(False)
         self.setWindowIcon(QtGui.QIcon(str(resource_path("res/icon.png"))))
 
         # Load settings from settings file
@@ -52,15 +53,45 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         Set UI element connections
         """
+
+        # Actions
         self.action_load.triggered.connect(self.select_param)
         self.action_save.triggered.connect(self.save_param_file)
         self.action_refresh.triggered.connect(self.refresh)
+
+        # Combo box changes
         self.cb_sections.currentTextChanged.connect(self.selected_section_changed)
         self.cb_entries.currentTextChanged.connect(self.selected_entry_changed)
+
+        # Buttons
         self.pb_copy_entry.clicked.connect(self.copy_entry)
         self.pb_paste_entry.clicked.connect(self.paste_entry)
         self.pb_remove_current_entry.clicked.connect(self.remove_entry)
         self.pb_add_new_emtry.clicked.connect(self.add_entry)
+
+    def set_action_state(self, enabled: bool = False):
+        # Actions
+        self.action_refresh.setEnabled(enabled)
+        self.action_save.setEnabled(enabled)
+
+        # Combo boxes
+        self.cb_sections.setEnabled(enabled)
+        self.cb_entries.setEnabled(enabled)
+
+        # Line edits
+        self.le_section_size.setEnabled(enabled)
+        self.le_entry_anount.setEnabled(enabled)
+
+        # Buttons
+        self.pb_add_new_section.setEnabled(enabled)
+        self.pb_copy_entry.setEnabled(enabled)
+        self.pb_paste_entry.setEnabled(enabled)
+        self.pb_remove_current_entry.setEnabled(enabled)
+        self.pb_add_new_emtry.setEnabled(enabled)
+
+        # Raw data
+        self.te_raw_data.setEnabled(enabled)
+        self.pb_edit_raw_data.setEnabled(enabled)
 
     def select_param(self):
         """
@@ -83,6 +114,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             self.file_name = os.path.basename(os.path.abspath(self.path))
             self.lb_file_name.setText(f"Filename: {self.file_name}")
             self.refresh()
+            self.set_action_state(True)
 
     def save_param_file(self):
         """
