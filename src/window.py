@@ -4,7 +4,7 @@ import sys
 
 from PyQt5 import QtGui, QtWidgets
 
-from data import resource_path
+from data import bytes_to_string, resource_path, string_to_bytes, validate_byte_string
 from interface import main_window
 from interface.check_box_field import QCheckBoxField
 from interface.color_picker_field import QColorPickerField
@@ -57,6 +57,8 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.action_refresh.triggered.connect(self.refresh)
         self.cb_sections.currentTextChanged.connect(self.selected_section_changed)
         self.cb_entries.currentTextChanged.connect(self.selected_entry_changed)
+        self.pb_copy_entry.clicked.connect(self.copy_entry)
+        self.pb_paste_entry.clicked.connect(self.paste_entry)
 
     def select_param(self):
         """
@@ -173,3 +175,41 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         for i in reversed(range(self.fl_fields.count())):
             self.fl_fields.itemAt(i).widget().setParent(None)
+
+    def copy_entry(self):
+        """
+        Copies current entry in hex format
+        """
+        if self.param != None:
+            current_section_index = self.cb_sections.currentIndex()
+            current_entry_index = self.cb_entries.currentIndex()
+
+            current_entry = self.param.get_section_entry(
+                current_section_index, current_entry_index
+            )
+
+            text = bytes_to_string(current_entry.to_bytes())
+
+            cb = QtWidgets.QApplication.clipboard()
+            cb.clear(mode=cb.Clipboard)
+            cb.setText(text, mode=cb.Clipboard)
+
+    def paste_entry(self):
+        """
+        Pastes current entry in hex format
+        """
+        cb = QtWidgets.QApplication.clipboard()
+        text = cb.text()
+        if validate_byte_string(text):
+            ba = string_to_bytes(text)
+
+            current_section_index = self.cb_sections.currentIndex()
+            current_entry_index = self.cb_entries.currentIndex()
+
+            current_entry = self.param.get_section_entry(
+                current_section_index, current_entry_index
+            )
+
+            current_entry.raw_data = ba
+            current_entry.process_data()
+            self.selected_entry_changed()

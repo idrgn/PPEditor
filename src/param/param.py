@@ -27,30 +27,32 @@ class Field:
         self.id = id
         self.settings = settings
         self.raw_data = data
-        self.value = self.process_value(data)
+        self.value = None
+        self.process_value()
 
-    def process_value(self, data: bytes):
+    def process_value(self):
+        data = self.raw_data
         type = self.settings.type
         if type == "uint" or type == "rgba":
-            return read_uint(data)
+            self.value = read_uint(data)
         elif type == "int":
-            return read_int(data)
+            self.value = read_int(data)
         elif type == "short":
-            return read_short(data)
+            self.value = read_short(data)
         elif type == "ushort":
-            return read_ushort(data)
+            self.value = read_ushort(data)
         elif type == "char":
-            return read_char(data)
+            self.value = read_char(data)
         elif type == "uchar":
-            return read_uchar(data)
+            self.value = read_uchar(data)
         elif type == "bool":
-            return read_bool(data)
+            self.value = read_bool(data)
         elif type == "float":
-            return read_float(data)
+            self.value = read_float(data)
         elif type == "str" or type == "string":
-            return read_str(data)
+            self.value = read_str(data)
         else:
-            return None
+            self.value = None
 
     def set_value(self, new_value):
         self.value = new_value
@@ -110,11 +112,12 @@ class Entry:
         self.raw_data = data
 
         self.fields = []
-        self.process_data(data)
+        self.process_data()
 
-    def process_data(self, data: bytes):
+    def process_data(self):
+        self.fields.clear()
         for setting in self.settings:
-            field_data = read_byte_array(data, setting.address, setting.size)
+            field_data = read_byte_array(self.raw_data, setting.address, setting.size)
             self.fields.append(Field(self.settings.index(setting), setting, field_data))
 
     def to_bytes(self):
