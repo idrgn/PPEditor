@@ -1,6 +1,7 @@
 import os
 import shutil
 import sys
+from datetime import datetime
 
 from PyQt5 import QtGui, QtWidgets
 
@@ -120,6 +121,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             self.lb_file_name.setText(f"Filename: {self.file_name}")
             self.refresh()
             self.set_action_state(True)
+            self.show_message(f"Loaded file {self.path}")
 
     def refresh_file(self):
         if self.path is None:
@@ -140,6 +142,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             data_to_save = self.param.to_bytes()
             with open(self.path, "wb") as f:
                 f.write(data_to_save)
+            self.show_message(f"Saved file {self.path}")
 
     def refresh(self):
         """
@@ -150,6 +153,16 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
 
         self.load_sections()
         self.load_section_entries()
+
+    def show_message(self, message: str, duration: int = 4000):
+        """
+        Shows message in status bar
+        Args:
+            message (str): _description_
+            duration (int, optional): _description_. Defaults to 4000.
+        """
+        current_time = datetime.now().strftime("%H:%M:%S")
+        self.status_bar.showMessage(f"[{current_time}]: {message}", duration)
 
     def load_sections(self, save_index: bool = False):
         """
@@ -266,6 +279,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         cb = QtWidgets.QApplication.clipboard()
         cb.clear(mode=cb.Clipboard)
         cb.setText(text, mode=cb.Clipboard)
+        self.show_message("Copied entry data clipboard")
 
     def paste_entry(self):
         """
@@ -288,6 +302,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
 
         current_entry.update_raw_data(ba)
         self.update_selected_entry()
+        self.show_message("Pasted entry data from clipboard")
 
     def remove_entry(self):
         """
@@ -304,6 +319,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         current_section.remove_entry(current_entry)
 
         self.cb_entries.removeItem(self.cb_entries.currentIndex())
+        self.show_message("Removed selected entry")
 
     def add_entry(self):
         """
@@ -312,6 +328,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         current_section = self.get_current_section()
         current_section.add_entry()
         self.load_section_entries()
+        self.show_message("Added new entry")
 
     def add_section(self):
         """
@@ -335,6 +352,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.le_section_entry_amount.setText("")
 
         self.load_sections(True)
+        self.show_message("Added new section")
 
     def edit_raw_data(self):
         """
@@ -348,3 +366,4 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             new_raw = string_to_bytes(new_text)
             entry.update_raw_data(new_raw)
             self.update_selected_entry()
+            self.show_message("Updated raw data")
