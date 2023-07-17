@@ -165,3 +165,32 @@ def color_to_int(color: tuple):
         alpha = 100.0
     alpha = int((alpha / 100) * 255)
     return (alpha << 24) + (int(blue) << 16) + (int(green) << 8) + int(red)
+
+
+def validate_byte_string(input_string):
+    byte_values = input_string.split()
+
+    if len(byte_values) % 2 != 0:
+        return False
+
+    try:
+        for byte in byte_values:
+            int(byte, 16)
+    except ValueError:
+        return False
+
+    return True
+
+
+def string_to_bytes(string):
+    byte_values = string.split()
+    byte_array = bytearray()
+
+    for byte in byte_values:
+        byte_array.append(int(byte, 16))
+
+    return byte_array
+
+
+def bytes_to_string(bytes):
+    return " ".join(["{:02X}".format(byte) for byte in bytes])
