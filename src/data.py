@@ -170,8 +170,9 @@ def color_to_int(color: tuple):
 def validate_byte_string(input_string):
     byte_values = input_string.split()
 
-    if len(byte_values) % 2 != 0:
-        return False
+    for byte in byte_values:
+        if len(byte) % 2 != 0:
+            return False
 
     try:
         for byte in byte_values:

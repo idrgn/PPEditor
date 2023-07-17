@@ -10,6 +10,7 @@ from interface.check_box_field import QCheckBoxField
 from interface.color_picker_field import QColorPickerField
 from interface.combo_box_field import QComboBoxField
 from interface.line_edit_field import QLineEditField
+from interface.raw_data_edit import RawDataEditWindow
 from param.param import Param
 from settings.settings import Settings
 
@@ -69,6 +70,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.pb_paste_entry.clicked.connect(self.paste_entry)
         self.pb_remove_current_entry.clicked.connect(self.remove_entry)
         self.pb_add_new_entry.clicked.connect(self.add_entry)
+        self.pb_edit_raw_data.clicked.connect(self.edit_raw_data)
 
     def set_action_state(self, enabled: bool = False):
         # Actions
@@ -319,3 +321,16 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.le_section_entry_amount.setText("")
 
         self.load_sections()
+
+    def edit_raw_data(self):
+        """
+        Opens an editor to edit raw data
+        """
+        entry = self.get_current_entry()
+        text = bytes_to_string(entry.to_bytes())
+        text_editor = RawDataEditWindow(self, text)
+        if text_editor.exec_() == QtWidgets.QDialog.Accepted:
+            new_text = text_editor.text_edit.toPlainText()
+            new_raw = string_to_bytes(new_text)
+            entry.update_raw_data(new_raw)
+            self.selected_entry_changed()

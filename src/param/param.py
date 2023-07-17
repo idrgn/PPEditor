@@ -149,6 +149,10 @@ class Entry:
                 name.remove("")
             return " - ".join(name)
 
+    def update_raw_data(self, data: bytes):
+        self.raw_data = data
+        self.process_data()
+
 
 class Section:
     """
