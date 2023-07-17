@@ -232,14 +232,14 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 9;3;0x03c;0x04;Identifier;Identifier, used in textype, section 1;int
 # Section 5 - Item positions
 9;4;0x00;0x04;Identifier;;int
-9;4;0x08;0x03;Hero offset;;short
-9;4;0x0a;0x03;Hero size;;short
-9;4;0x10;0x03;Hero xpos;;short
-9;4;0x12;0x03;Hero ypos;;short
-9;4;0x14;0x03;Pon offset;;short
-9;4;0x16;0x03;Pon size;;short
-9;4;0x18;0x03;Pon xpos;;short
-9;4;0x1a;0x03;Pon ypos;;short
+9;4;0x08;0x02;Hero offset;;short
+9;4;0x0a;0x02;Hero size;;short
+9;4;0x10;0x02;Hero xpos;;short
+9;4;0x12;0x02;Hero ypos;;short
+9;4;0x14;0x02;Pon offset;;short
+9;4;0x16;0x02;Pon size;;short
+9;4;0x18;0x02;Pon xpos;;short
+9;4;0x1a;0x02;Pon ypos;;short
 
 
 ## Equipparam
