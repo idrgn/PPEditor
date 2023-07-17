@@ -20,13 +20,14 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self._set_connections()
-        self._set_action_state(False)
+        self.set_connections()
+        self.set_action_state(False)
         self.action_save.setEnabled(False)
         self.setWindowIcon(QtGui.QIcon(str(resource_path("res/icon.png"))))
 
         # Load settings from the settings file
-        self._load_settings()
+        self.settings = None
+        self.load_settings()
 
         # Create a param file
         self.param = Param(None, self.settings)
@@ -39,7 +40,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 file = file.replace("\\", "/")
                 self.load_param_file(file)
 
-    def _load_msg_enums(self):
+    def load_msg_enums(self):
         directory = resource_path("res/msg/")
         for path in directory.glob("*.msg"):
             if not path.is_file():
@@ -49,18 +50,18 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 data = file.read()
                 self.settings.add_enum_from_msg(path.stem, data)
 
-    def _load_settings(self):
+    def load_settings(self):
         self.settings = Settings()
 
         # Add the enums from msg files
-        self._load_msg_enums()
+        self.load_msg_enums()
 
         # Load other data
         data = open(resource_path("res/settings.txt")).readlines()
         self.settings.load_enums_from_data(data)
         self.settings.load_fields_from_data(data)
 
-    def _set_connections(self):
+    def set_connections(self):
         """
         Set UI element connections
         """
@@ -82,7 +83,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.pb_add_new_entry.clicked.connect(self.add_entry)
         self.pb_edit_raw_data.clicked.connect(self.edit_raw_data)
 
-    def _set_action_state(self, enabled: bool = False):
+    def set_action_state(self, enabled: bool = False):
         # Actions
         self.action_refresh.setEnabled(enabled)
         # self.action_save.setEnabled(enabled)
@@ -128,7 +129,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             self.file_name = os.path.basename(os.path.abspath(self.path))
             self.lb_file_name.setText(f"Filename: {self.file_name}")
             self.refresh()
-            self._set_action_state(True)
+            self.set_action_state(True)
             self.show_message(f"Loaded file {self.path}")
 
     def refresh_file(self):
@@ -191,7 +192,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.cb_entries.clear()
         for entry in self.param.get_section_entries(self.cb_sections.currentIndex()):
             entry_name = entry.get_name()
-            if entry_name == "":
+            if not entry_name:
                 self.cb_entries.addItem(f"{entry.id}")
             else:
                 self.cb_entries.addItem(f"{entry.id}: {entry_name}")
@@ -216,9 +217,8 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             if field.settings.type == "bool":
                 widget = QCheckBoxField(self.sc_content)
             elif (
-                field.settings.enum
-                and field.value >= -1
-                and field.value < len(field.settings.enum.get_values()) - 1
+                    field.settings.enum
+                    and -1 <= field.value < len(field.settings.enum.get_values()) - 1
             ):
                 widget = QComboBoxField(self.frame_controls)
             elif field.settings.type == "rgba":
@@ -249,6 +249,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         Clears all items in form
         """
         for i in reversed(range(self.fl_fields.count())):
+            # Maybe use 'range(self.fl_fields.count() - 1, -1, -1)'?
             self.fl_fields.itemAt(i).widget().setParent(None)
 
     def get_current_entry(self):
@@ -344,17 +345,17 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         try:
             section_size = eval(self.le_section_size.text())
-            section_entries = eval(self.le_section_entry_amount.text())
+            section_entries_amount = eval(self.le_section_entry_amount.text())
         except Exception as _:
             return
 
         if section_size <= 0:
             return
 
-        if section_entries < 0:
+        if section_entries_amount < 0:
             return
 
-        self.param.add_section(section_size, section_entries)
+        self.param.add_section(section_size, section_entries_amount)
 
         self.le_section_size.setText("")
         self.le_section_entry_amount.setText("")

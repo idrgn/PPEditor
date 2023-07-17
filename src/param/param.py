@@ -95,23 +95,23 @@ class Param:
         """
         self.raw_data = data
 
-        section_index = 0x20
+        section_info_offset = 0x20
         data_offset = self.ptr
 
-        for section in range(self.sections_amount):
-            section_settings = self.settings.get_entries_in_param(self.id, section)
+        for section_index in range(self.sections_amount):
+            section_settings = self.settings.get_entries_in_param(self.id, section_index)
 
-            section_entries = read_uint(data, section_index)
-            section_size = read_uint(data, section_index + 0x4)
-            raw_data = read_byte_array(data, data_offset, section_entries * section_size)
+            section_entries_amount = read_uint(data, section_info_offset)
+            entry_size = read_uint(data, section_info_offset + 0x4)
+            raw_data = read_byte_array(data, data_offset, section_entries_amount * entry_size)
 
             self.section_list.append(
                 ParamSection(
-                    section, section_settings, section_size, section_entries, raw_data
+                    section_index, section_settings, entry_size, section_entries_amount, raw_data
                 )
             )
 
-            section_index += 0x8
+            section_info_offset += 0x8
             data_offset += len(raw_data)
 
     def get_section_entry_amount(self, section_index: int = 0) -> int:
@@ -120,7 +120,7 @@ class Param:
         else:
             return self.section_list[section_index].entry_amount
 
-    def get_section_entries(self, section_index: int = 0) -> int:
+    def get_section_entries(self, section_index: int = 0):
         if section_index > len(self.section_list):
             return None
         else:
@@ -142,27 +142,23 @@ class Param:
         else:
             return self.section_list[section_index]
 
-    def add_section(self, size, entries):
+    def add_section(self, size, entries_amount):
         self.section_list.append(
             ParamSection(
-                len(self.section_list), None, size, entries, b"\x00" * size * entries
+                len(self.section_list), None, size, entries_amount, b"\x00" * size * entries_amount
             )
         )
         self.sections_amount += 1
 
     def is_changed(self):
-        for section in self.section_list:
-            if section.is_changed():
-                return True
-
-        return False
+        return any((section.is_changed() for section in self.section_list))
 
     def to_bytes(self) -> bytes:
         # 0x0 - 0x4
-        file = PARAM_HEADER
+        raw_data = PARAM_HEADER
 
         # 0x8 - 0xC - 0x10
-        file += pack(
+        raw_data += pack(
             "III",
             self.ptr,
             self.unk1,
@@ -170,7 +166,7 @@ class Param:
         )
 
         # 0x14 - 0x18 - 0x1C
-        file += pack(
+        raw_data += pack(
             "III",
             self.unk2,
             self.id,
@@ -181,17 +177,17 @@ class Param:
 
         # Write section info and append content
         for section in self.section_list:
-            file += pack("II", section.entry_amount, section.entry_size)
+            raw_data += pack("II", section.entry_amount, section.entry_size)
             section_contents += section.to_bytes()
 
         # Fill with zeroes
-        if len(file) % 0x10 != 0:
-            file += b"\x00" * (len(file) % 0x10)
+        if len(raw_data) % 0x10 != 0:
+            raw_data += b"\x00" * (len(raw_data) % 0x10)
 
         # Overwrite base pointer with starting position of data
-        file = replace_byte_array(file, 0x8, pack("I", len(file)))
+        raw_data = replace_byte_array(raw_data, 0x8, pack("I", len(raw_data)))
 
         # Append section content
-        file += section_contents
+        raw_data += section_contents
 
-        return file
+        return raw_data
