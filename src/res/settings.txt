@@ -573,8 +573,8 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 22;0;0x00F;0x01;Skill Type;;char;False;True;skill_type
 22;0;0x000;0x01;*Is Peerless;Set skill only. If this is on, this set skill is not visible to pons;bool
 
-22;0;0x004;0x02;Name message index;Message ID from unitnamemsg;short
-22;0;0x006;0x02;Description message index;Message ID from unitnamemsg;short
+22;0;0x004;0x02;Name message;Message ID from unitnamemsg;short;False;True;msg_unitnamemsg
+22;0;0x006;0x02;Description message;Message ID from unitnamemsg;short;False;True;msg_unitnamemsg
 22;0;0x008;0x01;Class ID;;char
 22;0;0x009;0x01;Trigger Condition ID;;char
 
@@ -619,14 +619,14 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 5;0;0x000;0x04;Facilityparam ID;;int
 5;0;0x004;0x01;Enabled;Is selectable in hideout?;bool
 
-5;0;0x00E;0x02;Message Index (UH);Dispaly message index from systemmsg;short
+5;0;0x00E;0x02;Message (UH);Dispaly message index from systemmsg;short;False;True;msg_systemmsg
 5;0;0x01C;0x1f;Name (UH);Internal Name;str;True
 5;0;0x02C;0x04;Aura X Position (UH);X Position of circle aura selection highlight;float
 5;0;0x030;0x04;Aura Y Position (UH);X Position of circle aura selection highlight;float
 5;0;0x034;0x04;Aura Scale (UH);Scale of circle aura selection highlight;float
 5;0;0x038;0x04;Aura Color (UH);RGBA Hex Color of circle aura selection highlight;rgba
 
-5;0;0x042;0x02;Message Index (DH);Dispaly message index from systemmsg;short
+5;0;0x042;0x02;Message (DH);Dispaly message index from systemmsg;short;False;True;msg_systemmsg
 5;0;0x050;0x1f;Name (DH);Internal Name;str;True
 5;0;0x060;0x04;Aura X Position (DH);X Position of circle aura selection highlight;float
 5;0;0x064;0x04;Aura Y Position (DH);X Position of circle aura selection highlight;float
