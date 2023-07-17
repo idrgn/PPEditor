@@ -241,55 +241,55 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         Copies current entry in hex format
         """
-        if self.param != None:
-            current_section_index = self.cb_sections.currentIndex()
-            current_entry_index = self.cb_entries.currentIndex()
+        if self.param is None:
+            return
 
-            current_entry = self.param.get_section_entry(
-                current_section_index, current_entry_index
-            )
+        current_entry = self.get_current_entry()
+        if current_entry is None:
+            return
 
-            text = bytes_to_string(current_entry.to_bytes())
-
-            cb = QtWidgets.QApplication.clipboard()
-            cb.clear(mode=cb.Clipboard)
-            cb.setText(text, mode=cb.Clipboard)
+        text = bytes_to_string(current_entry.to_bytes())
+        cb = QtWidgets.QApplication.clipboard()
+        cb.clear(mode=cb.Clipboard)
+        cb.setText(text, mode=cb.Clipboard)
 
     def paste_entry(self):
         """
         Pastes current entry in hex format
         """
+        if self.param is None:
+            return
+
+        current_entry = self.get_current_entry()
+        if current_entry is None:
+            return
+
         cb = QtWidgets.QApplication.clipboard()
         text = cb.text()
-        if validate_byte_string(text):
-            ba = string_to_bytes(text)
 
-            current_section_index = self.cb_sections.currentIndex()
-            current_entry_index = self.cb_entries.currentIndex()
+        if not validate_byte_string(text):
+            return
 
-            current_entry = self.param.get_section_entry(
-                current_section_index, current_entry_index
-            )
+        ba = string_to_bytes(text)
 
-            current_entry.raw_data = ba
-            current_entry.process_data()
-            self.selected_entry_changed()
+        current_entry.update_raw_data(ba)
+        self.selected_entry_changed()
 
     def remove_entry(self):
         """
         Removes current entry
         """
-        current_section_index = self.cb_sections.currentIndex()
-        current_entry_index = self.cb_entries.currentIndex()
+        if self.param is None:
+            return
 
-        current_entry = self.param.get_section_entry(
-            current_section_index, current_entry_index
-        )
+        current_entry = self.get_current_entry()
+        if current_entry is None:
+            return
 
-        current_section = self.param.get_section(current_section_index)
+        current_section = self.get_current_section()
         current_section.remove_entry(current_entry)
 
-        self.cb_entries.removeItem(current_entry_index)
+        self.cb_entries.removeItem(self.cb_entries.currentIndex())
 
     def add_entry(self):
         """

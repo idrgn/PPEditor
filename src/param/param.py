@@ -30,6 +30,10 @@ class Field:
         self.value = None
         self.process_value()
 
+    def update_raw_data(self, data: bytes):
+        self.raw_data = data
+        self.process_value()
+
     def process_value(self):
         data = self.raw_data
         type = self.settings.type
