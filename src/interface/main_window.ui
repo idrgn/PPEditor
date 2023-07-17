@@ -480,11 +480,17 @@
    </property>
   </action>
   <action name="action_guides">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Guides</string>
    </property>
   </action>
   <action name="action_about">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>About</string>
    </property>
