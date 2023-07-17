@@ -118,6 +118,7 @@ class Entry:
         self.id = id
         self.settings = settings
         self.raw_data = data
+        self.initial_raw_data = data
 
         self.fields = []
         self.process_data()
@@ -162,9 +163,13 @@ class Entry:
         self.process_data()
 
     def is_changed(self):
+        if self.raw_data != self.initial_raw_data:
+            return True
+
         for field in self.fields:
             if field.is_changed():
                 return True
+
         return False
 
 
@@ -222,6 +227,7 @@ class Section:
         for entry in self.entry_list:
             if entry.is_changed():
                 return True
+
         return False
 
 
@@ -368,6 +374,7 @@ class Param:
         for section in self.section_list:
             if section.is_changed():
                 return True
+
         return False
 
     def to_bytes(self) -> bytes:
