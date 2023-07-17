@@ -59,6 +59,8 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.cb_entries.currentTextChanged.connect(self.selected_entry_changed)
         self.pb_copy_entry.clicked.connect(self.copy_entry)
         self.pb_paste_entry.clicked.connect(self.paste_entry)
+        self.pb_remove_current_entry.clicked.connect(self.remove_entry)
+        self.pb_add_new_emtry.clicked.connect(self.add_entry)
 
     def select_param(self):
         """
@@ -176,6 +178,27 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         for i in reversed(range(self.fl_fields.count())):
             self.fl_fields.itemAt(i).widget().setParent(None)
 
+    def get_current_entry(self):
+        """
+        Returns current selected entry
+        """
+        current_section_index = self.cb_sections.currentIndex()
+        current_entry_index = self.cb_entries.currentIndex()
+
+        current_entry = self.param.get_section_entry(
+            current_section_index, current_entry_index
+        )
+
+        return current_entry
+
+    def get_current_section(self):
+        """
+        Returns current selected section
+        """
+        current_section_index = self.cb_sections.currentIndex()
+        current_section = self.param.get_section(current_section_index)
+        return current_section
+
     def copy_entry(self):
         """
         Copies current entry in hex format
@@ -213,3 +236,25 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             current_entry.raw_data = ba
             current_entry.process_data()
             self.selected_entry_changed()
+
+    def remove_entry(self):
+        """
+        Removes current entry
+        """
+        current_section_index = self.cb_sections.currentIndex()
+        current_entry_index = self.cb_entries.currentIndex()
+
+        current_entry = self.param.get_section_entry(
+            current_section_index, current_entry_index
+        )
+
+        current_section = self.param.get_section(current_section_index)
+        current_section.remove_entry(current_entry)
+
+        self.cb_entries.removeItem(current_entry_index)
+
+    def add_entry(self):
+        """ """
+        current_section = self.get_current_section()
+        current_section.add_entry()
+        self.load_entries()

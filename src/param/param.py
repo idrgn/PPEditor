@@ -185,6 +185,19 @@ class Section:
 
         return raw_data
 
+    def remove_entry(self, entry: Entry):
+        self.entry_list.remove(entry)
+        self.update_entry_amount()
+
+    def add_entry(self, data: bytes = None):
+        if data == None:
+            data = b"\x00" * self.entry_size
+        self.entry_list.append(Entry(len(self.entry_list), self.settings, data))
+        self.update_entry_amount()
+
+    def update_entry_amount(self):
+        self.entry_amount = len(self.entry_list)
+
 
 class Param:
     """
@@ -310,6 +323,12 @@ class Param:
                 return None
             else:
                 return section.entry_list[entry_index]
+
+    def get_section(self, section_index: int = 0):
+        if section_index > len(self.section_list):
+            return None
+        else:
+            return self.section_list[section_index]
 
     def to_bytes(self) -> bytes:
         # 0x0 - 0x4
