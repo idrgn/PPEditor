@@ -68,7 +68,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.pb_copy_entry.clicked.connect(self.copy_entry)
         self.pb_paste_entry.clicked.connect(self.paste_entry)
         self.pb_remove_current_entry.clicked.connect(self.remove_entry)
-        self.pb_add_new_emtry.clicked.connect(self.add_entry)
+        self.pb_add_new_entry.clicked.connect(self.add_entry)
 
     def set_action_state(self, enabled: bool = False):
         # Actions
@@ -81,14 +81,14 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
 
         # Line edits
         self.le_section_size.setEnabled(enabled)
-        self.le_entry_anount.setEnabled(enabled)
+        self.le_section_entry_amount.setEnabled(enabled)
 
         # Buttons
         self.pb_add_new_section.setEnabled(enabled)
         self.pb_copy_entry.setEnabled(enabled)
         self.pb_paste_entry.setEnabled(enabled)
         self.pb_remove_current_entry.setEnabled(enabled)
-        self.pb_add_new_emtry.setEnabled(enabled)
+        self.pb_add_new_entry.setEnabled(enabled)
 
         # Raw data
         self.te_raw_data.setEnabled(enabled)
@@ -303,7 +303,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         try:
             section_size = eval(self.le_section_size.text())
-            section_entries = eval(self.le_entry_anount.text())
+            section_entries = eval(self.le_section_entry_amount.text())
         except Exception as _:
             return
 
@@ -316,4 +316,4 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.param.add_section(section_size, section_entries)
 
         self.le_section_size.setText("")
-        self.le_entry_anount.setText("")
+        self.le_section_entry_amount.setText("")
