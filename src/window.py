@@ -61,8 +61,8 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.action_refresh.triggered.connect(self.refresh)
 
         # Combo box changes
-        self.cb_sections.currentTextChanged.connect(self.selected_section_changed)
-        self.cb_entries.currentTextChanged.connect(self.selected_entry_changed)
+        self.cb_sections.currentTextChanged.connect(self.load_section_entries)
+        self.cb_entries.currentTextChanged.connect(self.update_selected_entry)
 
         # Buttons
         self.pb_add_new_section.clicked.connect(self.add_section)
@@ -142,23 +142,21 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             return
 
         self.load_sections()
-        self.load_entries()
+        self.load_section_entries()
 
-    def selected_section_changed(self):
-        """
-        Loads entry list of selected section
-        """
-        self.load_entries()
-
-    def load_sections(self):
+    def load_sections(self, save_index: bool = False):
         """
         Loads sections
         """
+        index = self.cb_sections.currentIndex()
         self.cb_sections.clear()
         for section in self.param.section_list:
             self.cb_sections.addItem(f"{section.id+1} ({section.entry_amount} entries)")
 
-    def load_entries(self):
+        if save_index:
+            self.cb_sections.setCurrentIndex(index)
+
+    def load_section_entries(self):
         """
         Loads entries
         """
@@ -167,11 +165,10 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             entry_name = entry.get_name()
             if entry_name == "":
                 self.cb_entries.addItem(f"{entry.id}")
-
             else:
                 self.cb_entries.addItem(f"{entry.id}: {entry_name}")
 
-    def selected_entry_changed(self):
+    def update_selected_entry(self):
         """
         Loads field list of current entry
         """
@@ -273,7 +270,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         ba = string_to_bytes(text)
 
         current_entry.update_raw_data(ba)
-        self.selected_entry_changed()
+        self.update_selected_entry()
 
     def remove_entry(self):
         """
@@ -297,7 +294,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         current_section = self.get_current_section()
         current_section.add_entry()
-        self.load_entries()
+        self.load_section_entries()
 
     def add_section(self):
         """
@@ -320,7 +317,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.le_section_size.setText("")
         self.le_section_entry_amount.setText("")
 
-        self.load_sections()
+        self.load_sections(True)
 
     def edit_raw_data(self):
         """
@@ -333,4 +330,4 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             new_text = text_editor.text_edit.toPlainText()
             new_raw = string_to_bytes(new_text)
             entry.update_raw_data(new_raw)
-            self.selected_entry_changed()
+            self.update_selected_entry()
