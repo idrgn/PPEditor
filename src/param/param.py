@@ -27,6 +27,7 @@ class Field:
         self.id = id
         self.settings = settings
         self.raw_data = data
+        self.initial_raw_data = data
         self.value = None
         self.process_value()
 
@@ -104,6 +105,11 @@ class Field:
             )
             print(f"Error message: {e}")
 
+    def is_changed(self):
+        return (
+            self.raw_data != self.initial_raw_data or self.raw_data != self.to_bytes()
+        )
+
 
 class Entry:
     """
@@ -157,6 +163,12 @@ class Entry:
         self.raw_data = data
         self.process_data()
 
+    def is_changed(self):
+        for field in self.fields:
+            if field.is_changed():
+                return True
+        return False
+
 
 class Section:
     """
@@ -207,6 +219,12 @@ class Section:
 
     def update_entry_amount(self):
         self.entry_amount = len(self.entry_list)
+
+    def is_changed(self):
+        for entry in self.entry_list:
+            if entry.is_changed():
+                return True
+        return False
 
 
 class Param:
@@ -347,6 +365,12 @@ class Param:
             )
         )
         self.sections += 1
+
+    def is_changed(self):
+        for section in self.section_list:
+            if section.is_changed(self):
+                return True
+        return False
 
     def to_bytes(self) -> bytes:
         # 0x0 - 0x4
