@@ -147,9 +147,9 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         current_section = self.cb_sections.currentIndex()
         current_entry = self.cb_entries.currentIndex()
 
-        for field in self.param.get_section_entry(
-            current_section, current_entry
-        ).fields:
+        entry = self.param.get_section_entry(current_section, current_entry)
+
+        for field in entry.fields:
             label = QtWidgets.QLabel(field.settings.name)
             label.setToolTip(field.settings.description)
 
@@ -167,6 +167,9 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 widget = QLineEditField(self.sc_content)
             widget.set_field(field)
             self.fl_fields.addRow(label, widget)
+
+        text = bytes_to_string(entry.to_bytes())
+        self.te_raw_data.setPlainText(text)
 
         self.sc.verticalScrollBar().setValue(scroll_position)
         self.sc.setVisible(True)

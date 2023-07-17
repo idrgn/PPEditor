@@ -61,8 +61,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>411</width>
-               <height>542</height>
+               <width>401</width>
+               <height>520</height>
               </rect>
              </property>
              <layout class="QFormLayout" name="fl_fields">
@@ -297,9 +297,21 @@
            </widget>
           </item>
           <item>
-           <widget class="QTextEdit" name="textEdit">
+           <widget class="QTextEdit" name="te_raw_data">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="locale">
              <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="undoRedoEnabled">
+             <bool>false</bool>
+            </property>
+            <property name="acceptRichText">
+             <bool>true</bool>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
             </property>
            </widget>
           </item>
@@ -388,7 +400,7 @@
      <x>0</x>
      <y>0</y>
      <width>926</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
