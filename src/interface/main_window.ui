@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>926</width>
-    <height>641</height>
+    <width>1000</width>
+    <height>651</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <locale language="English" country="UnitedStates"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout" rowstretch="0,0" columnstretch="2,1">
     <item row="1" column="0">
      <widget class="QFrame" name="frame_entries">
       <property name="locale">
@@ -61,8 +61,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>401</width>
-               <height>520</height>
+               <width>599</width>
+               <height>530</height>
               </rect>
              </property>
              <layout class="QFormLayout" name="fl_fields">
@@ -84,52 +84,6 @@
               <property name="bottomMargin">
                <number>0</number>
               </property>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_entry_1">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="locale">
-                 <locale language="English" country="UnitedStates"/>
-                </property>
-                <property name="text">
-                 <string>Entry 1</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLineEdit" name="le_entry_1">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="locale">
-                 <locale language="English" country="UnitedStates"/>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_entry_2">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="locale">
-                 <locale language="English" country="UnitedStates"/>
-                </property>
-                <property name="text">
-                 <string>Entry 2</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="le_entry_2">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="locale">
-                 <locale language="English" country="UnitedStates"/>
-                </property>
-               </widget>
-              </item>
              </layout>
             </widget>
            </widget>
@@ -152,14 +106,76 @@
        <enum>QFrame::Sunken</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QLabel" name="lb_file_name">
+       <item row="13" column="0">
+        <widget class="QFrame" name="frame_2">
          <property name="locale">
           <locale language="English" country="UnitedStates"/>
          </property>
-         <property name="text">
-          <string>Filename:</string>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
          </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <property name="lineWidth">
+          <number>0</number>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lb_raw_data">
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="text">
+             <string>Raw data</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QTextEdit" name="te_raw_data">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::Box</enum>
+            </property>
+            <property name="undoRedoEnabled">
+             <bool>false</bool>
+            </property>
+            <property name="acceptRichText">
+             <bool>true</bool>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pb_edit_raw_data">
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="text">
+             <string>Edit raw data</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item row="2" column="0">
@@ -169,6 +185,16 @@
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="lb_file_name">
+         <property name="locale">
+          <locale language="English" country="UnitedStates"/>
+         </property>
+         <property name="text">
+          <string>Filename:</string>
          </property>
         </widget>
        </item>
@@ -210,8 +236,8 @@
          </item>
         </layout>
        </item>
-       <item row="6" column="0">
-        <widget class="Line" name="line_3">
+       <item row="12" column="0">
+        <widget class="Line" name="line">
          <property name="locale">
           <locale language="English" country="UnitedStates"/>
          </property>
@@ -220,8 +246,8 @@
          </property>
         </widget>
        </item>
-       <item row="12" column="0">
-        <widget class="Line" name="line">
+       <item row="6" column="0">
+        <widget class="Line" name="line_3">
          <property name="locale">
           <locale language="English" country="UnitedStates"/>
          </property>
@@ -273,60 +299,6 @@
           </widget>
          </item>
         </layout>
-       </item>
-       <item row="13" column="0">
-        <widget class="QFrame" name="frame_2">
-         <property name="locale">
-          <locale language="English" country="UnitedStates"/>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Sunken</enum>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <widget class="QLabel" name="lb_raw_data">
-            <property name="locale">
-             <locale language="English" country="UnitedStates"/>
-            </property>
-            <property name="text">
-             <string>Raw data</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QTextEdit" name="te_raw_data">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="locale">
-             <locale language="English" country="UnitedStates"/>
-            </property>
-            <property name="undoRedoEnabled">
-             <bool>false</bool>
-            </property>
-            <property name="acceptRichText">
-             <bool>true</bool>
-            </property>
-            <property name="textInteractionFlags">
-             <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pb_edit_raw_data">
-            <property name="locale">
-             <locale language="English" country="UnitedStates"/>
-            </property>
-            <property name="text">
-             <string>Edit raw data</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
        </item>
        <item row="4" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout">
@@ -399,7 +371,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>926</width>
+     <width>1000</width>
      <height>26</height>
     </rect>
    </property>
