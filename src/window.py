@@ -64,6 +64,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.cb_entries.currentTextChanged.connect(self.selected_entry_changed)
 
         # Buttons
+        self.pb_add_new_section.clicked.connect(self.add_section)
         self.pb_copy_entry.clicked.connect(self.copy_entry)
         self.pb_paste_entry.clicked.connect(self.paste_entry)
         self.pb_remove_current_entry.clicked.connect(self.remove_entry)
@@ -289,7 +290,30 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.cb_entries.removeItem(current_entry_index)
 
     def add_entry(self):
-        """ """
+        """
+        Adds new empty entry
+        """
         current_section = self.get_current_section()
         current_section.add_entry()
         self.load_entries()
+
+    def add_section(self):
+        """
+        Adds an empty section
+        """
+        try:
+            section_size = eval(self.le_section_size.text())
+            section_entries = eval(self.le_entry_anount.text())
+        except Exception as _:
+            return
+
+        if section_size <= 0:
+            return
+
+        if section_entries < 0:
+            return
+
+        self.param.add_section(section_size, section_entries)
+
+        self.le_section_size.setText("")
+        self.le_entry_anount.setText("")

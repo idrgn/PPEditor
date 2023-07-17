@@ -116,6 +116,8 @@ class Entry:
 
     def process_data(self):
         self.fields.clear()
+        if self.settings == None:
+            return
         for setting in self.settings:
             field_data = read_byte_array(self.raw_data, setting.address, setting.size)
             self.fields.append(Field(self.settings.index(setting), setting, field_data))
@@ -329,6 +331,14 @@ class Param:
             return None
         else:
             return self.section_list[section_index]
+
+    def add_section(self, size, entries):
+        self.section_list.append(
+            Section(
+                len(self.section_list), None, size, entries, b"\x00" * size * entries
+            )
+        )
+        self.sections += 1
 
     def to_bytes(self) -> bytes:
         # 0x0 - 0x4
