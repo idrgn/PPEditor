@@ -317,3 +317,5 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
 
         self.le_section_size.setText("")
         self.le_section_entry_amount.setText("")
+
+        self.load_sections()
