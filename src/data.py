@@ -108,7 +108,7 @@ def string_to_bytearray(string: str, required_size: int = None):
 def read_byte_array(fdata: bytes, position: int, size: int) -> bytes:
     if position + size > len(fdata):
         size = len(fdata) - position
-    return fdata[position : position + size]
+    return fdata[position: position + size]
 
 
 def sizeof_fmt(num, suffix: str = "B"):

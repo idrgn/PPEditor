@@ -5,43 +5,30 @@ from datetime import datetime
 
 from PyQt5 import QtGui, QtWidgets
 
-from data import bytes_to_string, resource_path, string_to_bytes, validate_byte_string
-from interface import main_window
-from interface.check_box_field import QCheckBoxField
-from interface.color_picker_field import QColorPickerField
-from interface.combo_box_field import QComboBoxField
-from interface.line_edit_field import QLineEditField
-from interface.raw_data_edit import RawDataEditWindow
-from param.param import Param
-from settings.settings import Settings
+from src.data import bytes_to_string, resource_path, string_to_bytes, validate_byte_string
+from src.interface import main_window
+from src.interface.check_box_field import QCheckBoxField
+from src.interface.color_picker_field import QColorPickerField
+from src.interface.combo_box_field import QComboBoxField
+from src.interface.line_edit_field import QLineEditField
+from src.interface.raw_data_edit import RawDataEditWindow
+from src.param.param import Param
+from src.settings.settings import Settings
 
 
 class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.set_connections()
-        self.set_action_state(False)
+        self._set_connections()
+        self._set_action_state(False)
         self.action_save.setEnabled(False)
         self.setWindowIcon(QtGui.QIcon(str(resource_path("res/icon.png"))))
 
-        # Load settings from settings file
-        self.settings = Settings()
+        # Load settings from the settings file
+        self._load_settings()
 
-        # Add the enums from msg files
-        directory = resource_path("res/msg/")
-        for filename in os.listdir(directory):
-            f = os.path.join(directory, filename)
-            with open(resource_path(f), "rb") as file:
-                data = file.read()
-                self.settings.add_enum_from_msg(os.path.splitext(filename)[0], data)
-
-        # Load other data
-        data = open(resource_path("res/settings.txt")).readlines()
-        self.settings.load_enums_from_data(data)
-        self.settings.load_fields_from_data(data)
-
-        # Create param file
+        # Create a param file
         self.param = Param(None, self.settings)
         self.path = None
 
@@ -52,7 +39,28 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 file = file.replace("\\", "/")
                 self.load_param_file(file)
 
-    def set_connections(self):
+    def _load_msg_enums(self):
+        directory = resource_path("res/msg/")
+        for path in directory.glob("*.msg"):
+            if not path.is_file():
+                continue
+
+            with open(path, "rb") as file:
+                data = file.read()
+                self.settings.add_enum_from_msg(path.stem, data)
+
+    def _load_settings(self):
+        self.settings = Settings()
+
+        # Add the enums from msg files
+        self._load_msg_enums()
+
+        # Load other data
+        data = open(resource_path("res/settings.txt")).readlines()
+        self.settings.load_enums_from_data(data)
+        self.settings.load_fields_from_data(data)
+
+    def _set_connections(self):
         """
         Set UI element connections
         """
@@ -74,7 +82,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.pb_add_new_entry.clicked.connect(self.add_entry)
         self.pb_edit_raw_data.clicked.connect(self.edit_raw_data)
 
-    def set_action_state(self, enabled: bool = False):
+    def _set_action_state(self, enabled: bool = False):
         # Actions
         self.action_refresh.setEnabled(enabled)
         # self.action_save.setEnabled(enabled)
@@ -120,7 +128,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             self.file_name = os.path.basename(os.path.abspath(self.path))
             self.lb_file_name.setText(f"Filename: {self.file_name}")
             self.refresh()
-            self.set_action_state(True)
+            self._set_action_state(True)
             self.show_message(f"Loaded file {self.path}")
 
     def refresh_file(self):
