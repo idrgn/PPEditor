@@ -2,12 +2,15 @@ import sys
 import typing
 
 from PyQt5 import QtGui
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QLineEdit, QWidget
 
 from param.param import Field
 
 
 class QLineEditField(QLineEdit):
+    field_changed = pyqtSignal(Field)
+
     def __init__(self, parent: typing.Optional[QWidget] = ...) -> None:
         super().__init__(parent)
         self.field = None
@@ -48,5 +51,6 @@ class QLineEditField(QLineEdit):
     def update_field_value(self, value: str):
         try:
             self.field.set_value_from_string(value)
+            self.field_changed.emit(self.field)
         except Exception as e:
             print(f"Error when setting field value: {e}")

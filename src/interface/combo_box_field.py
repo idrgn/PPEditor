@@ -1,5 +1,6 @@
 import typing
 
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import (
     QComboBox,
     QDialog,
@@ -14,6 +15,8 @@ from param.param import Field
 
 
 class QComboBoxField(QComboBox):
+    field_changed = pyqtSignal(Field)
+
     def __init__(self, parent: typing.Optional[QWidget] = ...) -> None:
         super().__init__(parent)
         self.field = None
@@ -53,6 +56,7 @@ class QComboBoxField(QComboBox):
                 self.field.set_value(index - 1)
             else:
                 self.field.set_value(index)
+            self.field_changed.emit(self.field)
 
     def showPopup(self) -> None:
         if not self.is_long:
@@ -73,6 +77,7 @@ class QComboBoxField(QComboBox):
                 self.field.set_value(selected_index - 1)
             else:
                 self.field.set_value(selected_index)
+            self.field_changed.emit(self.field)
 
 
 class ListDialog(QDialog):

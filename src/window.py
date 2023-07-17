@@ -21,6 +21,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.setupUi(self)
         self.set_connections()
         self.set_action_state(False)
+        self.action_save.setEnabled(False)
         self.setWindowIcon(QtGui.QIcon(str(resource_path("res/icon.png"))))
 
         # Load settings from settings file
@@ -58,7 +59,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         # Actions
         self.action_load.triggered.connect(self.select_param)
         self.action_save.triggered.connect(self.save_param_file)
-        self.action_refresh.triggered.connect(self.refresh)
+        self.action_refresh.triggered.connect(self.refresh_file)
 
         # Combo box changes
         self.cb_sections.currentTextChanged.connect(self.load_section_entries)
@@ -75,7 +76,8 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
     def set_action_state(self, enabled: bool = False):
         # Actions
         self.action_refresh.setEnabled(enabled)
-        self.action_save.setEnabled(enabled)
+        # self.action_save.setEnabled(enabled)
+        self.action_save_as.setEnabled(enabled)
 
         # Combo boxes
         self.cb_sections.setEnabled(enabled)
@@ -118,6 +120,11 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             self.lb_file_name.setText(f"Filename: {self.file_name}")
             self.refresh()
             self.set_action_state(True)
+
+    def refresh_file(self):
+        if self.path is None:
+            return
+        self.load_param_file(self.path)
 
     def save_param_file(self):
         """
@@ -198,6 +205,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             else:
                 widget = QLineEditField(self.sc_content)
             widget.set_field(field)
+            widget.field_changed.connect(self.field_changed)
             self.fl_fields.addRow(label, widget)
 
         text = bytes_to_string(entry.to_bytes())
@@ -205,6 +213,15 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
 
         self.sc.verticalScrollBar().setValue(scroll_position)
         self.sc.setVisible(True)
+
+    def field_changed(self):
+        """
+        Executed whenever a field is modified
+        """
+        if self.param.is_changed():
+            self.action_save.setEnabled(True)
+        else:
+            self.action_save.setEnabled(False)
 
     def clear_form_items(self):
         """

@@ -106,9 +106,7 @@ class Field:
             print(f"Error message: {e}")
 
     def is_changed(self):
-        return (
-            self.raw_data != self.initial_raw_data or self.raw_data != self.to_bytes()
-        )
+        return self.initial_raw_data != self.to_bytes()
 
 
 class Entry:
@@ -368,7 +366,7 @@ class Param:
 
     def is_changed(self):
         for section in self.section_list:
-            if section.is_changed(self):
+            if section.is_changed():
                 return True
         return False
 

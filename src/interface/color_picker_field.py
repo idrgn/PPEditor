@@ -9,7 +9,9 @@ from param.param import Field
 
 
 class QColorPickerField(QLineEdit):
+    field_changed = pyqtSignal(Field)
     clicked = pyqtSignal()
+
     useAlpha(True)
 
     def __init__(self, parent: typing.Optional[QWidget] = ...) -> None:
@@ -35,6 +37,7 @@ class QColorPickerField(QLineEdit):
     def update_field_value(self, value: bool):
         try:
             self.field.set_value(value)
+            self.field_changed.emit(self.field)
         except Exception as _:
             pass
 
@@ -44,7 +47,8 @@ class QColorPickerField(QLineEdit):
         else:
             old_color = int_to_color(self.color)
             new_color = color_to_int(getColor(old_color))
-        self.field.value = new_color
+        self.field.set_value(new_color)
+        self.field_changed.emit(self.field)
         self.color = new_color
         self.update_aspect()
 
