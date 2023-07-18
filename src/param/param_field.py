@@ -73,7 +73,7 @@ class ParamField:
         elif type == "str" or type == "string":
             self.value = new_value
 
-    def to_bytes(self):
+    def to_bytes(self) -> bytes:
         type = self.settings.type
 
         try:

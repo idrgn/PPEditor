@@ -14,7 +14,7 @@ class ParamSection:
     def __init__(
         self,
         id: int,
-        settings: list,
+        settings: list | None,
         entry_size: int,
         entry_amount: int,
         data: bytes,
@@ -27,7 +27,7 @@ class ParamSection:
 
         # Entry list
         self.raw_data = data
-        self.entry_list = []
+        self.entry_list: list[ParamEntry] = []
         self._parse_data(data)
 
     def _parse_data(self, data):
@@ -37,7 +37,7 @@ class ParamSection:
                 ParamEntry(index, self.settings, raw_data)
             )
 
-    def to_bytes(self):
+    def to_bytes(self) -> bytes:
         return b"".join((entry.to_bytes() for entry in self.entry_list))
 
     def remove_entry(self, entry: ParamEntry):

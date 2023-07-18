@@ -32,7 +32,7 @@ class ParamEntry:
                 ParamField(self.settings.index(setting), setting, field_data)
             )
 
-    def to_bytes(self):
+    def to_bytes(self) -> bytes:
         raw_data = self.raw_data
 
         # Apply patches

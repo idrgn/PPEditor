@@ -121,7 +121,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         Read Param file
         """
-        with open(file, "r+b") as f:
+        with open(file, "rb") as f:
             data = f.read()
             self.path = file
             self.param.load_from_data(data)
@@ -288,7 +288,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         cb = QtWidgets.QApplication.clipboard()
         cb.clear(mode=cb.Clipboard)
         cb.setText(text, mode=cb.Clipboard)
-        self.show_message("Copied entry data clipboard")
+        self.show_message("Copied entry data to clipboard")
 
     def paste_entry(self):
         """

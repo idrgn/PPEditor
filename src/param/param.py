@@ -9,6 +9,7 @@ from src.data import (
 
 from src.settings.settings import Settings
 from src.param.param_section import ParamSection
+from src.param.param_entry import ParamEntry
 
 
 class Param:
@@ -16,7 +17,7 @@ class Param:
     Param object
     """
 
-    def __init__(self, data: bytes = b"", settings: Settings = None):
+    def __init__(self, data: bytes | None = b"", settings: Settings = None):
         self.settings = settings
         self.set_default_values()
 
@@ -67,7 +68,7 @@ class Param:
         self.id = None
 
         # Section list
-        self.section_list = []
+        self.section_list: list[ParamSection] = []
 
         # Other
         self.entry_list = []
@@ -114,19 +115,19 @@ class Param:
             section_info_offset += 0x8
             data_offset += len(raw_data)
 
-    def get_section_entry_amount(self, section_index: int = 0) -> int:
+    def get_section_entry_amount(self, section_index: int = 0) -> int | None:
         if section_index > len(self.section_list):
             return None
         else:
             return self.section_list[section_index].entry_amount
 
-    def get_section_entries(self, section_index: int = 0):
+    def get_section_entries(self, section_index: int = 0) -> list[ParamEntry] | None:
         if section_index > len(self.section_list):
             return None
         else:
             return self.section_list[section_index].entry_list
 
-    def get_section_entry(self, section_index: int = 0, entry_index: int = 0):
+    def get_section_entry(self, section_index: int = 0, entry_index: int = 0) -> ParamEntry | None:
         if section_index > len(self.section_list):
             return None
         else:
@@ -136,7 +137,7 @@ class Param:
             else:
                 return section.entry_list[entry_index]
 
-    def get_section(self, section_index: int = 0):
+    def get_section(self, section_index: int = 0) -> ParamSection | None:
         if section_index > len(self.section_list):
             return None
         else:
@@ -150,7 +151,7 @@ class Param:
         )
         self.sections_amount += 1
 
-    def is_changed(self):
+    def is_changed(self) -> bool:
         return any((section.is_changed() for section in self.section_list))
 
     def to_bytes(self) -> bytes:
