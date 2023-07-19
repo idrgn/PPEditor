@@ -1,4 +1,4 @@
-from data import parse_bool, parse_int, read_int, read_str_short
+from src.data import parse_bool, parse_int, read_int, read_str_short
 
 
 class SettingsEnumEntry:

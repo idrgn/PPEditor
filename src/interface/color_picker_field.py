@@ -4,12 +4,12 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import QLineEdit, QWidget
 from vcolorpicker import getColor, useAlpha
 
-from data import color_to_int, int_to_color
-from param.param import Field
+from src.data import color_to_int, int_to_color
+from src.param.param_field import ParamField
 
 
 class QColorPickerField(QLineEdit):
-    field_changed = pyqtSignal(Field)
+    field_changed = pyqtSignal(ParamField)
     clicked = pyqtSignal()
 
     useAlpha(True)
@@ -28,7 +28,7 @@ class QColorPickerField(QLineEdit):
         else:
             super().mousePressEvent(event)
 
-    def set_field(self, field: Field):
+    def set_field(self, field: ParamField):
         if field.settings.type == "rgba":
             self.field = field
             self.color = field.value

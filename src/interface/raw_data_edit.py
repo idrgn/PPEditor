@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QTextEdit, QVBoxLayout
 
-from data import validate_byte_string
+from src.data import validate_byte_string
 
 
 class RawDataEditWindow(QDialog):

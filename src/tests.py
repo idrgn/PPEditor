@@ -28,7 +28,7 @@ with open(resource_path("res/base_params/classparam"), "rb") as file:
     data = file.read()
     param.load_from_data(data)
     print("Checking that classparam has 5 sections")
-    assert param.sections == 5
+    assert param.sections_amount == 5
 
 for filename in os.listdir(directory):
     f = os.path.join(directory, filename)

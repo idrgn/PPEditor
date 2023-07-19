@@ -5,15 +5,15 @@ from datetime import datetime
 
 from PyQt5 import QtGui, QtWidgets
 
-from data import bytes_to_string, resource_path, string_to_bytes, validate_byte_string
-from interface import main_window
-from interface.check_box_field import QCheckBoxField
-from interface.color_picker_field import QColorPickerField
-from interface.combo_box_field import QComboBoxField
-from interface.line_edit_field import QLineEditField
-from interface.raw_data_edit import RawDataEditWindow
-from param.param import Param
-from settings.settings import Settings
+from src.data import bytes_to_string, resource_path, string_to_bytes, validate_byte_string
+from src.interface import main_window
+from src.interface.check_box_field import QCheckBoxField
+from src.interface.color_picker_field import QColorPickerField
+from src.interface.combo_box_field import QComboBoxField
+from src.interface.line_edit_field import QLineEditField
+from src.interface.raw_data_edit import RawDataEditWindow
+from src.param.param import Param
+from src.settings.settings import Settings
 
 
 class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
@@ -25,23 +25,11 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.action_save.setEnabled(False)
         self.setWindowIcon(QtGui.QIcon(str(resource_path("res/icon.png"))))
 
-        # Load settings from settings file
-        self.settings = Settings()
+        # Load settings from the settings file
+        self.settings = None
+        self.load_settings()
 
-        # Add the enums from msg files
-        directory = resource_path("res/msg/")
-        for filename in os.listdir(directory):
-            f = os.path.join(directory, filename)
-            with open(resource_path(f), "rb") as file:
-                data = file.read()
-                self.settings.add_enum_from_msg(os.path.splitext(filename)[0], data)
-
-        # Load other data
-        data = open(resource_path("res/settings.txt")).readlines()
-        self.settings.load_enums_from_data(data)
-        self.settings.load_fields_from_data(data)
-
-        # Create param file
+        # Create a param file
         self.param = Param(None, self.settings)
         self.path = None
 
@@ -51,6 +39,27 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 file = sys.argv[1]
                 file = file.replace("\\", "/")
                 self.load_param_file(file)
+
+    def load_msg_enums(self):
+        directory = resource_path("res/msg/")
+        for path in directory.glob("*.msg"):
+            if not path.is_file():
+                continue
+
+            with open(path, "rb") as file:
+                data = file.read()
+                self.settings.add_enum_from_msg(path.stem, data)
+
+    def load_settings(self):
+        self.settings = Settings()
+
+        # Add the enums from msg files
+        self.load_msg_enums()
+
+        # Load other data
+        data = open(resource_path("res/settings.txt")).readlines()
+        self.settings.load_enums_from_data(data)
+        self.settings.load_fields_from_data(data)
 
     def set_connections(self):
         """
@@ -112,7 +121,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         Read Param file
         """
-        with open(file, "r+b") as f:
+        with open(file, "rb") as f:
             data = f.read()
             self.path = file
             self.param.load_from_data(data)
@@ -183,7 +192,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.cb_entries.clear()
         for entry in self.param.get_section_entries(self.cb_sections.currentIndex()):
             entry_name = entry.get_name()
-            if entry_name == "":
+            if not entry_name:
                 self.cb_entries.addItem(f"{entry.id}")
             else:
                 self.cb_entries.addItem(f"{entry.id}: {entry_name}")
@@ -208,9 +217,8 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             if field.settings.type == "bool":
                 widget = QCheckBoxField(self.sc_content)
             elif (
-                field.settings.enum
-                and field.value >= -1
-                and field.value < len(field.settings.enum.get_values()) - 1
+                    field.settings.enum
+                    and -1 <= field.value < len(field.settings.enum.get_values()) - 1
             ):
                 widget = QComboBoxField(self.frame_controls)
             elif field.settings.type == "rgba":
@@ -241,6 +249,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         Clears all items in form
         """
         for i in reversed(range(self.fl_fields.count())):
+            # Maybe use 'range(self.fl_fields.count() - 1, -1, -1)'?
             self.fl_fields.itemAt(i).widget().setParent(None)
 
     def get_current_entry(self):
@@ -279,7 +288,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         cb = QtWidgets.QApplication.clipboard()
         cb.clear(mode=cb.Clipboard)
         cb.setText(text, mode=cb.Clipboard)
-        self.show_message("Copied entry data clipboard")
+        self.show_message("Copied entry data to clipboard")
 
     def paste_entry(self):
         """
@@ -336,17 +345,17 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         try:
             section_size = eval(self.le_section_size.text())
-            section_entries = eval(self.le_section_entry_amount.text())
+            section_entries_amount = eval(self.le_section_entry_amount.text())
         except Exception as _:
             return
 
         if section_size <= 0:
             return
 
-        if section_entries < 0:
+        if section_entries_amount < 0:
             return
 
-        self.param.add_section(section_size, section_entries)
+        self.param.add_section(section_size, section_entries_amount)
 
         self.le_section_size.setText("")
         self.le_section_entry_amount.setText("")

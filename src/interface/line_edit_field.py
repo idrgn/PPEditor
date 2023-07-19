@@ -5,17 +5,17 @@ from PyQt5 import QtGui
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QLineEdit, QWidget
 
-from param.param import Field
+from src.param.param_field import ParamField
 
 
 class QLineEditField(QLineEdit):
-    field_changed = pyqtSignal(Field)
+    field_changed = pyqtSignal(ParamField)
 
     def __init__(self, parent: typing.Optional[QWidget] = ...) -> None:
         super().__init__(parent)
         self.field = None
 
-    def set_field(self, field: Field):
+    def set_field(self, field: ParamField):
         self.field = field
         self.set_validator(field.settings.type, field.settings.size)
         self.setText(str(field.value))
