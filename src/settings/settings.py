@@ -1,53 +1,6 @@
 from data import parse_bool, parse_int, read_int, read_str_short
-
-
-class SettingsEnumEntry:
-    def __init__(
-        self, name: str, description: str, values: list, null_value: str = None
-    ) -> None:
-        self.name = name
-        self.description = description
-        self.values = values
-        self.null_value = null_value
-
-    def get_values(self):
-        if self.null_value is not None:
-            return [self.null_value] + self.values
-        else:
-            return self.values
-
-    def get_value(self, index: int):
-        if index == -1:
-            return self.null_value
-        else:
-            if index >= len(self.values):
-                return "Unknown"
-            else:
-                return self.values[index]
-
-
-class SettingsFieldEntry:
-    def __init__(
-        self,
-        field_id: int,
-        section: int,
-        address: int,
-        size: int,
-        name: str,
-        description: str,
-        field_type: str,
-        shown: bool = False,
-        enum: SettingsEnumEntry = None,
-    ) -> None:
-        self.id = field_id
-        self.section = section
-        self.address = address
-        self.size = size
-        self.name = name
-        self.description = description
-        self.type = field_type
-        self.shown = shown
-        self.enum = enum
+from settings.settings_enum import SettingsEnum
+from settings.settings_field import SettingsField
 
 
 class Settings:
@@ -101,7 +54,7 @@ class Settings:
                 enum = None
 
             self.field_entries.append(
-                SettingsFieldEntry(
+                SettingsField(
                     field_id,
                     section,
                     address,
@@ -139,13 +92,11 @@ class Settings:
         else:
             return [entry for entry in self.field_entries if entry.id == param_id]
 
-    def get_enum(self, enum_name: str) -> SettingsEnumEntry:
+    def get_enum(self, enum_name: str) -> SettingsEnum:
         return [enum for enum in self.enum_entries if enum.name == enum_name][0]
 
     def add_enum(self, name, description, values, null_value: str = None):
-        self.enum_entries.append(
-            SettingsEnumEntry(name, description, values, null_value)
-        )
+        self.enum_entries.append(SettingsEnum(name, description, values, null_value))
 
     def add_enum_from_msg(self, name, data):
         values = []
@@ -157,4 +108,4 @@ class Settings:
             entry_message = read_str_short(data, entry_index)
             values.append(entry_message)
 
-        self.enum_entries.append(SettingsEnumEntry(f"msg_{name}", "", values, None))
+        self.enum_entries.append(SettingsEnum(f"msg_{name}", "", values, None))

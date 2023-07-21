@@ -12,7 +12,7 @@ from data import (
     read_ushort,
     string_to_bytearray,
 )
-from settings.settings import SettingsFieldEntry
+from settings.settings_field import SettingsField
 
 
 class ParamField:
@@ -20,7 +20,7 @@ class ParamField:
     Field
     """
 
-    def __init__(self, field_id: int, settings: SettingsFieldEntry, data: bytes):
+    def __init__(self, field_id: int, settings: SettingsField, data: bytes):
         self.id = field_id
         self.settings = settings
         self.raw_data = data
