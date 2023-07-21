@@ -1,15 +1,15 @@
 from struct import pack
 
-from src.const import PARAM_HEADER
-from src.data import (
+from const import PARAM_HEADER
+from data import (
     read_byte_array,
     read_uint,
     replace_byte_array,
 )
 
-from src.settings.settings import Settings
-from src.param.param_section import ParamSection
-from src.param.param_entry import ParamEntry
+from settings.settings import Settings
+from param.param_section import ParamSection
+from param.param_entry import ParamEntry
 
 
 class Param:
@@ -18,6 +18,15 @@ class Param:
     """
 
     def __init__(self, data: bytes | None = b"", settings: Settings = None):
+        self.is_modified = None
+        self.entry_list = None
+        self.section_list = None
+        self.id = None
+        self.unk3 = None
+        self.unk2 = None
+        self.sections_amount = None
+        self.unk1 = None
+        self.ptr = None
         self.settings = settings
         self.set_default_values()
 
@@ -56,7 +65,7 @@ class Param:
 
     def set_default_values(self):
         """
-        Sets default valyes
+        Sets default values
         """
 
         # Header values
@@ -100,15 +109,23 @@ class Param:
         data_offset = self.ptr
 
         for section_index in range(self.sections_amount):
-            section_settings = self.settings.get_entries_in_param(self.id, section_index)
+            section_settings = self.settings.get_entries_in_param(
+                self.id, section_index
+            )
 
             section_entries_amount = read_uint(data, section_info_offset)
             entry_size = read_uint(data, section_info_offset + 0x4)
-            raw_data = read_byte_array(data, data_offset, section_entries_amount * entry_size)
+            raw_data = read_byte_array(
+                data, data_offset, section_entries_amount * entry_size
+            )
 
             self.section_list.append(
                 ParamSection(
-                    section_index, section_settings, entry_size, section_entries_amount, raw_data
+                    section_index,
+                    section_settings,
+                    entry_size,
+                    section_entries_amount,
+                    raw_data,
                 )
             )
 
@@ -127,7 +144,9 @@ class Param:
         else:
             return self.section_list[section_index].entry_list
 
-    def get_section_entry(self, section_index: int = 0, entry_index: int = 0) -> ParamEntry | None:
+    def get_section_entry(
+        self, section_index: int = 0, entry_index: int = 0
+    ) -> ParamEntry | None:
         if section_index > len(self.section_list):
             return None
         else:
@@ -146,7 +165,11 @@ class Param:
     def add_section(self, size, entries_amount):
         self.section_list.append(
             ParamSection(
-                len(self.section_list), None, size, entries_amount, b"\x00" * size * entries_amount
+                len(self.section_list),
+                None,
+                size,
+                entries_amount,
+                b"\x00" * size * entries_amount,
             )
         )
         self.sections_amount += 1

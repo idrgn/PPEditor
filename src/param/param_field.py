@@ -1,7 +1,6 @@
-
 from struct import pack
 
-from src.data import (
+from data import (
     read_bool,
     read_char,
     read_float,
@@ -13,7 +12,7 @@ from src.data import (
     read_ushort,
     string_to_bytearray,
 )
-from src.settings.settings import SettingsFieldEntry
+from settings.settings import SettingsFieldEntry
 
 
 class ParamField:
@@ -21,8 +20,8 @@ class ParamField:
     Field
     """
 
-    def __init__(self, id: int, settings: SettingsFieldEntry, data: bytes):
-        self.id = id
+    def __init__(self, field_id: int, settings: SettingsFieldEntry, data: bytes):
+        self.id = field_id
         self.settings = settings
         self.raw_data = data
         self.initial_raw_data = data
@@ -36,24 +35,24 @@ class ParamField:
 
     def _parse_value(self):
         data = self.raw_data
-        type = self.settings.type
-        if type == "uint" or type == "rgba":
+        t = self.settings.type
+        if t == "uint" or t == "rgba":
             self.value = read_uint(data)
-        elif type == "int":
+        elif t == "int":
             self.value = read_int(data)
-        elif type == "short":
+        elif t == "short":
             self.value = read_short(data)
-        elif type == "ushort":
+        elif t == "ushort":
             self.value = read_ushort(data)
-        elif type == "char":
+        elif t == "char":
             self.value = read_char(data)
-        elif type == "uchar":
+        elif t == "uchar":
             self.value = read_uchar(data)
-        elif type == "bool":
+        elif t == "bool":
             self.value = read_bool(data)
-        elif type == "float":
+        elif t == "float":
             self.value = read_float(data)
-        elif type == "str" or type == "string":
+        elif t == "str" or t == "string":
             self.value = read_str(data)
         else:
             self.value = None
@@ -62,41 +61,39 @@ class ParamField:
         self.value = new_value
 
     def set_value_from_string(self, new_value):
-        type = self.settings.type
-
-        if type in ["uint", "int", "ushort", "short", "uchar", "char", "rgba"]:
+        t = self.settings.type
+        if t in ["uint", "int", "ushort", "short", "uchar", "char", "rgba"]:
             self.value = int(new_value)
-        elif type == "bool":
+        elif t == "bool":
             self.value = bool(new_value)
-        elif type == "float":
+        elif t == "float":
             self.value = float(new_value)
-        elif type == "str" or type == "string":
+        elif t == "str" or t == "string":
             self.value = new_value
 
     def to_bytes(self) -> bytes:
-        type = self.settings.type
-
+        t = self.settings.type
         try:
-            if type == "uint" or type == "rgba":
+            if t == "uint" or t == "rgba":
                 return self.value.to_bytes(4, byteorder="little", signed=False)
-            elif type == "int":
+            elif t == "int":
                 return self.value.to_bytes(4, byteorder="little", signed=True)
-            elif type == "ushort":
+            elif t == "ushort":
                 return self.value.to_bytes(2, byteorder="little", signed=False)
-            elif type == "short":
+            elif t == "short":
                 return self.value.to_bytes(2, byteorder="little", signed=True)
-            elif type == "uchar":
+            elif t == "uchar":
                 return self.value.to_bytes(1, byteorder="little", signed=False)
-            elif type == "char":
+            elif t == "char":
                 return self.value.to_bytes(1, byteorder="little", signed=True)
-            elif type == "float":
+            elif t == "float":
                 return pack("f", self.value)
-            elif type == "bool":
+            elif t == "bool":
                 if self.value:
                     return b"\x01"
                 else:
                     return b"\x00"
-            elif type == "str" or type == "string":
+            elif t == "str" or t == "string":
                 return string_to_bytearray(self.value, self.settings.size)
         except Exception as e:
             print(

@@ -4,8 +4,8 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import QLineEdit, QWidget
 from vcolorpicker import getColor, useAlpha
 
-from src.data import color_to_int, int_to_color
-from src.param.param_field import ParamField
+from data import color_to_int, int_to_color
+from param.param_field import ParamField
 
 
 class QColorPickerField(QLineEdit):

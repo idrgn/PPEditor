@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
-from src.param.param_field import ParamField
+from param.param_field import ParamField
 
 
 class QComboBoxField(QComboBox):

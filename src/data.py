@@ -12,7 +12,7 @@ def resource_path(relative_path: str) -> Path:
     return current_path.joinpath(relative_path)
 
 
-def replace_byte_array(fdata: bytes, position: int, value: bytes):
+def replace_byte_array(fdata: bytes, position: int, value: bytes) -> bytes:
     fdata = bytearray(fdata)
     for i in range(0, len(value)):
         fdata[position + i] = value[i]
@@ -23,7 +23,7 @@ def replace_byte_array(fdata: bytes, position: int, value: bytes):
 def read_byte_array(fdata: bytes, position: int, size: int) -> bytes:
     if position + size > len(fdata):
         size = len(fdata) - position
-    return fdata[position: position + size]
+    return fdata[position : position + size]
 
 
 def read_uint(fdata: bytes, position: int = 0x0) -> int:
@@ -56,15 +56,6 @@ def read_bool(fdata: bytes, position: int = 0x0) -> int:
 
 def read_float(fdata: bytes, position: int = 0x0) -> int:
     return unpack("f", read_byte_array(fdata, position, 4))[0]
-
-
-# def read_str(fdata: bytes, position: int = 0x0) -> str:
-#     string = ""
-#     offset = 0x0
-#     while read_byte_array(fdata, position + offset, 0x1) != b"\x00":
-#         string += chr(read_uchar(fdata, position + offset))
-#         offset += 1
-#     return string
 
 
 def read_str(fdata: bytes, position: int = 0x0) -> str:
@@ -102,7 +93,7 @@ def read_str_short(fdata: bytes, position: int = 0x0) -> str:
 def string_to_bytearray(string: str, required_size: int = None) -> bytes:
     try:
         ba = string.encode("shift_jis")
-    except Exception as e:
+    except UnicodeDecodeError as _:
         ba = string.encode("utf-8")
 
     if required_size:
@@ -110,7 +101,7 @@ def string_to_bytearray(string: str, required_size: int = None) -> bytes:
     return ba
 
 
-def sizeof_fmt_new(num, suffix="B") -> str:
+def sizeof_fmt_new(num: int, suffix: str = "B") -> str:
     for unit in ("", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"):
         if abs(num) < 1024.0:
             return f"{num:3.1f} {unit}{suffix}"
@@ -166,7 +157,7 @@ def color_to_int(color: tuple) -> int:
     return (alpha << 24) + (int(blue) << 16) + (int(green) << 8) + int(red)
 
 
-def validate_byte_string(input_string) -> bool:
+def validate_byte_string(input_string: str) -> bool:
     byte_values = input_string.split()
 
     if any((len(byte) % 2 != 0 for byte in byte_values)):
@@ -181,7 +172,7 @@ def validate_byte_string(input_string) -> bool:
     return True
 
 
-def string_to_bytes(string) -> bytearray:
+def string_to_bytes(string: str) -> bytearray:
     byte_values = string.split()
     byte_array = bytearray()
 
@@ -191,5 +182,5 @@ def string_to_bytes(string) -> bytearray:
     return byte_array
 
 
-def bytes_to_string(bytes) -> str:
-    return " ".join(["{:02X}".format(byte) for byte in bytes])
+def bytes_to_string(b: bytes) -> str:
+    return " ".join(["{:02X}".format(byte) for byte in b])

@@ -1,4 +1,4 @@
-from src.data import parse_bool, parse_int, read_int, read_str_short
+from data import parse_bool, parse_int, read_int, read_str_short
 
 
 class SettingsEnumEntry:
@@ -29,29 +29,32 @@ class SettingsEnumEntry:
 class SettingsFieldEntry:
     def __init__(
         self,
-        id: int,
+        field_id: int,
         section: int,
-        addresss: int,
+        address: int,
         size: int,
         name: str,
         description: str,
-        type: str,
+        field_type: str,
         shown: bool = False,
         enum: SettingsEnumEntry = None,
     ) -> None:
-        self.id = id
+        self.id = field_id
         self.section = section
-        self.address = addresss
+        self.address = address
         self.size = size
         self.name = name
         self.description = description
-        self.type = type
+        self.type = field_type
         self.shown = shown
         self.enum = enum
 
 
 class Settings:
-    def __init__(self, data: list = []) -> None:
+    def __init__(self, data=None) -> None:
+        if data is None:
+            data = []
+
         self.enum_entries = []
         self.field_entries = []
 
@@ -69,19 +72,19 @@ class Settings:
                 row_entries.append("")
 
             (
-                id,
+                field_id,
                 section,
                 address,
                 size,
                 name,
                 description,
-                type,
+                field_type,
                 shown,
                 has_enum,
                 enum_name,
             ) = [e.strip() for e in row_entries]
 
-            id = int(id)
+            field_id = int(field_id)
 
             if section != "*":
                 section = int(section)
@@ -99,13 +102,13 @@ class Settings:
 
             self.field_entries.append(
                 SettingsFieldEntry(
-                    id,
+                    field_id,
                     section,
                     address,
                     size,
                     name,
                     description,
-                    type,
+                    field_type,
                     shown,
                     enum,
                 )
@@ -154,4 +157,4 @@ class Settings:
             entry_message = read_str_short(data, entry_index)
             values.append(entry_message)
 
-        self.enum_entries.append(SettingsEnumEntry(f"msg_{name}", None, values, None))
+        self.enum_entries.append(SettingsEnumEntry(f"msg_{name}", "", values, None))

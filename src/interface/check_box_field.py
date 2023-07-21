@@ -3,7 +3,7 @@ import typing
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QCheckBox, QWidget
 
-from src.param.param_field import ParamField
+from param.param_field import ParamField
 
 
 class QCheckBoxField(QCheckBox):

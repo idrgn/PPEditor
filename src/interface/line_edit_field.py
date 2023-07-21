@@ -5,7 +5,7 @@ from PyQt5 import QtGui
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QLineEdit, QWidget
 
-from src.param.param_field import ParamField
+from param.param_field import ParamField
 
 
 class QLineEditField(QLineEdit):

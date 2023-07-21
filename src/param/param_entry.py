@@ -1,10 +1,9 @@
-
-from src.data import (
+from data import (
     read_byte_array,
     replace_byte_array,
 )
 
-from src.param.param_field import ParamField
+from param.param_field import ParamField
 
 
 class ParamEntry:
@@ -12,8 +11,8 @@ class ParamEntry:
     Entry
     """
 
-    def __init__(self, id: int, settings: list, data: bytes):
-        self.id = id
+    def __init__(self, entry_id: int, settings: list, data: bytes):
+        self.id = entry_id
         self.settings = settings
         self.raw_data = data
         self.initial_raw_data = data

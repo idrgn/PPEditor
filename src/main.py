@@ -2,7 +2,7 @@ import sys
 
 from PyQt5 import QtWidgets
 
-from src.window import Application
+from window import Application
 
 print("Param Editor. Created by Maikel.")
 
