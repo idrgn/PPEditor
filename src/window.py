@@ -146,7 +146,10 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
 
         # Save backup if enabled in settings
         if self.check_backup.isChecked:
-            shutil.copy(self.path, f"{self.path}.bak")
+            try:
+                shutil.copy(self.path, f"{self.path}.bak")
+            except PermissionError or FileNotFoundError as e:
+                print(f"Error when saving backup: {e}")
 
         # Save file
         if self.path and self.param:
