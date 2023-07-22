@@ -93,6 +93,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.load_settings()
         self.param.reload_settings(self.settings)
         self.update_selected_entry()
+        self.show_message("Updated settings")
 
     def update_msg_enums(self):
         """
@@ -101,6 +102,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.load_msg_enums()
         self.param.reload_settings(self.settings)
         self.update_selected_entry()
+        self.show_message("Updated messages")
 
     def set_connections(self):
         """
