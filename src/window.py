@@ -86,6 +86,22 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.settings.load_enums_from_data(data)
         self.settings.load_fields_from_data(data)
 
+    def update_settings(self):
+        """
+        Updates settings for current param file
+        """
+        self.load_settings()
+        self.param.reload_settings(self.settings)
+        self.update_selected_entry()
+
+    def update_msg_enums(self):
+        """
+        Updates msg enums for current param file
+        """
+        self.load_msg_enums()
+        self.param.reload_settings(self.settings)
+        self.update_selected_entry()
+
     def set_connections(self):
         """
         Set UI element connections
@@ -95,6 +111,8 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.action_load.triggered.connect(self.select_param)
         self.action_save.triggered.connect(self.save_param_file)
         self.action_refresh.triggered.connect(self.refresh_file)
+        self.action_reload_messages.triggered.connect(self.update_msg_enums)
+        self.action_reload_settings.triggered.connect(self.update_settings)
 
         # Combo box changes
         self.cb_sections.currentTextChanged.connect(self.load_section_entries)

@@ -132,6 +132,11 @@ class Param:
             section_info_offset += 0x8
             data_offset += len(raw_data)
 
+    def reload_settings(self, settings: Settings):
+        current_data = self.to_bytes()
+        self.settings = settings
+        self.load_from_data(current_data)
+
     def get_section_entry_amount(self, section_index: int = 0) -> int | None:
         if section_index > len(self.section_list):
             return None

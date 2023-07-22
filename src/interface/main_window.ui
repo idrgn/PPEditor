@@ -412,6 +412,9 @@
      <string>Settings</string>
     </property>
     <addaction name="check_backup"/>
+    <addaction name="separator"/>
+    <addaction name="action_reload_settings"/>
+    <addaction name="action_reload_messages"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -516,6 +519,16 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+S</string>
+   </property>
+  </action>
+  <action name="action_reload_settings">
+   <property name="text">
+    <string>Reload settings</string>
+   </property>
+  </action>
+  <action name="action_reload_messages">
+   <property name="text">
+    <string>Reload messages</string>
    </property>
   </action>
  </widget>

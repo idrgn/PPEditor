@@ -227,6 +227,10 @@ class Ui_MainWindow(object):
         self.action_about.setObjectName("action_about")
         self.action_save_as = QtWidgets.QAction(MainWindow)
         self.action_save_as.setObjectName("action_save_as")
+        self.action_reload_settings = QtWidgets.QAction(MainWindow)
+        self.action_reload_settings.setObjectName("action_reload_settings")
+        self.action_reload_messages = QtWidgets.QAction(MainWindow)
+        self.action_reload_messages.setObjectName("action_reload_messages")
         self.menuFile.addAction(self.action_load)
         self.menuFile.addAction(self.action_save)
         self.menuFile.addAction(self.action_save_as)
@@ -235,6 +239,9 @@ class Ui_MainWindow(object):
         self.menuMode.addAction(self.action_p2)
         self.menuMode.addAction(self.action_p3)
         self.menuSettings.addAction(self.check_backup)
+        self.menuSettings.addSeparator()
+        self.menuSettings.addAction(self.action_reload_settings)
+        self.menuSettings.addAction(self.action_reload_messages)
         self.menuHelp.addAction(self.action_guides)
         self.menuHelp.addAction(self.action_about)
         self.menubar.addAction(self.menuFile.menuAction())
@@ -283,6 +290,8 @@ class Ui_MainWindow(object):
         self.action_about.setText(_translate("MainWindow", "About"))
         self.action_save_as.setText(_translate("MainWindow", "Save as"))
         self.action_save_as.setShortcut(_translate("MainWindow", "Ctrl+Alt+S"))
+        self.action_reload_settings.setText(_translate("MainWindow", "Reload settings"))
+        self.action_reload_messages.setText(_translate("MainWindow", "Reload messages"))
 
 
 if __name__ == "__main__":
