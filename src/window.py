@@ -156,6 +156,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             self.refresh()
             self.set_action_state(True)
             self.show_message(f"Loaded file {self.path}")
+            self.setWindowTitle(f"Patapon Param Editor [{file}]")
 
     def refresh_file(self):
         if self.path is None:
