@@ -209,6 +209,9 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             self.setWindowTitle(f"Patapon Param Editor")
 
     def refresh_file(self):
+        """
+        Reloads param file from previous path
+        """
         if self.path is None:
             return
         self.load_param_file(self.path)
