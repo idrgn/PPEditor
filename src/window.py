@@ -5,6 +5,7 @@ from datetime import datetime
 from pathlib import Path
 
 from PyQt5 import QtGui, QtWidgets
+from PyQt5.QtWidgets import QFileDialog
 
 from data import bytes_to_string, resource_path, string_to_bytes, validate_byte_string
 from interface import main_window
@@ -112,6 +113,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         # Actions
         self.action_load.triggered.connect(self.select_param)
         self.action_save.triggered.connect(self.save_param_file)
+        self.action_save_as.triggered.connect(self.save_param_file_as)
         self.action_refresh.triggered.connect(self.refresh_file)
         self.action_reload_messages.triggered.connect(self.update_msg_enums)
         self.action_reload_settings.triggered.connect(self.update_settings)
@@ -176,24 +178,34 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             self.refresh()
             self.set_action_state(True)
             self.show_message(f"Loaded file {self.path}")
-            self.setWindowTitle(f"Patapon Param Editor [{file}]")
+            self.uptate_window_title()
+
+    def uptate_window_title(self):
+        """
+        Updates window title, sets current filename
+        """
+        if self.path:
+            self.setWindowTitle(f"Patapon Param Editor [{self.path}]")
+        else:
+            self.setWindowTitle(f"Patapon Param Editor")
 
     def refresh_file(self):
         if self.path is None:
             return
         self.load_param_file(self.path)
 
-    def save_param_file(self):
+    def save_param_file(self, ignore_backup: bool = False):
         """
         Saves Param file
         """
 
         # Save backup if enabled in settings
-        if self.check_backup.isChecked:
-            try:
-                shutil.copy(self.path, f"{self.path}.bak")
-            except PermissionError or FileNotFoundError as e:
-                print(f"Error when saving backup: {e}")
+        if not ignore_backup:
+            if self.check_backup.isChecked:
+                try:
+                    shutil.copy(self.path, f"{self.path}.bak")
+                except PermissionError or FileNotFoundError as e:
+                    print(f"Error when saving backup: {e}")
 
         # Save file
         if self.path and self.param:
@@ -201,6 +213,33 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             with open(self.path, "wb") as f:
                 f.write(data_to_save)
             self.show_message(f"Saved file {self.path}")
+
+    def save_param_file_as(self):
+        """
+        Opens dialog to save param file in a different location, with a different name
+        """
+        if not self.param:
+            return
+
+        # Options
+        options = QFileDialog.Options()
+        # options |= QFileDialog.DontUseNativeDialog # Uncomment only if native dialog gives issues
+
+        # Open dialog
+        file_name, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save As",
+            self.path,
+            "All Files (*)",
+            options=options,
+        )
+
+        # Save file under new name, but don't ingore backup unless path remains the same
+        if file_name:
+            create_backup = self.path != file_name
+            self.path = file_name
+            self.save_param_file(create_backup)
+            self.uptate_window_title()
 
     def refresh(self):
         """
