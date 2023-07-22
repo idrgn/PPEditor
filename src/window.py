@@ -44,6 +44,25 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 file = file.replace("\\", "/")
                 self.load_param_file(file)
 
+        # Accept file drops
+        self.setAcceptDrops(True)
+
+    def dragEnterEvent(self, event):
+        """
+        Drag enter event
+        """
+        if event.mimeData().hasUrls():
+            event.acceptProposedAction()
+
+    def dropEvent(self, event):
+        """
+        Drop file event
+        """
+        if event.mimeData().hasUrls():
+            file_path = event.mimeData().urls()[0].toLocalFile()
+            self.load_param_file(file_path)
+            event.acceptProposedAction()
+
     def load_msg_enums(self):
         """
         Load msg data for Settings
