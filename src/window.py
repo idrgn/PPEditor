@@ -2,6 +2,7 @@ import os
 import shutil
 import sys
 from datetime import datetime
+from pathlib import Path
 
 from PyQt5 import QtGui, QtWidgets
 
@@ -43,23 +44,45 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 self.load_param_file(file)
 
     def load_msg_enums(self):
-        directory = resource_path("res/msg/")
+        """
+        Load msg data for Settings
+        """
+        # Get current directory
+        current_path = os.getcwd()
+        enum_path = f"{current_path}{os.sep}msg{os.sep}"
+
+        # Check if there's an enum folder in current directory
+        if os.path.exists(enum_path) and os.path.isdir(enum_path):
+            directory = Path(enum_path)
+        else:
+            directory = resource_path("res/msg/")
+
+        # Load msg files from directory
         for path in directory.glob("*.msg"):
             if not path.is_file():
                 continue
-
             with open(path, "rb") as file:
                 data = file.read()
                 self.settings.add_enum_from_msg(path.stem, data)
 
     def load_settings(self):
+        """
+        Create Settings object and load data
+        """
         self.settings = Settings()
 
         # Add the enums from msg files
         self.load_msg_enums()
 
-        # Load other data
-        data = open(resource_path("res/settings.txt")).readlines()
+        # If settings exist, load from current location
+        # If not, load from resources folder
+        current_path = os.getcwd()
+        settings_path = f"{current_path}{os.sep}settings.txt"
+        if os.path.exists(settings_path):
+            data = open(settings_path).readlines()
+        else:
+            data = open(resource_path("res/settings.txt")).readlines()
+
         self.settings.load_enums_from_data(data)
         self.settings.load_fields_from_data(data)
 
