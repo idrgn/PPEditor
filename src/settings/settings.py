@@ -98,6 +98,9 @@ class Settings:
     def add_enum(self, name, description, values, null_value: str = None):
         self.enum_entries.append(SettingsEnum(name, description, values, null_value))
 
+    def delete_enum(self, name: str):
+        self.enum_entries = [item for item in self.enum_entries if item.name != name]
+
     def add_enum_from_msg(self, name, data):
         values = []
 
@@ -108,4 +111,8 @@ class Settings:
             entry_message = read_str_short(data, entry_index)
             values.append(entry_message)
 
+        enum_name = f"msg_{name}"
+
+        # Delete enum if there's duplicates
+        self.delete_enum(enum_name)
         self.enum_entries.append(SettingsEnum(f"msg_{name}", "", values, None))
