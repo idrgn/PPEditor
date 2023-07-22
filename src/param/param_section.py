@@ -41,10 +41,14 @@ class ParamSection:
         self.entry_list.remove(entry)
         self.update_entry_amount()
 
-    def add_entry(self, data: bytes = None):
+    def add_entry(self, data: bytes = None, after: int = None):
         if data is None:
             data = b"\x00" * self.entry_size
-        self.entry_list.append(ParamEntry(len(self.entry_list), self.settings, data))
+        param_entry = ParamEntry(len(self.entry_list), self.settings, data)
+        if after is None:
+            self.entry_list.append(param_entry)
+        else:
+            self.entry_list.insert(after, param_entry)
         self.update_entry_amount()
 
     def update_entry_amount(self):

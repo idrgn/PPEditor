@@ -295,10 +295,11 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         if save_index:
             self.cb_sections.setCurrentIndex(index)
 
-    def load_section_entries(self):
+    def load_section_entries(self, save_index: bool = False):
         """
         Loads entries
         """
+        index = self.cb_entries.currentIndex()
         self.cb_entries.clear()
         for entry in self.param.get_section_entries(self.cb_sections.currentIndex()):
             entry_name = entry.get_name()
@@ -306,6 +307,9 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 self.cb_entries.addItem(f"{entry.id}")
             else:
                 self.cb_entries.addItem(f"{entry.id}: {entry_name}")
+
+        if save_index:
+            self.cb_entries.setCurrentIndex(index)
 
     def update_selected_entry(self):
         """
@@ -444,9 +448,11 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         Adds new empty entry
         """
+        current_index = self.cb_entries.currentIndex()
         current_section = self.get_current_section()
-        current_section.add_entry()
-        self.load_section_entries()
+        current_section.add_entry(None, current_index + 1)
+        self.load_section_entries(True)
+        self.cb_entries.setCurrentIndex(current_index + 1)
         self.show_message("Added new entry")
 
     def add_section(self):
