@@ -197,9 +197,9 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             self.refresh()
             self.set_action_state(True)
             self.show_message(f"Loaded file {self.path}")
-            self.uptate_window_title()
+            self.update_window_title()
 
-    def uptate_window_title(self):
+    def update_window_title(self):
         """
         Updates window title, sets current filename
         """
@@ -226,7 +226,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             if self.check_backup.isChecked:
                 try:
                     shutil.copy(self.path, f"{self.path}.bak")
-                except PermissionError or FileNotFoundError as e:
+                except (PermissionError, FileNotFoundError) as e:
                     print(f"Error when saving backup: {e}")
 
         # Save file
@@ -261,7 +261,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             create_backup = self.path != file_name
             self.path = file_name
             self.save_param_file(create_backup)
-            self.uptate_window_title()
+            self.update_window_title()
 
     def refresh(self):
         """

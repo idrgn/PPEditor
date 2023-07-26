@@ -55,6 +55,6 @@ class QColorPickerField(QLineEdit):
     def update_aspect(self):
         red, green, blue, alpha = int_to_color(self.color)
         self.setStyleSheet(
-            "QLineEdit { background: rgba(%f, %f, %f, %f);}" % (red, green, blue, alpha)
+            f"QLineEdit {{ background: rgba({red:f}, {green:f}, {blue:f}, {alpha:f});}}"
         )
         self.setText(f"rgba({red}, {green}, {blue}, {alpha})")
