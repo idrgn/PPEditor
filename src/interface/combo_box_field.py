@@ -11,11 +11,11 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
-from param.param import Field
+from param.param_field import ParamField
 
 
 class QComboBoxField(QComboBox):
-    field_changed = pyqtSignal(Field)
+    field_changed = pyqtSignal(ParamField)
 
     def __init__(self, parent: typing.Optional[QWidget] = ...) -> None:
         super().__init__(parent)
@@ -24,7 +24,7 @@ class QComboBoxField(QComboBox):
         self.setDisabled(True)
         self.setView(QListView())
 
-    def set_field(self, field: Field):
+    def set_field(self, field: ParamField):
         if field.settings.enum:
             self.field = field
             entry_count = len(field.settings.enum.get_values())

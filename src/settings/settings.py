@@ -1,57 +1,13 @@
 from data import parse_bool, parse_int, read_int, read_str_short
-
-
-class SettingsEnumEntry:
-    def __init__(
-        self, name: str, description: str, values: list, null_value: str = None
-    ) -> None:
-        self.name = name
-        self.description = description
-        self.values = values
-        self.null_value = null_value
-
-    def get_values(self):
-        if self.null_value is not None:
-            return [self.null_value] + self.values
-        else:
-            return self.values
-
-    def get_value(self, index: int):
-        if index == -1:
-            return self.null_value
-        else:
-            if index >= len(self.values):
-                return "Unknown"
-            else:
-                return self.values[index]
-
-
-class SettingsFieldEntry:
-    def __init__(
-        self,
-        id: int,
-        section: int,
-        addresss: int,
-        size: int,
-        name: str,
-        description: str,
-        type: str,
-        shown: bool = False,
-        enum: SettingsEnumEntry = None,
-    ) -> None:
-        self.id = id
-        self.section = section
-        self.address = addresss
-        self.size = size
-        self.name = name
-        self.description = description
-        self.type = type
-        self.shown = shown
-        self.enum = enum
+from settings.settings_enum import SettingsEnum
+from settings.settings_field import SettingsField
 
 
 class Settings:
-    def __init__(self, data: list = []) -> None:
+    def __init__(self, data=None) -> None:
+        if data is None:
+            data = []
+
         self.enum_entries = []
         self.field_entries = []
 
@@ -69,19 +25,19 @@ class Settings:
                 row_entries.append("")
 
             (
-                id,
+                field_id,
                 section,
                 address,
                 size,
                 name,
                 description,
-                type,
+                field_type,
                 shown,
                 has_enum,
                 enum_name,
             ) = [e.strip() for e in row_entries]
 
-            id = int(id)
+            field_id = int(field_id)
 
             if section != "*":
                 section = int(section)
@@ -98,14 +54,14 @@ class Settings:
                 enum = None
 
             self.field_entries.append(
-                SettingsFieldEntry(
-                    id,
+                SettingsField(
+                    field_id,
                     section,
                     address,
                     size,
                     name,
                     description,
-                    type,
+                    field_type,
                     shown,
                     enum,
                 )
@@ -136,13 +92,14 @@ class Settings:
         else:
             return [entry for entry in self.field_entries if entry.id == param_id]
 
-    def get_enum(self, enum_name: str) -> SettingsEnumEntry:
+    def get_enum(self, enum_name: str) -> SettingsEnum:
         return [enum for enum in self.enum_entries if enum.name == enum_name][0]
 
     def add_enum(self, name, description, values, null_value: str = None):
-        self.enum_entries.append(
-            SettingsEnumEntry(name, description, values, null_value)
-        )
+        self.enum_entries.append(SettingsEnum(name, description, values, null_value))
+
+    def delete_enum(self, name: str):
+        self.enum_entries = [item for item in self.enum_entries if item.name != name]
 
     def add_enum_from_msg(self, name, data):
         values = []
@@ -154,4 +111,8 @@ class Settings:
             entry_message = read_str_short(data, entry_index)
             values.append(entry_message)
 
-        self.enum_entries.append(SettingsEnumEntry(f"msg_{name}", None, values, None))
+        enum_name = f"msg_{name}"
+
+        # Delete enum if there's duplicates
+        self.delete_enum(enum_name)
+        self.enum_entries.append(SettingsEnum(f"msg_{name}", "", values, None))
