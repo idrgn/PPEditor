@@ -14,6 +14,7 @@ class QLineEditField(QLineEdit):
     def __init__(self, parent: typing.Optional[QWidget] = ...) -> None:
         super().__init__(parent)
         self.field = None
+        self.original_value = None
 
     def set_field(self, field: ParamField):
         self.field = field

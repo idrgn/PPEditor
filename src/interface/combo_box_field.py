@@ -70,7 +70,7 @@ class QComboBoxField(QComboBox):
         list_dialog = ListDialog(self.field.settings.enum.get_values(), index)
         if list_dialog.exec_() == QDialog.Accepted:
             selected_item, selected_index = list_dialog.get_selected_item()
-            if selected_item == None and selected_index == -1:
+            if selected_item is None and selected_index == -1:
                 return
             self.setItemText(0, selected_item)
             if self.field.settings.enum.null_value is not None:
