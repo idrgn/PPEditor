@@ -14,6 +14,7 @@ from interface.color_picker_field import QColorPickerField
 from interface.combo_box_field import QComboBoxField
 from interface.line_edit_field import QLineEditField
 from interface.raw_data_edit import RawDataEditWindow
+from interface.warning_window import WarningWindow
 from param.param import Param
 from settings.settings import Settings
 
@@ -190,14 +191,17 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         with open(file, "rb") as f:
             data = f.read()
             self.path = file
-            self.param.load_from_data(data)
-            self.output_path = os.path.dirname(os.path.abspath(self.path))
-            self.file_name = os.path.basename(os.path.abspath(self.path))
-            self.lb_file_name.setText(f"Filename: {self.file_name}")
-            self.refresh()
-            self.set_action_state(True)
-            self.show_message(f"Loaded file {self.path}")
-            self.uptate_window_title()
+            data_loaded = self.param.load_from_data(data)
+
+            # Only update stuff if the file loaded is a valid param file
+            if data_loaded:
+                self.output_path = os.path.dirname(os.path.abspath(self.path))
+                self.file_name = os.path.basename(os.path.abspath(self.path))
+                self.lb_file_name.setText(f"Filename: {self.file_name}")
+                self.refresh()
+                self.set_action_state(True)
+                self.show_message(f"Loaded file {self.path}")
+                self.uptate_window_title()
 
     def uptate_window_title(self):
         """
@@ -224,17 +228,29 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         # Save backup if enabled in settings
         if not ignore_backup:
             if self.check_backup.isChecked:
-                try:
-                    shutil.copy(self.path, f"{self.path}.bak")
-                except PermissionError or FileNotFoundError as e:
-                    print(f"Error when saving backup: {e}")
+                backup_path = f"{self.path}.bak"
+                if not os.path.isdir(backup_path):
+                    try:
+                        shutil.copy(self.path, backup_path)
+                    except PermissionError or FileNotFoundError as e:
+                        error_message = "Error", f"Error when saving backup: {e}"
+                        warning_window = WarningWindow(error_message)
+                        warning_window.exec_()
+                        print(error_message)
 
         # Save file
         if self.path and self.param:
             data_to_save = self.param.to_bytes()
-            with open(self.path, "wb") as f:
-                f.write(data_to_save)
-            self.show_message(f"Saved file {self.path}")
+            try:
+                with open(self.path, "wb") as f:
+                    f.write(data_to_save)
+                self.show_message(f"Saved file {self.path}")
+            except OSError as e:
+                error_message = f"Error when saving file: {e}"
+                warning_window = WarningWindow("Error", error_message)
+                warning_window.exec_()
+                self.show_message(error_message)
+                print(error_message)
 
     def save_param_file_as(self):
         """

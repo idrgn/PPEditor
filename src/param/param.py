@@ -45,7 +45,7 @@ class Param:
         # Load all entry data
         self._process_data(data)
 
-    def load_from_data(self, data: bytes = b""):
+    def load_from_data(self, data: bytes = b"") -> bool:
         """
         Loads from data
         Args:
@@ -54,7 +54,7 @@ class Param:
 
         # Return if data file is not valid
         if data == b"" or read_byte_array(data, 0x0, 0x8) != PARAM_HEADER:
-            return
+            return False
 
         self.set_default_values()
 
@@ -63,6 +63,8 @@ class Param:
 
         # Load all entry data
         self._process_data(data)
+
+        return True
 
     def set_default_values(self):
         """
