@@ -1,4 +1,5 @@
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QTextEdit, QVBoxLayout
 
 from data import validate_byte_string
@@ -12,6 +13,14 @@ class RawDataEditWindow(QDialog):
         self.original_length = len(text)
 
         self.text_edit = QTextEdit()
+
+        font = QFont()
+        font.setFamily("Roboto Mono")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.text_edit.setFont(font)
+
         self.text_edit.setText(text)
         self.text_edit.textChanged.connect(self.text_changed)
 

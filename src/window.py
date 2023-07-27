@@ -21,6 +21,7 @@ from settings.settings import Settings
 
 class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
     def __init__(self):
+        QtGui.QFontDatabase.addApplicationFont(resource_path("res/font.ttf").as_posix())
         super().__init__()
         self.file_name = None
         self.output_path = None

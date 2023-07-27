@@ -61,8 +61,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>599</width>
-               <height>530</height>
+               <width>611</width>
+               <height>552</height>
               </rect>
              </property>
              <layout class="QFormLayout" name="fl_fields">
@@ -147,6 +147,14 @@
            <widget class="QTextEdit" name="te_raw_data">
             <property name="enabled">
              <bool>true</bool>
+            </property>
+            <property name="font">
+             <font>
+              <family>Roboto Mono</family>
+              <pointsize>10</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
             </property>
             <property name="locale">
              <locale language="English" country="UnitedStates"/>
@@ -387,7 +395,7 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
