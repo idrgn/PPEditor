@@ -1,10 +1,10 @@
-import sys
 import typing
 
 from PyQt5 import QtGui
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QLineEdit, QWidget
 
+from interface.float_validator import FloatValidator
 from param.param_field import ParamField
 
 
@@ -39,11 +39,12 @@ class QLineEditField(QLineEdit):
         elif type == "bool":
             validator.setRange(0, 1)
         elif type == "float":
-            validator = QtGui.QDoubleValidator()
-            validator.setRange(sys.float_info.min, sys.float_info.max)
+            validator = FloatValidator(-3.4028235e38, 3.4028235e38)
         elif type == "str" or type == "string":
             validator = None
             self.setMaxLength(size - 1)
+        else:
+            validator = None
 
         if validator is not None:
             self.setValidator(validator)
