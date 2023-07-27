@@ -204,10 +204,12 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             if data_loaded:
                 self.output_path = os.path.dirname(os.path.abspath(self.path))
                 self.file_name = os.path.basename(os.path.abspath(self.path))
-                self.lb_file_name.setText(f"Filename: {self.file_name}")
+                self.lb_file_name.setText(
+                    f"Filename: {self.file_name} ({self.param.id})"
+                )
                 self.refresh()
                 self.set_action_state(True)
-                self.show_message(f"Loaded file {self.path}")
+                self.show_message(f"Loaded file {self.path} with ID {self.param.id}")
                 self.update_window_title()
 
     def update_window_title(self):
