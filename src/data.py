@@ -141,9 +141,6 @@ def int_to_color(value: int) -> tuple:
     blue = (value >> 16) & 0xFF
     green = (value >> 8) & 0xFF
     red = value & 0xFF
-
-    alpha = (alpha / 255) * 100
-
     return red, green, blue, alpha
 
 
@@ -153,7 +150,6 @@ def color_to_int(color: tuple) -> int:
     except ValueError as _:
         red, green, blue = color
         alpha = 100.0
-    alpha = int((alpha / 100) * 255)
     return (alpha << 24) + (int(blue) << 16) + (int(green) << 8) + int(red)
 
 
