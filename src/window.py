@@ -301,6 +301,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         index = self.cb_entries.currentIndex()
         self.cb_entries.clear()
+
         for entry in self.param.get_section_entries(self.cb_sections.currentIndex()):
             entry_name = entry.get_name()
             if not entry_name:
@@ -310,6 +311,8 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
 
         if save_index:
             self.cb_entries.setCurrentIndex(index)
+        else:
+            self.cb_entries.setCurrentIndex(0)
 
     def update_selected_entry(self):
         """
@@ -319,10 +322,10 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.sc.setVisible(False)
         self.clear_form_items()
 
-        current_section = self.cb_sections.currentIndex()
-        current_entry = self.cb_entries.currentIndex()
+        entry = self.get_current_entry()
 
-        entry = self.param.get_section_entry(current_section, current_entry)
+        if entry is None:
+            return
 
         for field in entry.fields:
             label = QtWidgets.QLabel(field.settings.name)
@@ -412,6 +415,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             return
 
         current_entry = self.get_current_entry()
+
         if current_entry is None:
             return
 
@@ -435,10 +439,15 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             return
 
         current_entry = self.get_current_entry()
+
         if current_entry is None:
             return
 
         current_section = self.get_current_section()
+
+        if current_section is None:
+            return
+
         current_section.remove_entry(current_entry)
 
         self.cb_entries.removeItem(self.cb_entries.currentIndex())
@@ -450,6 +459,10 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         current_index = self.cb_entries.currentIndex()
         current_section = self.get_current_section()
+
+        if current_section is None:
+            return
+
         current_section.add_entry(None, current_index + 1)
         self.load_section_entries(True)
         self.cb_entries.setCurrentIndex(current_index + 1)
@@ -484,6 +497,10 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         Opens an editor to edit raw data
         """
         entry = self.get_current_entry()
+
+        if entry is None:
+            return
+
         text = bytes_to_string(entry.to_bytes())
         text_editor = RawDataEditWindow(self, text)
         if text_editor.exec_() == QtWidgets.QDialog.Accepted:
