@@ -84,7 +84,13 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 continue
             with open(path, "rb") as file:
                 data = file.read()
-                self.settings.add_enum_from_msg(path.stem, data)
+                try:
+                    self.settings.add_enum_from_msg(path.stem, data)
+                except Exception as e:
+                    error_message = f"Error when loading msg file: {e}"
+                    warning_window = WarningWindow("Error", error_message)
+                    warning_window.exec_()
+                    print(error_message)
 
     def load_settings(self):
         """
@@ -233,8 +239,8 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                     try:
                         shutil.copy(self.path, backup_path)
                     except PermissionError or FileNotFoundError as e:
-                        error_message = "Error", f"Error when saving backup: {e}"
-                        warning_window = WarningWindow(error_message)
+                        error_message = f"Error when saving backup: {e}"
+                        warning_window = WarningWindow("Error", error_message)
                         warning_window.exec_()
                         print(error_message)
 
