@@ -203,17 +203,21 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             self.path = file
             data_loaded = self.param.load_from_data(data)
 
-            # Only update stuff if the file loaded is a valid param file
-            if data_loaded:
-                self.output_path = os.path.dirname(os.path.abspath(self.path))
-                self.file_name = os.path.basename(os.path.abspath(self.path))
-                self.lb_file_name.setText(
-                    f"Filename: {self.file_name} ({self.param.id})"
+            # Show error if param file is not loaded properly
+            if not data_loaded:
+                self.show_errow_window(
+                    "Error when loading file: Not a valid param file"
                 )
-                self.refresh()
-                self.set_action_state(True)
-                self.show_message(f"Loaded file {self.path} with ID {self.param.id}")
-                self.update_window_title()
+                return
+
+            # Only update stuff if the file loaded is a valid param file
+            self.output_path = os.path.dirname(os.path.abspath(self.path))
+            self.file_name = os.path.basename(os.path.abspath(self.path))
+            self.lb_file_name.setText(f"Filename: {self.file_name} ({self.param.id})")
+            self.refresh()
+            self.set_action_state(True)
+            self.show_message(f"Loaded file {self.path} with ID {self.param.id}")
+            self.update_window_title()
 
     def update_window_title(self):
         """
