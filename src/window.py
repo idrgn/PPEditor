@@ -2,6 +2,7 @@ import os
 import shutil
 import sys
 from datetime import datetime
+from itertools import chain
 from pathlib import Path
 
 from PyQt5 import QtGui, QtWidgets
@@ -80,8 +81,12 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         else:
             directory = resource_path("res/msg/")
 
-        # Load msg files from directory
-        for path in directory.glob("*.msg"):
+        # Get all .pac and .msg files
+        pac_files = directory.glob("*.pac")
+        msg_files = directory.glob("*.msg")
+
+        # Load files
+        for path in chain(pac_files, msg_files):
             if not path.is_file():
                 continue
             with open(path, "rb") as file:
