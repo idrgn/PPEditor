@@ -120,8 +120,13 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         else:
             data = open(resource_path("res/settings.txt")).readlines()
 
-        self.settings.load_enums_from_data(data)
-        self.settings.load_fields_from_data(data)
+        try:
+            self.settings.load_enums_from_data(data)
+            self.settings.load_fields_from_data(data)
+        except Exception as _:
+            self.show_errow_window(
+                "Error processing settings file: Couldn't parse file"
+            )
 
     def update_settings(self):
         """
