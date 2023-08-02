@@ -7,6 +7,7 @@ from pathlib import Path
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
 
+from const import ERROR_TITLE
 from data import bytes_to_string, resource_path, string_to_bytes, validate_byte_string
 from interface import main_window
 from interface.check_box_field import QCheckBoxField
@@ -88,10 +89,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 try:
                     self.settings.add_enum_from_msg(path.stem, data)
                 except Exception as e:
-                    error_message = f"Error when loading msg file: {e}"
-                    warning_window = WarningWindow("Error", error_message)
-                    warning_window.exec_()
-                    print(error_message)
+                    self.show_errow_window(f"Error when loading msg file {path}:\n{e}")
 
     def load_settings(self):
         """
@@ -229,6 +227,14 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             return
         self.load_param_file(self.path)
 
+    def show_errow_window(self, message):
+        """
+        Shows an error window
+        """
+        warning_window = WarningWindow(ERROR_TITLE, message)
+        warning_window.exec_()
+        print(message)
+
     def save_param_file(self, ignore_backup: bool = False):
         """
         Saves Param file
@@ -241,12 +247,14 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 if not os.path.isdir(backup_path):
                     try:
                         shutil.copy(self.path, backup_path)
-                    except (PermissionError, FileNotFoundError) as e:
-                        error_message = f"Error when saving backup: {e}"
-                        warning_window = WarningWindow("Error", error_message)
-                        warning_window.exec_()
-                        print(error_message)
-
+                    except PermissionError as _:
+                        self.show_errow_window(
+                            "Error when saving backup: No permissions"
+                        )
+                    except FileNotFoundError as _:
+                        self.show_errow_window(
+                            "Error when saving backup: File doesn't exist"
+                        )
         # Save file
         if self.path and self.param:
             data_to_save = self.param.to_bytes()
@@ -254,12 +262,8 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 with open(self.path, "wb") as f:
                     f.write(data_to_save)
                 self.show_message(f"Saved file {self.path}")
-            except OSError as e:
-                error_message = f"Error when saving file: {e}"
-                warning_window = WarningWindow("Error", error_message)
-                warning_window.exec_()
-                self.show_message(error_message)
-                print(error_message)
+            except OSError as _:
+                self.show_errow_window("Error when saving file: File can't be opened")
 
     def save_param_file_as(self):
         """

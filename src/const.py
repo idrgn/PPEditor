@@ -1,1 +1,2 @@
 PARAM_HEADER = b"YGF_GFP\x00"
+ERROR_TITLE = "Error"
