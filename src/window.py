@@ -110,7 +110,13 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         current_path = os.getcwd()
         settings_path = f"{current_path}{os.sep}settings.txt"
         if os.path.exists(settings_path):
-            data = open(settings_path).readlines()
+            try:
+                data = open(settings_path).readlines()
+            except UnicodeDecodeError as _:
+                data = open(resource_path("res/settings.txt")).readlines()
+                self.show_errow_window(
+                    "Error loading external settings file: File can't be decoded"
+                )
         else:
             data = open(resource_path("res/settings.txt")).readlines()
 
@@ -264,6 +270,11 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                         self.show_errow_window(
                             "Error when saving backup: File doesn't exist"
                         )
+                    except OSError as _:
+                        self.show_errow_window(
+                            "Error when saving backup: File can't be opened"
+                        )
+
         # Save file
         if self.path and self.param:
             data_to_save = self.param.to_bytes()
