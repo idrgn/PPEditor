@@ -117,6 +117,11 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 self.show_errow_window(
                     "Error loading external settings file: File can't be decoded"
                 )
+            except Exception as e:
+                data = open(resource_path("res/settings.txt")).readlines()
+                self.show_errow_window(
+                    f"Error loading external settings file:\n{e}"
+                )
         else:
             data = open(resource_path("res/settings.txt")).readlines()
 
@@ -279,6 +284,10 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                         self.show_errow_window(
                             "Error when saving backup: File can't be opened"
                         )
+                    except Exception as e:
+                        self.show_errow_window(
+                            f"Error when saving backup:\n{e}"
+                        )
 
         # Save file
         if self.path and self.param:
@@ -287,8 +296,12 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
                 with open(self.path, "wb") as f:
                     f.write(data_to_save)
                 self.show_message(f"Saved file {self.path}")
+            except PermissionError as _:
+                self.show_errow_window("Error when saving file: No permissions")
             except OSError as _:
                 self.show_errow_window("Error when saving file: File can't be opened")
+            except Exception as e:
+                self.show_errow_window(f"Error when saving file:\n{e}")
 
     def save_param_file_as(self):
         """
