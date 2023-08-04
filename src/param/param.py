@@ -27,6 +27,7 @@ class Param:
         self.sections_amount = None
         self.unk1 = None
         self.ptr = None
+        self.has_data = False
         self.settings = settings
         self.set_default_values()
 
@@ -44,7 +45,7 @@ class Param:
         # Load all entry data
         self._process_data(data)
 
-    def load_from_data(self, data: bytes = b""):
+    def load_from_data(self, data: bytes = b"") -> bool:
         """
         Loads from data
         Args:
@@ -53,7 +54,7 @@ class Param:
 
         # Return if data file is not valid
         if data == b"" or read_byte_array(data, 0x0, 0x8) != PARAM_HEADER:
-            return
+            return False
 
         self.set_default_values()
 
@@ -62,6 +63,8 @@ class Param:
 
         # Load all entry data
         self._process_data(data)
+
+        return True
 
     def set_default_values(self):
         """
@@ -82,6 +85,7 @@ class Param:
         # Other
         self.entry_list = []
         self.is_modified = False
+        self.has_data = False
 
     def _parse_header(self, data: bytes):
         """
@@ -132,10 +136,15 @@ class Param:
             section_info_offset += 0x8
             data_offset += len(raw_data)
 
+        self.has_data = True
+
     def reload_settings(self, settings: Settings):
-        current_data = self.to_bytes()
-        self.settings = settings
-        self.load_from_data(current_data)
+        if self.has_data:
+            current_data = self.to_bytes()
+            self.settings = settings
+            self.load_from_data(current_data)
+        else:
+            self.settings = settings
 
     def get_section_entry_amount(self, section_index: int = 0) -> int | None:
         if section_index > len(self.section_list):
@@ -152,11 +161,11 @@ class Param:
     def get_section_entry(
         self, section_index: int = 0, entry_index: int = 0
     ) -> ParamEntry | None:
-        if section_index > len(self.section_list):
+        if section_index not in range(len(self.section_list)):
             return None
         else:
             section = self.section_list[section_index]
-            if entry_index > len(section.entry_list):
+            if entry_index not in range(len(section.entry_list)):
                 return None
             else:
                 return section.entry_list[entry_index]

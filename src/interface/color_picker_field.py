@@ -1,8 +1,8 @@
 import typing
 
 from PyQt5.QtCore import Qt, pyqtSignal
-from PyQt5.QtWidgets import QLineEdit, QWidget
-from vcolorpicker import getColor, useAlpha
+from PyQt5.QtGui import QColor
+from PyQt5.QtWidgets import QColorDialog, QLineEdit, QWidget
 
 from data import color_to_int, int_to_color
 from param.param_field import ParamField
@@ -11,8 +11,6 @@ from param.param_field import ParamField
 class QColorPickerField(QLineEdit):
     field_changed = pyqtSignal(ParamField)
     clicked = pyqtSignal()
-
-    useAlpha(True)
 
     def __init__(self, parent: typing.Optional[QWidget] = ...) -> None:
         super().__init__(parent)
@@ -43,14 +41,21 @@ class QColorPickerField(QLineEdit):
 
     def get_new_color(self):
         if self.color is None:
-            new_color = color_to_int(getColor())
+            base_color = QColor(255, 255, 255, 255)
         else:
-            old_color = int_to_color(self.color)
-            new_color = color_to_int(getColor(old_color))
-        self.field.set_value(new_color)
-        self.field_changed.emit(self.field)
-        self.color = new_color
-        self.update_aspect()
+            red, green, blue, alpha = int_to_color(self.color)
+            base_color = QColor(red, green, blue, alpha)
+
+        color = QColorDialog.getColor(
+            base_color, self, "Select Color", options=QColorDialog.ShowAlphaChannel
+        )
+
+        if color.isValid():
+            new_color = color_to_int(color.getRgb())
+            self.field.set_value(new_color)
+            self.field_changed.emit(self.field)
+            self.color = new_color
+            self.update_aspect()
 
     def update_aspect(self):
         red, green, blue, alpha = int_to_color(self.color)

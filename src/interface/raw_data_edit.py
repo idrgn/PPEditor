@@ -1,4 +1,5 @@
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QTextEdit, QVBoxLayout
 
 from data import validate_byte_string
@@ -9,7 +10,17 @@ class RawDataEditWindow(QDialog):
         super().__init__(parent)
         self.setWindowTitle("Editing Raw Data")
 
+        self.original_length = len(text)
+
         self.text_edit = QTextEdit()
+
+        font = QFont()
+        font.setFamily("Roboto Mono")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        self.text_edit.setFont(font)
+
         self.text_edit.setText(text)
         self.text_edit.textChanged.connect(self.text_changed)
 
@@ -37,9 +48,17 @@ class RawDataEditWindow(QDialog):
 
     def text_changed(self):
         text = self.text_edit.toPlainText()
+        message = ""
+        enabled = False
+
         if validate_byte_string(text):
-            self.format_label.setText("")
-            self.save_button.setEnabled(True)
+            current_length = len(text)
+            if self.original_length == current_length:
+                enabled = True
+            else:
+                message = f"Invalid data length (current: {current_length}, original:{self.original_length})"
         else:
-            self.format_label.setText("Incorrect format")
-            self.save_button.setEnabled(False)
+            message = "Incorrect format"
+
+        self.format_label.setText(message)
+        self.save_button.setEnabled(enabled)

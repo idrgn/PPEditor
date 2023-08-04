@@ -2,11 +2,13 @@ import os
 import shutil
 import sys
 from datetime import datetime
+from itertools import chain
 from pathlib import Path
 
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
 
+from const import ERROR_TITLE
 from data import bytes_to_string, resource_path, string_to_bytes, validate_byte_string
 from interface import main_window
 from interface.check_box_field import QCheckBoxField
@@ -14,12 +16,14 @@ from interface.color_picker_field import QColorPickerField
 from interface.combo_box_field import QComboBoxField
 from interface.line_edit_field import QLineEditField
 from interface.raw_data_edit import RawDataEditWindow
+from interface.warning_window import WarningWindow
 from param.param import Param
 from settings.settings import Settings
 
 
 class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
     def __init__(self):
+        QtGui.QFontDatabase.addApplicationFont(resource_path("res/font.ttf").as_posix())
         super().__init__()
         self.file_name = None
         self.output_path = None
@@ -77,13 +81,20 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         else:
             directory = resource_path("res/msg/")
 
-        # Load msg files from directory
-        for path in directory.glob("*.msg"):
+        # Get all .pac and .msg files
+        pac_files = directory.glob("*.pac")
+        msg_files = directory.glob("*.msg")
+
+        # Load files
+        for path in chain(pac_files, msg_files):
             if not path.is_file():
                 continue
             with open(path, "rb") as file:
                 data = file.read()
-                self.settings.add_enum_from_msg(path.stem, data)
+                try:
+                    self.settings.add_enum_from_msg(path.stem, data)
+                except Exception as e:
+                    self.show_errow_window(f"Error when loading msg file {path}:\n{e}")
 
     def load_settings(self):
         """
@@ -99,12 +110,28 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         current_path = os.getcwd()
         settings_path = f"{current_path}{os.sep}settings.txt"
         if os.path.exists(settings_path):
-            data = open(settings_path).readlines()
+            try:
+                data = open(settings_path).readlines()
+            except UnicodeDecodeError as _:
+                data = open(resource_path("res/settings.txt")).readlines()
+                self.show_errow_window(
+                    "Error loading external settings file: File can't be decoded"
+                )
+            except Exception as e:
+                data = open(resource_path("res/settings.txt")).readlines()
+                self.show_errow_window(
+                    f"Error loading external settings file:\n{e}"
+                )
         else:
             data = open(resource_path("res/settings.txt")).readlines()
 
-        self.settings.load_enums_from_data(data)
-        self.settings.load_fields_from_data(data)
+        try:
+            self.settings.load_enums_from_data(data)
+            self.settings.load_fields_from_data(data)
+        except Exception as _:
+            self.show_errow_window(
+                "Error processing settings file: Couldn't parse file"
+            )
 
     def update_settings(self):
         """
@@ -190,13 +217,22 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         with open(file, "rb") as f:
             data = f.read()
             self.path = file
-            self.param.load_from_data(data)
+            data_loaded = self.param.load_from_data(data)
+
+            # Show error if param file is not loaded properly
+            if not data_loaded:
+                self.show_errow_window(
+                    "Error when loading file: Not a valid param file"
+                )
+                return
+
+            # Only update stuff if the file loaded is a valid param file
             self.output_path = os.path.dirname(os.path.abspath(self.path))
             self.file_name = os.path.basename(os.path.abspath(self.path))
-            self.lb_file_name.setText(f"Filename: {self.file_name}")
+            self.lb_file_name.setText(f"Filename: {self.file_name} ({self.param.id})")
             self.refresh()
             self.set_action_state(True)
-            self.show_message(f"Loaded file {self.path}")
+            self.show_message(f"Loaded file {self.path} with ID {self.param.id}")
             self.update_window_title()
 
     def update_window_title(self):
@@ -216,6 +252,14 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             return
         self.load_param_file(self.path)
 
+    def show_errow_window(self, message):
+        """
+        Shows an error window
+        """
+        warning_window = WarningWindow(ERROR_TITLE, message)
+        warning_window.exec_()
+        print(message)
+
     def save_param_file(self, ignore_backup: bool = False):
         """
         Saves Param file
@@ -224,17 +268,40 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         # Save backup if enabled in settings
         if not ignore_backup:
             if self.check_backup.isChecked:
-                try:
-                    shutil.copy(self.path, f"{self.path}.bak")
-                except (PermissionError, FileNotFoundError) as e:
-                    print(f"Error when saving backup: {e}")
+                backup_path = f"{self.path}.bak"
+                if not os.path.isdir(backup_path):
+                    try:
+                        shutil.copy(self.path, backup_path)
+                    except PermissionError as _:
+                        self.show_errow_window(
+                            "Error when saving backup: No permissions"
+                        )
+                    except FileNotFoundError as _:
+                        self.show_errow_window(
+                            "Error when saving backup: File doesn't exist"
+                        )
+                    except OSError as _:
+                        self.show_errow_window(
+                            "Error when saving backup: File can't be opened"
+                        )
+                    except Exception as e:
+                        self.show_errow_window(
+                            f"Error when saving backup:\n{e}"
+                        )
 
         # Save file
         if self.path and self.param:
             data_to_save = self.param.to_bytes()
-            with open(self.path, "wb") as f:
-                f.write(data_to_save)
-            self.show_message(f"Saved file {self.path}")
+            try:
+                with open(self.path, "wb") as f:
+                    f.write(data_to_save)
+                self.show_message(f"Saved file {self.path}")
+            except PermissionError as _:
+                self.show_errow_window("Error when saving file: No permissions")
+            except OSError as _:
+                self.show_errow_window("Error when saving file: File can't be opened")
+            except Exception as e:
+                self.show_errow_window(f"Error when saving file:\n{e}")
 
     def save_param_file_as(self):
         """
@@ -301,6 +368,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         index = self.cb_entries.currentIndex()
         self.cb_entries.clear()
+
         for entry in self.param.get_section_entries(self.cb_sections.currentIndex()):
             entry_name = entry.get_name()
             if not entry_name:
@@ -310,6 +378,8 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
 
         if save_index:
             self.cb_entries.setCurrentIndex(index)
+        else:
+            self.cb_entries.setCurrentIndex(0)
 
     def update_selected_entry(self):
         """
@@ -319,10 +389,10 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         self.sc.setVisible(False)
         self.clear_form_items()
 
-        current_section = self.cb_sections.currentIndex()
-        current_entry = self.cb_entries.currentIndex()
+        entry = self.get_current_entry()
 
-        entry = self.param.get_section_entry(current_section, current_entry)
+        if entry is None:
+            return
 
         for field in entry.fields:
             label = QtWidgets.QLabel(field.settings.name)
@@ -412,6 +482,7 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             return
 
         current_entry = self.get_current_entry()
+
         if current_entry is None:
             return
 
@@ -435,10 +506,15 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
             return
 
         current_entry = self.get_current_entry()
+
         if current_entry is None:
             return
 
         current_section = self.get_current_section()
+
+        if current_section is None:
+            return
+
         current_section.remove_entry(current_entry)
 
         self.cb_entries.removeItem(self.cb_entries.currentIndex())
@@ -450,6 +526,10 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         """
         current_index = self.cb_entries.currentIndex()
         current_section = self.get_current_section()
+
+        if current_section is None:
+            return
+
         current_section.add_entry(None, current_index + 1)
         self.load_section_entries(True)
         self.cb_entries.setCurrentIndex(current_index + 1)
@@ -484,6 +564,10 @@ class Application(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         Opens an editor to edit raw data
         """
         entry = self.get_current_entry()
+
+        if entry is None:
+            return
+
         text = bytes_to_string(entry.to_bytes())
         text_editor = RawDataEditWindow(self, text)
         if text_editor.exec_() == QtWidgets.QDialog.Accepted:

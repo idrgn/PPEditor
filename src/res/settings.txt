@@ -199,7 +199,7 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 
 ## Generatorparam
 # Section 0 - Gimcs
-3;0;0x00;0x17;Name;Internal name;str;True
+# 3;0;0x00;0x17;Name;Internal name;str;True
 
 
 ## Gimmickparam
