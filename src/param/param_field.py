@@ -1,6 +1,7 @@
 from struct import pack
 
 from data import (
+    bytearray_to_string,
     read_bool,
     read_char,
     read_float,
@@ -53,7 +54,10 @@ class ParamField:
         elif t == "float":
             self.value = read_float(data)
         elif t == "str" or t == "string":
-            self.value = read_str(data)
+            try:
+                self.value = bytearray_to_string(data)
+            except Exception as _:
+                self.value = read_str(data)
         else:
             self.value = None
 

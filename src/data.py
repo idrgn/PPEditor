@@ -101,6 +101,24 @@ def string_to_bytearray(string: str, required_size: int = None) -> bytes:
     return ba
 
 
+def bytearray_to_string(byte_array: bytearray) -> str:
+    last_non_zero_index = len(byte_array) - 1
+    while last_non_zero_index >= 0 and byte_array[last_non_zero_index] == 0:
+        last_non_zero_index -= 1
+
+    trimmed_byte_array = byte_array[: last_non_zero_index + 1]
+
+    try:
+        decoded_str = trimmed_byte_array.decode("utf-8")
+    except UnicodeDecodeError:
+        try:
+            decoded_str = trimmed_byte_array.decode("shift_jis")
+        except UnicodeDecodeError:
+            decoded_str = None
+
+    return decoded_str
+
+
 def sizeof_fmt_new(num: int, suffix: str = "B") -> str:
     for unit in ("", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"):
         if abs(num) < 1024.0:
