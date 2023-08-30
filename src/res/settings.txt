@@ -39,12 +39,18 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 1;0;0x02c;0x04;Class type;;int;False;True;class_type
 1;0;0x028;0x04;Class tree;;int
 1;0;0x03c;0x04;Class tree;;int
-1;0;0x0e8;0x04;Reset item [1];;int
-1;0;0x0ec;0x04;Reset item [2];;int
-1;0;0x0f0;0x04;Reset item [3];;int
-1;0;0x0f4;0x04;Reset item [4];;int
-1;0;0x0f8;0x04;Reset item [5];;int
-1;0;0x0fc;0x04;Reset item [6];;int
+1;0;0x0c8;0x04;Pon reset item 1;;int
+1;0;0x0cc;0x04;Pon reset item 2;;int
+1;0;0x0d0;0x04;Pon reset item 3;;int
+1;0;0x0d4;0x04;Pon reset item 4;;int
+1;0;0x0d8;0x04;Pon reset item 5;;int
+1;0;0x0dc;0x04;Pon reset item 6;;int
+1;0;0x0e8;0x04;Hero reset item 1;;int
+1;0;0x0ec;0x04;Hero reset item 2;;int
+1;0;0x0f0;0x04;Hero reset item 3;;int
+1;0;0x0f4;0x04;Hero reset item 4;;int
+1;0;0x0f8;0x04;Hero reset item 5;;int
+1;0;0x0fc;0x04;Hero reset item 6;;int
 1;0;0x080;0x0f;Icon model;Class icon, can be seen at barracks;str
 # Section 2 - Item unlocks
 1;1;0x000;0x1f;Name;Internal name;str;True
@@ -107,28 +113,28 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 2;*;0x09c;0x04;*d vs stone;Damage multiplier vs stone;float
 2;*;0x0a0;0x04;*d vs metal;Damage multiplier vs metal;float
 
-2;*;0x10a;0x01;critical immunity;;char
-2;*;0x10b;0x01;knockback immunity;;char
-2;*;0x10c;0x01;stagger immunity;;char
-2;*;0x10d;0x01;burn immunity;;char
-2;*;0x10e;0x01;sleep immunity;;char
-2;*;0x10f;0x01;freeze immunity;;char
-2;*;0x110;0x01;poison immunity;;char
-2;*;0x111;0x01;tumble immunity;;char
+2;*;0x10a;0x01;critical immunity;;uchar
+2;*;0x10b;0x01;knockback immunity;;uchar
+2;*;0x10c;0x01;stagger immunity;;uchar
+2;*;0x10d;0x01;burn immunity;;uchar
+2;*;0x10e;0x01;sleep immunity;;uchar
+2;*;0x10f;0x01;freeze immunity;;uchar
+2;*;0x110;0x01;poison immunity;;uchar
+2;*;0x111;0x01;tumble immunity;;uchar
 
-2;*;0x74;0x01;slash elem;;char
-2;*;0x75;0x01;strike elem;;char
-2;*;0x76;0x01;stab elem;;char
-2;*;0x77;0x01;crush elem;;char
-2;*;0x78;0x01;fire elem;;char
-2;*;0x79;0x01;ice elem;;char
-2;*;0x7a;0x01;lightning elem;;char
-2;*;0x7b;0x01;poison elem;;char
-2;*;0x7c;0x01;sound elem;;char
-2;*;0x7d;0x01;light elem;;char
-2;*;0x7e;0x01;darkness elem;;char
-2;*;0x7f;0x01;burn elem;;char
-2;*;0x80;0x01;poison elem;;char
+2;*;0x74;0x01;slash elem;;uchar
+2;*;0x75;0x01;strike elem;;uchar
+2;*;0x76;0x01;stab elem;;uchar
+2;*;0x77;0x01;crush elem;;uchar
+2;*;0x78;0x01;fire elem;;uchar
+2;*;0x79;0x01;ice elem;;uchar
+2;*;0x7a;0x01;lightning elem;;uchar
+2;*;0x7b;0x01;poison elem;;uchar
+2;*;0x7c;0x01;sound elem;;uchar
+2;*;0x7d;0x01;light elem;;uchar
+2;*;0x7e;0x01;darkness elem;;uchar
+2;*;0x7f;0x01;burn elem;;uchar
+2;*;0x80;0x01;poison elem;;uchar
 
 2;*;0x044;0x04;kb angle;Angle as Degree;float
 2;*;0x048;0x04;kb power;;float
@@ -145,14 +151,14 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 2;*;0x06c;0x04;freeze %;;float
 2;*;0x070;0x04;poison %;;float
 
-2;*;0x0b4;0x01;demon element;;char
-2;*;0x0b5;0x01;undead element;;char
-2;*;0x0b6;0x01;shell element;;char
-2;*;0x0b7;0x01;dragon element;;char
-2;*;0x0b8;0x01;giant element;;char
-2;*;0x0b9;0x01;wood element;;char
-2;*;0x0ba;0x01;stone element;;char
-2;*;0x0bb;0x01;metal element;;char
+2;*;0x0b4;0x01;demon element;;uchar
+2;*;0x0b5;0x01;undead element;;uchar
+2;*;0x0b6;0x01;shell element;;uchar
+2;*;0x0b7;0x01;dragon element;;uchar
+2;*;0x0b8;0x01;giant element;;uchar
+2;*;0x0b9;0x01;wood element;;uchar
+2;*;0x0ba;0x01;stone element;;uchar
+2;*;0x0bb;0x01;metal element;;uchar
 
 2;*;0x0ec;0x04;crit resist %;;float
 2;*;0x0f0;0x04;kb resist %;;float
@@ -177,11 +183,12 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 3;0;0x03b;0x01;Disappear;Disable/Enable dissappearance on collission with ground;bool
 3;0;0x03c;0x01;Fall;Disable/Enable falling trough the ground;bool
 3;0;0x03d;0x01;Bounces;Number of bounces;char
+3;0;0x040;0x01;Homing;Is the projectile homing;char
 3;0;0x050;0x04;Weigh;;float
 3;0;0x054;0x04;Angle x;;float
 3;0;0x058;0x04;Angle y;;float
 3;0;0x060;0x04;Speed;Movement speed;float
-3;0;0x064;0x01;Hit cd;Cooldown between hits;bool
+3;0;0x064;0x01;Hit cd;Cooldown between hits;char
 3;0;0x068;0x01;Collission;Disable/Enable collission;bool
 3;0;0x06e;0x02;Width;Hitbox width;short
 3;0;0x070;0x02;Height;Hitbox height;short
@@ -228,7 +235,7 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 9;0;0x011;0x01;Variable 1;Decoration type (1. Decoration,0. Installation,2. Background);char
 9;0;0x012;0x01;Variable 2;Decoration type (1. Decoration,0. Installation,2. Background);char
 # Section 4 - Texture loading
-9;3;0x000;0x3c;Texture;Texture name or path;str;True
+9;3;0x000;0x3C;Texture;Texture name or path;str;True
 9;3;0x03c;0x04;Identifier;Identifier, used in textype, section 1;int
 # Section 5 - Item positions
 9;4;0x00;0x04;Identifier;;int
@@ -245,35 +252,35 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 ## Equipparam
 # Section 1 - Pon equip position
 4;0;0x000;0x04;Identifier;Entry identifier;int
-4;0;0x004;0x07;Item 00;Indicates where the weapon goes;str
-4;0;0x00c;0x07;Item 01;Unknown;str
-4;0;0x014;0x07;Item 02;Unknown;str
-4;0;0x01c;0x07;Item 03;Indicates where the helm goes;str
-4;0;0x024;0x07;Item 04;Unknown;str
-4;0;0x02c;0x07;Item 05;Indicates where the cape / boots1 / shield? go;str
-4;0;0x038;0x0b;Item 06;Indicates where the boots2 go;str
-4;0;0x044;0x0b;Item 07;Unknown;str
-4;0;0x050;0x07;Item 08;Indicates where mount / chariot1 go;str
-4;0;0x058;0x07;Item 09;Indicates where chariot2 goes;str
-4;0;0x060;0x07;Item 10;Unknown;str
+4;0;0x004;0x08;Item 00;Indicates where the weapon goes;str
+4;0;0x00c;0x08;Item 01;Unknown;str
+4;0;0x014;0x08;Item 02;Unknown;str
+4;0;0x01c;0x08;Item 03;Indicates where the helm goes;str
+4;0;0x024;0x08;Item 04;Unknown;str
+4;0;0x02c;0x08;Item 05;Indicates where the cape / boots1 / shield? go;str
+4;0;0x038;0x0C;Item 06;Indicates where the boots2 go;str
+4;0;0x044;0x0C;Item 07;Unknown;str
+4;0;0x050;0x08;Item 08;Indicates where mount / chariot1 go;str
+4;0;0x058;0x08;Item 09;Indicates where chariot2 goes;str
+4;0;0x060;0x08;Item 10;Unknown;str
 # Section 2 - Hero item position
 4;1;0x000;0x04;Identifier;;int
-4;1;0x004;0x0F;Item 00;;str
-4;1;0x014;0x0F;Item 01;;str
-4;1;0x024;0x0F;Item 02;;str
-4;1;0x044;0x07;Item 03;;str
-4;1;0x04c;0x0b;Item 04;;str
-4;1;0x058;0x0b;Item 05;;str
-4;1;0x064;0x0b;Item 06;;str
-4;1;0x070;0x0b;Item 07;;str
-4;1;0x07c;0x0b;Item 08;;str
-4;1;0x088;0x0b;Item 09;;str
-4;1;0x094;0x07;Item 10;;str
-4;1;0x09c;0x07;Item 11;;str
-4;1;0x0a4;0x07;Item 12;;str
-4;1;0x0ac;0x07;Item 13;;str
-4;1;0x0b4;0x07;Item 14;;str
-4;1;0x0bc;0x07;Item 15;;str
+4;1;0x004;0x10;Item 00;;str
+4;1;0x014;0x10;Item 01;;str
+4;1;0x024;0x10;Item 02;;str
+4;1;0x044;0x08;Item 03;;str
+4;1;0x04c;0x0C;Item 04;;str
+4;1;0x058;0x0C;Item 05;;str
+4;1;0x064;0x0C;Item 06;;str
+4;1;0x070;0x0C;Item 07;;str
+4;1;0x07c;0x0C;Item 08;;str
+4;1;0x088;0x0C;Item 09;;str
+4;1;0x094;0x08;Item 10;;str
+4;1;0x09c;0x08;Item 11;;str
+4;1;0x0a4;0x08;Item 12;;str
+4;1;0x0ac;0x08;Item 13;;str
+4;1;0x0b4;0x08;Item 14;;str
+4;1;0x0bc;0x08;Item 15;;str
 # Section 3 - Unknown
 4;2;0x000;0x01;Unknown [1];;char
 4;2;0x001;0x01;Unknown [2];;char
@@ -282,22 +289,22 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 # Section 4 - Evolution
 4;3;0x000;0x01;Identifier;;char
 4;3;0x002;0x01;Identifier;;char
-4;3;0x003;0x01;Item unl [1];;char
-4;3;0x004;0x01;⟵ at level;;char
-4;3;0x005;0x01;Item unl [2];;char
-4;3;0x006;0x01;⟵ at level;;char
-4;3;0x007;0x01;Item unl [3];;char
-4;3;0x008;0x01;⟵ at level;;char
-4;3;0x009;0x01;Item unl [4];;char
-4;3;0x00a;0x01;⟵ at level;;char
-4;3;0x00b;0x01;Item unl [5];;char
-4;3;0x00c;0x01;⟵ at level;;char
-4;3;0x00d;0x01;Item unl [6];;char
-4;3;0x00e;0x01;⟵ at level;;char
-4;3;0x00f;0x01;Item unl [7];;char
-4;3;0x010;0x01;⟵ at level;;char
-4;3;0x011;0x01;Item unl [8];;char
-4;3;0x012;0x01;⟵ at level;;char
+4;3;0x003;0x01;Item unlock 1;;char;False;True;equip_category
+4;3;0x004;0x01;@ level;;char
+4;3;0x005;0x01;Item unlock 2;;char;False;True;equip_category
+4;3;0x006;0x01;@ level;;char
+4;3;0x007;0x01;Item unlock 3;;char;False;True;equip_category
+4;3;0x008;0x01;@ level;;char
+4;3;0x009;0x01;Item unlock 4;;char;False;True;equip_category
+4;3;0x00a;0x01;@ level;;char
+4;3;0x00b;0x01;Item unlock 5;;char;False;True;equip_category
+4;3;0x00c;0x01;@ level;;char
+4;3;0x00d;0x01;Item unlock 6;;char;False;True;equip_category
+4;3;0x00e;0x01;@ level;;char
+4;3;0x00f;0x01;Item unlock 7;;char;False;True;equip_category
+4;3;0x010;0x01;@ level;;char
+4;3;0x011;0x01;Item unlock 8;;char;False;True;equip_category
+4;3;0x012;0x01;@ level;;char
 4;3;0x001;0x01;Unknown;;char
 4;3;0x013;0x01;Unknown;;char
 # Section 5 - Unknown
@@ -553,7 +560,7 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 ## Weaponparam
 # Section 1 - Equip data
 28;0;0x000;0x02;Identifier;Identifier inside the section;short
-28;0;0x016;0x11;Item model;;str;True
+28;0;0x016;0x12;Item model;;str;True
 28;0;0x002;0x02;Stat id 0;Equal to Section ID inside originstatusparam;short
 28;0;0x00e;0x02;Stat id 1;This is equal to Global ID inside originstatusparam;short;False
 28;0;0x006;0x02;Rarity;;char;False;True;item_rarity
@@ -565,7 +572,7 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 28;0;0x010;0x02;Unknown [4];;short
 28;0;0x012;0x02;Unknown [5];;short
 # Section 2 - Equip models
-28;1;0x000;0x0f;Model name;;str;True
+28;1;0x000;0x10;Model name;;str;True
 
 
 ## Skillparam
