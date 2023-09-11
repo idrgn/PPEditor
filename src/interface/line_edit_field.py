@@ -29,13 +29,13 @@ class QLineEditField(QLineEdit):
             validator.setRange(0, 4294967295)
         elif type == "int":
             validator.setRange(-2147483647 - 1, 2147483647)
-        elif type == "short":
-            validator.setRange(0, 65535)
         elif type == "ushort":
+            validator.setRange(0, 65535)
+        elif type == "short":
             validator.setRange(-32767 - 1, 32767)
-        elif type == "char":
-            validator.setRange(0, 255)
         elif type == "uchar":
+            validator.setRange(0, 255)
+        elif type == "char":
             validator.setRange(-127 - 1, 127)
         elif type == "bool":
             validator.setRange(0, 1)
