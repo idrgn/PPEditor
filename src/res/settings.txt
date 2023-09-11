@@ -330,6 +330,13 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 12;*;0x01e;0x02;y pos;;short
 
 
+## Shieldscalingparam
+# All sections
+20;*;0x000;0x04;Item ID;Id of the item affected;int
+20;*;0x004;0x04;Pon size;Size of the item when held by a pon unit;float
+20;*;0x008;0x04;Hero size;Size of the item when held by a hero unit;float
+
+
 ## Originstatusparam
 # All sections
 17;*;0x000;0x1f;Name;Entity/Item/Effect name;str;True
@@ -569,8 +576,8 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 28;0;0x004;0x02;Unknown [1];;short
 28;0;0x00a;0x02;Unknown [2];;short
 28;0;0x00c;0x02;Unknown [3];;short
-28;0;0x010;0x02;Unknown [4];;short
-28;0;0x012;0x02;Unknown [5];;short
+28;0;0x010;0x02;Pon Projectile;;short
+28;0;0x012;0x02;Hero Projectile;;short
 # Section 2 - Equip models
 28;1;0x000;0x10;Model name;;str;True
 
