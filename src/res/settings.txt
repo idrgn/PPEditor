@@ -666,7 +666,7 @@ E;summon_type;Summon Type;Other;Yarigami;Tategami;Soragami;Yamagami;Moegami;Supe
 
 # Section 3 - Commands
 0;2;0x01C;0x02;ID;;short
-0;2;0x020;0x01;Use 8-bit measurement;For example, miracle uses this;bool
+0;2;0x020;0x01;Use 8-beat measurement;For example, miracle uses this;bool
 0;2;0x028;0x02;Command Type;;short;True;True;command_type
 
 0;2;0x024;0x01;Chant 1;;char;False;True;chant_type
