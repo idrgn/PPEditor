@@ -16,6 +16,9 @@ E;command_type;Command Type;None;PATAPATA;CHAKACHAKA;PONPON;PONCHAKA;PONPATA;DON
 E;drum_type;Drum Type;Undefined;No input;PON;DON;PATA;CHAKA
 E;element_enable_type;Stat enable type;Disabled;Inherit;Enabled
 E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;Dondon2;Donchaka2;Chakapata2 (Patapata);Patapon2 (Chakachaka);Summon2 (Ponpata);Patapata1;Chakachaka1;Ponpon1;Ponchaka1;Ponpata1;Dondon1;Donchaka1;Chakapata1 (Patapata);Patapon1 (Chakachaka);Summon1 (Ponpata)
+E;unit_type;Unit Type;Other;None;Small Enemy;Hero;Gimmick;Animal;Boss/Miniboss
+E;summon_type;Summon Type;Other;Yarigami;Tategami;Soragami;Yamagami;Moegami;Super Yarigami;Super Tategami;Super Soragami;Super Yamagami
+E;badge_type;Badge Type;Nothing;Team Point;Received Cards Amount;VS Victory;VS Kill;Co-op Quest Completed;???;Exp earned;Average enchanted equipment level;Perfect hits;Summon score
 
 
 ### PARAM FILES
@@ -104,6 +107,8 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 
 2;*;0x03c;0x04;Min damage;Minimum damage;float
 2;*;0x040;0x04;Max damage;Maximum damage;float
+
+2;*;0x81;0x01;melee;;char;False;True;element_enable_type
 
 2;*;0x084;0x04;*d vs demons;Damage multiplier vs demons;float
 2;*;0x088;0x04;*d vs undead;Damage multiplier vs undeads;float
@@ -206,8 +211,14 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 
 
 ## Generatorparam
-# Section 0 - Gimcs
-# 3;0;0x00;0x17;Name;Internal name;str;True
+# Section 0 - Enemies
+6;0;0x00;0x17;Name;Internal name;str;True
+6;0;0x20;0x01;Unit Type;;char;False;True;unit_type
+6;0;0x22;0x02;Gimmickparam Identifier;;short
+6;0;0x28;0x02;Equipment ID1 from Weaponparam;;short
+6;0;0x2a;0x02;Equipment ID2 from Weaponparam;;short
+6;0;0x2c;0x02;Equipment ID3 from Weaponparam;;short
+6;0;0x2e;0x02;Equipment ID4 from Weaponparam;;short
 
 
 ## Gimmickparam
@@ -623,10 +634,40 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 
 
 ## Roundtableparam
+# Section 1 - Team goal data
+33;0;0x00;0x04;ID;;int
+33;0;0x08;0x04;Team goal name;Team goal name message ID;int;True;True;msg_systemmsg
+33;0;0x0C;0x04;Team goal description name;Team goal description message ID;int;False;True;msg_systemmsg
+33;0;0x18;0x04;Amount data;Depends on mission, also N15 value;int
+33;0;0x1C;0x04;Star Shard Rewards per completion;;int
+33;0;0x20;0x04;Star Shard Rewards per completion;;int
+33;0;0x24;0x04;Item ID Reward per completion;;int
+33;0;0x28;0x04;Item ID Reward per completion;;int
+33;0;0x2C;0x04;Item ID Reward per completion;;int
+33;0;0x30;0x04;Item ID Reward per PERFECT completion;;int
+33;0;0x34;0x04;Item ID Rewrad per PERFECT completion;;int
+33;0;0x38;0x04;Ka-ching Reward per PERFECT completion;;int
+33;0;0x3C;0x04;Team point per completion;;int
+33;0;0x40;0x04;Team point per PERFECT completion;;int
+
+33;0;0x4C;0x04;Complete Goal ID to unlock;;int
+33;0;0x50;0x04;Savedata Flag offset to unlock;For example, Mochichichi quest requires unlocking jungle etc.;int
+33;0;0x54;0x04;Team rank to unlock;Note that open league 85 IS NOT rank 85, considering pair, trio league etc exists;int
+
+
 # Section 2 - Levelup data
-33;1;0x000;0x04;Type;Type of unlock;int
+33;1;0x000;0x04;Member amount;Member amount to unlock;int
 33;1;0x004;0x04;Team points;Team points required for unlock;int
 33;1;0x008;0x04;Reward;Amount of star shards for the reward;int
+
+
+# Section 4 - Badge Data
+33;3;0x000;0x04;ID;;int
+33;3;0x004;0x04;Name;;int;True;True;msg_systemmsg
+33;3;0x008;0x04;Description;;int;False;True;msg_systemmsg
+33;3;0x00C;0x0C;Icon Identifier;;str
+33;3;0x024;0x04;Badge Type;;int;False;True;badge_type
+33;3;0x02C;0x04;Requirement Amount;Works only when badge type is NOT Nothing;int
 
 
 ## Facilityparam
@@ -656,6 +697,7 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 
 # Section 3 - Commands
 0;2;0x01C;0x02;ID;;short
+0;2;0x020;0x01;Use 8-beat measurement;For example, miracle uses this;bool
 0;2;0x028;0x02;Command Type;;short;True;True;command_type
 
 0;2;0x024;0x01;Chant 1;;char;False;True;chant_type
@@ -670,3 +712,438 @@ E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;D
 0;2;0x03C;0x01;Drum Sequence 3;;char;False;True;drum_type
 0;2;0x03D;0x01;Drum Sequence 3.5;;char;False;True;drum_type
 0;2;0x03E;0x01;Drum Sequence 4;;char;False;True;drum_type
+
+
+### FILE_ID;SECTION_INDEX;DATA_ADDRESS;DATA_SIZE;NAME;DESCRIPTION;DATA_TYPE;SHOW_ON_LIST(OPTIONAL);ENUM(OPTIONAL);ENUM_NAME(OPTIONAL)
+## Summonsendcommandparam
+# Section 1 - Unused
+32;0;0x0;0x01;SummonId;;char;True;True;summon_type
+
+32;0;0x0;0x01;Dummy command;;char;False;True;command_type
+32;0;0x1;0x01;Dummy charged;;bool
+32;0;0x2;0x01;Dummy fever;;bool
+32;0;0x3;0x01;Dummy perfect;;bool
+32;0;0x4;0x01;Hatapon command;;char;False;True;command_type
+32;0;0x5;0x01;Hatapon charged;;bool
+32;0;0x6;0x01;Hatapon fever;;bool
+32;0;0x7;0x01;Hatapon perfect;;bool
+32;0;0x8;0x01;Yarida command;;char;False;True;command_type
+32;0;0x9;0x01;Yarida charged;;bool
+32;0;0xa;0x01;Yarida fever;;bool
+32;0;0xb;0x01;Yarida perfect;;bool
+32;0;0xc;0x01;Taterazay command;;char;False;True;command_type
+32;0;0xd;0x01;Taterazay charged;;bool
+32;0;0xe;0x01;Taterazay fever;;bool
+32;0;0xf;0x01;Taterazay perfect;;bool
+32;0;0x10;0x01;Yumiyacha command;;char;False;True;command_type
+32;0;0x11;0x01;Yumiyacha charged;;bool
+32;0;0x12;0x01;Yumiyacha fever;;bool
+32;0;0x13;0x01;Yumiyacha perfect;;bool
+32;0;0x14;0x01;Kibadda command;;char;False;True;command_type
+32;0;0x15;0x01;Kibadda charged;;bool
+32;0;0x16;0x01;Kibadda fever;;bool
+32;0;0x17;0x01;Kibadda perfect;;bool
+32;0;0x18;0x01;Dekapon command;;char;False;True;command_type
+32;0;0x19;0x01;Dekapon charged;;bool
+32;0;0x1a;0x01;Dekapon fever;;bool
+32;0;0x1b;0x01;Dekapon perfect;;bool
+32;0;0x1c;0x01;Megapon command;;char;False;True;command_type
+32;0;0x1d;0x01;Megapon charged;;bool
+32;0;0x1e;0x01;Megapon fever;;bool
+32;0;0x1f;0x01;Megapon perfect;;bool
+32;0;0x20;0x01;Mahopon command;;char;False;True;command_type
+32;0;0x21;0x01;Mahopon charged;;bool
+32;0;0x22;0x01;Mahopon fever;;bool
+32;0;0x23;0x01;Mahopon perfect;;bool
+32;0;0x24;0x01;Destrobo command;;char;False;True;command_type
+32;0;0x25;0x01;Destrobo charged;;bool
+32;0;0x26;0x01;Destrobo fever;;bool
+32;0;0x27;0x01;Destrobo perfect;;bool
+32;0;0x28;0x01;Chakapon command;;char;False;True;command_type
+32;0;0x29;0x01;Chakapon charged;;bool
+32;0;0x2a;0x01;Chakapon fever;;bool
+32;0;0x2b;0x01;Chakapon perfect;;bool
+32;0;0x2c;0x01;Charipon command;;char;False;True;command_type
+32;0;0x2d;0x01;Charipon charged;;bool
+32;0;0x2e;0x01;Charipon fever;;bool
+32;0;0x2f;0x01;Charipon perfect;;bool
+32;0;0x30;0x01;Piekron command;;char;False;True;command_type
+32;0;0x31;0x01;Piekron charged;;bool
+32;0;0x32;0x01;Piekron fever;;bool
+32;0;0x33;0x01;Piekron perfect;;bool
+32;0;0x34;0x01;Wooyari command;;char;False;True;command_type
+32;0;0x35;0x01;Wooyari charged;;bool
+32;0;0x36;0x01;Wooyari fever;;bool
+32;0;0x37;0x01;Wooyari perfect;;bool
+32;0;0x38;0x01;Pyokorider command;;char;False;True;command_type
+32;0;0x39;0x01;Pyokorider charged;;bool
+32;0;0x3a;0x01;Pyokorider fever;;bool
+32;0;0x3b;0x01;Pyokorider perfect;;bool
+32;0;0x3c;0x01;Cannassault command;;char;False;True;command_type
+32;0;0x3d;0x01;Cannassault charged;;bool
+32;0;0x3e;0x01;Cannassault fever;;bool
+32;0;0x3f;0x01;Cannassault perfect;;bool
+32;0;0x40;0x01;Charibasa command;;char;False;True;command_type
+32;0;0x41;0x01;Charibasa charged;;bool
+32;0;0x42;0x01;Charibasa fever;;bool
+32;0;0x43;0x01;Charibasa perfect;;bool
+32;0;0x44;0x01;Guardira command;;char;False;True;command_type
+32;0;0x45;0x01;Guardira charged;;bool
+32;0;0x46;0x01;Guardira fever;;bool
+32;0;0x47;0x01;Guardira perfect;;bool
+32;0;0x48;0x01;Tondenga command;;char;False;True;command_type
+32;0;0x49;0x01;Tondenga charged;;bool
+32;0;0x4a;0x01;Tondenga fever;;bool
+32;0;0x4b;0x01;Tondenga perfect;;bool
+32;0;0x4c;0x01;Myamsar command;;char;False;True;command_type
+32;0;0x4d;0x01;Myamsar charged;;bool
+32;0;0x4e;0x01;Myamsar fever;;bool
+32;0;0x4f;0x01;Myamsar perfect;;bool
+32;0;0x50;0x01;Bowmunk command;;char;False;True;command_type
+32;0;0x51;0x01;Bowmunk charged;;bool
+32;0;0x52;0x01;Bowmunk fever;;bool
+32;0;0x53;0x01;Bowmunk perfect;;bool
+32;0;0x54;0x01;Grenburr command;;char;False;True;command_type
+32;0;0x55;0x01;Grenburr charged;;bool
+32;0;0x56;0x01;Grenburr fever;;bool
+32;0;0x57;0x01;Grenburr perfect;;bool
+32;0;0x58;0x01;Alosson command;;char;False;True;command_type
+32;0;0x59;0x01;Alosson charged;;bool
+32;0;0x5a;0x01;Alosson fever;;bool
+32;0;0x5b;0x01;Alosson perfect;;bool
+32;0;0x5c;0x01;Wondabarappa command;;char;False;True;command_type
+32;0;0x5d;0x01;Wondabarappa charged;;bool
+32;0;0x5e;0x01;Wondabarappa fever;;bool
+32;0;0x5f;0x01;Wondabarappa perfect;;bool
+32;0;0x60;0x01;Jamsch command;;char;False;True;command_type
+32;0;0x61;0x01;Jamsch charged;;bool
+32;0;0x62;0x01;Jamsch fever;;bool
+32;0;0x63;0x01;Jamsch perfect;;bool
+32;0;0x64;0x01;Oohoroc command;;char;False;True;command_type
+32;0;0x65;0x01;Oohoroc charged;;bool
+32;0;0x66;0x01;Oohoroc fever;;bool
+32;0;0x67;0x01;Oohoroc perfect;;bool
+32;0;0x68;0x01;Pingrek command;;char;False;True;command_type
+32;0;0x69;0x01;Pingrek charged;;bool
+32;0;0x6a;0x01;Pingrek fever;;bool
+32;0;0x6b;0x01;Pingrek perfect;;bool
+32;0;0x6c;0x01;Cannogabang command;;char;False;True;command_type
+32;0;0x6d;0x01;Cannogabang charged;;bool
+32;0;0x6e;0x01;Cannogabang fever;;bool
+32;0;0x6f;0x01;Cannogabang perfect;;bool
+32;0;0x70;0x01;Ravenous command;;char;False;True;command_type
+32;0;0x71;0x01;Ravenous charged;;bool
+32;0;0x72;0x01;Ravenous fever;;bool
+32;0;0x73;0x01;Ravenous perfect;;bool
+32;0;0x74;0x01;Sonarchy command;;char;False;True;command_type
+32;0;0x75;0x01;Sonarchy charged;;bool
+32;0;0x76;0x01;Sonarchy fever;;bool
+32;0;0x77;0x01;Sonarchy perfect;;bool
+32;0;0x78;0x01;Ragewolf command;;char;False;True;command_type
+32;0;0x79;0x01;Ragewolf charged;;bool
+32;0;0x7a;0x01;Ragewolf fever;;bool
+32;0;0x7b;0x01;Ragewolf perfect;;bool
+32;0;0x7c;0x01;Naughtyfins command;;char;False;True;command_type
+32;0;0x7d;0x01;Naughtyfins charged;;bool
+32;0;0x7e;0x01;Naughtyfins fever;;bool
+32;0;0x7f;0x01;Naughtyfins perfect;;bool
+32;0;0x80;0x01;Slogturtle command;;char;False;True;command_type
+32;0;0x81;0x01;Slogturtle charged;;bool
+32;0;0x82;0x01;Slogturtle fever;;bool
+32;0;0x83;0x01;Slogturtle perfect;;bool
+32;0;0x84;0x01;Covet-Hiss command;;char;False;True;command_type
+32;0;0x85;0x01;Covet-Hiss charged;;bool
+32;0;0x86;0x01;Covet-Hiss fever;;bool
+32;0;0x87;0x01;Covet-Hiss perfect;;bool
+32;0;0x88;0x01;Buzzcrave command;;char;False;True;command_type
+32;0;0x89;0x01;Buzzcrave charged;;bool
+32;0;0x8a;0x01;Buzzcrave fever;;bool
+32;0;0x8b;0x01;Buzzcrave perfect;;bool
+
+# Section 2 - With Pons
+32;1;0x0;0x01;SummonId;;char;True;True;summon_type
+
+32;1;0x0;0x01;Dummy command;;char;False;True;command_type
+32;1;0x1;0x01;Dummy charged;;bool
+32;1;0x2;0x01;Dummy fever;;bool
+32;1;0x3;0x01;Dummy perfect;;bool
+32;1;0x4;0x01;Hatapon command;;char;False;True;command_type
+32;1;0x5;0x01;Hatapon charged;;bool
+32;1;0x6;0x01;Hatapon fever;;bool
+32;1;0x7;0x01;Hatapon perfect;;bool
+32;1;0x8;0x01;Yarida command;;char;False;True;command_type
+32;1;0x9;0x01;Yarida charged;;bool
+32;1;0xa;0x01;Yarida fever;;bool
+32;1;0xb;0x01;Yarida perfect;;bool
+32;1;0xc;0x01;Taterazay command;;char;False;True;command_type
+32;1;0xd;0x01;Taterazay charged;;bool
+32;1;0xe;0x01;Taterazay fever;;bool
+32;1;0xf;0x01;Taterazay perfect;;bool
+32;1;0x10;0x01;Yumiyacha command;;char;False;True;command_type
+32;1;0x11;0x01;Yumiyacha charged;;bool
+32;1;0x12;0x01;Yumiyacha fever;;bool
+32;1;0x13;0x01;Yumiyacha perfect;;bool
+32;1;0x14;0x01;Kibadda command;;char;False;True;command_type
+32;1;0x15;0x01;Kibadda charged;;bool
+32;1;0x16;0x01;Kibadda fever;;bool
+32;1;0x17;0x01;Kibadda perfect;;bool
+32;1;0x18;0x01;Dekapon command;;char;False;True;command_type
+32;1;0x19;0x01;Dekapon charged;;bool
+32;1;0x1a;0x01;Dekapon fever;;bool
+32;1;0x1b;0x01;Dekapon perfect;;bool
+32;1;0x1c;0x01;Megapon command;;char;False;True;command_type
+32;1;0x1d;0x01;Megapon charged;;bool
+32;1;0x1e;0x01;Megapon fever;;bool
+32;1;0x1f;0x01;Megapon perfect;;bool
+32;1;0x20;0x01;Mahopon command;;char;False;True;command_type
+32;1;0x21;0x01;Mahopon charged;;bool
+32;1;0x22;0x01;Mahopon fever;;bool
+32;1;0x23;0x01;Mahopon perfect;;bool
+32;1;0x24;0x01;Destrobo command;;char;False;True;command_type
+32;1;0x25;0x01;Destrobo charged;;bool
+32;1;0x26;0x01;Destrobo fever;;bool
+32;1;0x27;0x01;Destrobo perfect;;bool
+32;1;0x28;0x01;Chakapon command;;char;False;True;command_type
+32;1;0x29;0x01;Chakapon charged;;bool
+32;1;0x2a;0x01;Chakapon fever;;bool
+32;1;0x2b;0x01;Chakapon perfect;;bool
+32;1;0x2c;0x01;Charipon command;;char;False;True;command_type
+32;1;0x2d;0x01;Charipon charged;;bool
+32;1;0x2e;0x01;Charipon fever;;bool
+32;1;0x2f;0x01;Charipon perfect;;bool
+32;1;0x30;0x01;Piekron command;;char;False;True;command_type
+32;1;0x31;0x01;Piekron charged;;bool
+32;1;0x32;0x01;Piekron fever;;bool
+32;1;0x33;0x01;Piekron perfect;;bool
+32;1;0x34;0x01;Wooyari command;;char;False;True;command_type
+32;1;0x35;0x01;Wooyari charged;;bool
+32;1;0x36;0x01;Wooyari fever;;bool
+32;1;0x37;0x01;Wooyari perfect;;bool
+32;1;0x38;0x01;Pyokorider command;;char;False;True;command_type
+32;1;0x39;0x01;Pyokorider charged;;bool
+32;1;0x3a;0x01;Pyokorider fever;;bool
+32;1;0x3b;0x01;Pyokorider perfect;;bool
+32;1;0x3c;0x01;Cannassault command;;char;False;True;command_type
+32;1;0x3d;0x01;Cannassault charged;;bool
+32;1;0x3e;0x01;Cannassault fever;;bool
+32;1;0x3f;0x01;Cannassault perfect;;bool
+32;1;0x40;0x01;Charibasa command;;char;False;True;command_type
+32;1;0x41;0x01;Charibasa charged;;bool
+32;1;0x42;0x01;Charibasa fever;;bool
+32;1;0x43;0x01;Charibasa perfect;;bool
+32;1;0x44;0x01;Guardira command;;char;False;True;command_type
+32;1;0x45;0x01;Guardira charged;;bool
+32;1;0x46;0x01;Guardira fever;;bool
+32;1;0x47;0x01;Guardira perfect;;bool
+32;1;0x48;0x01;Tondenga command;;char;False;True;command_type
+32;1;0x49;0x01;Tondenga charged;;bool
+32;1;0x4a;0x01;Tondenga fever;;bool
+32;1;0x4b;0x01;Tondenga perfect;;bool
+32;1;0x4c;0x01;Myamsar command;;char;False;True;command_type
+32;1;0x4d;0x01;Myamsar charged;;bool
+32;1;0x4e;0x01;Myamsar fever;;bool
+32;1;0x4f;0x01;Myamsar perfect;;bool
+32;1;0x50;0x01;Bowmunk command;;char;False;True;command_type
+32;1;0x51;0x01;Bowmunk charged;;bool
+32;1;0x52;0x01;Bowmunk fever;;bool
+32;1;0x53;0x01;Bowmunk perfect;;bool
+32;1;0x54;0x01;Grenburr command;;char;False;True;command_type
+32;1;0x55;0x01;Grenburr charged;;bool
+32;1;0x56;0x01;Grenburr fever;;bool
+32;1;0x57;0x01;Grenburr perfect;;bool
+32;1;0x58;0x01;Alosson command;;char;False;True;command_type
+32;1;0x59;0x01;Alosson charged;;bool
+32;1;0x5a;0x01;Alosson fever;;bool
+32;1;0x5b;0x01;Alosson perfect;;bool
+32;1;0x5c;0x01;Wondabarappa command;;char;False;True;command_type
+32;1;0x5d;0x01;Wondabarappa charged;;bool
+32;1;0x5e;0x01;Wondabarappa fever;;bool
+32;1;0x5f;0x01;Wondabarappa perfect;;bool
+32;1;0x60;0x01;Jamsch command;;char;False;True;command_type
+32;1;0x61;0x01;Jamsch charged;;bool
+32;1;0x62;0x01;Jamsch fever;;bool
+32;1;0x63;0x01;Jamsch perfect;;bool
+32;1;0x64;0x01;Oohoroc command;;char;False;True;command_type
+32;1;0x65;0x01;Oohoroc charged;;bool
+32;1;0x66;0x01;Oohoroc fever;;bool
+32;1;0x67;0x01;Oohoroc perfect;;bool
+32;1;0x68;0x01;Pingrek command;;char;False;True;command_type
+32;1;0x69;0x01;Pingrek charged;;bool
+32;1;0x6a;0x01;Pingrek fever;;bool
+32;1;0x6b;0x01;Pingrek perfect;;bool
+32;1;0x6c;0x01;Cannogabang command;;char;False;True;command_type
+32;1;0x6d;0x01;Cannogabang charged;;bool
+32;1;0x6e;0x01;Cannogabang fever;;bool
+32;1;0x6f;0x01;Cannogabang perfect;;bool
+32;1;0x70;0x01;Ravenous command;;char;False;True;command_type
+32;1;0x71;0x01;Ravenous charged;;bool
+32;1;0x72;0x01;Ravenous fever;;bool
+32;1;0x73;0x01;Ravenous perfect;;bool
+32;1;0x74;0x01;Sonarchy command;;char;False;True;command_type
+32;1;0x75;0x01;Sonarchy charged;;bool
+32;1;0x76;0x01;Sonarchy fever;;bool
+32;1;0x77;0x01;Sonarchy perfect;;bool
+32;1;0x78;0x01;Ragewolf command;;char;False;True;command_type
+32;1;0x79;0x01;Ragewolf charged;;bool
+32;1;0x7a;0x01;Ragewolf fever;;bool
+32;1;0x7b;0x01;Ragewolf perfect;;bool
+32;1;0x7c;0x01;Naughtyfins command;;char;False;True;command_type
+32;1;0x7d;0x01;Naughtyfins charged;;bool
+32;1;0x7e;0x01;Naughtyfins fever;;bool
+32;1;0x7f;0x01;Naughtyfins perfect;;bool
+32;1;0x80;0x01;Slogturtle command;;char;False;True;command_type
+32;1;0x81;0x01;Slogturtle charged;;bool
+32;1;0x82;0x01;Slogturtle fever;;bool
+32;1;0x83;0x01;Slogturtle perfect;;bool
+32;1;0x84;0x01;Covet-Hiss command;;char;False;True;command_type
+32;1;0x85;0x01;Covet-Hiss charged;;bool
+32;1;0x86;0x01;Covet-Hiss fever;;bool
+32;1;0x87;0x01;Covet-Hiss perfect;;bool
+32;1;0x88;0x01;Buzzcrave command;;char;False;True;command_type
+32;1;0x89;0x01;Buzzcrave charged;;bool
+32;1;0x8a;0x01;Buzzcrave fever;;bool
+32;1;0x8b;0x01;Buzzcrave perfect;;bool
+
+# Section 3 - Without Pons
+32;2;0x0;0x01;SummonId;;char;True;True;summon_type
+
+32;2;0x0;0x01;Dummy command;;char;False;True;command_type
+32;2;0x1;0x01;Dummy charged;;bool
+32;2;0x2;0x01;Dummy fever;;bool
+32;2;0x3;0x01;Dummy perfect;;bool
+32;2;0x4;0x01;Hatapon command;;char;False;True;command_type
+32;2;0x5;0x01;Hatapon charged;;bool
+32;2;0x6;0x01;Hatapon fever;;bool
+32;2;0x7;0x01;Hatapon perfect;;bool
+32;2;0x8;0x01;Yarida command;;char;False;True;command_type
+32;2;0x9;0x01;Yarida charged;;bool
+32;2;0xa;0x01;Yarida fever;;bool
+32;2;0xb;0x01;Yarida perfect;;bool
+32;2;0xc;0x01;Taterazay command;;char;False;True;command_type
+32;2;0xd;0x01;Taterazay charged;;bool
+32;2;0xe;0x01;Taterazay fever;;bool
+32;2;0xf;0x01;Taterazay perfect;;bool
+32;2;0x10;0x01;Yumiyacha command;;char;False;True;command_type
+32;2;0x11;0x01;Yumiyacha charged;;bool
+32;2;0x12;0x01;Yumiyacha fever;;bool
+32;2;0x13;0x01;Yumiyacha perfect;;bool
+32;2;0x14;0x01;Kibadda command;;char;False;True;command_type
+32;2;0x15;0x01;Kibadda charged;;bool
+32;2;0x16;0x01;Kibadda fever;;bool
+32;2;0x17;0x01;Kibadda perfect;;bool
+32;2;0x18;0x01;Dekapon command;;char;False;True;command_type
+32;2;0x19;0x01;Dekapon charged;;bool
+32;2;0x1a;0x01;Dekapon fever;;bool
+32;2;0x1b;0x01;Dekapon perfect;;bool
+32;2;0x1c;0x01;Megapon command;;char;False;True;command_type
+32;2;0x1d;0x01;Megapon charged;;bool
+32;2;0x1e;0x01;Megapon fever;;bool
+32;2;0x1f;0x01;Megapon perfect;;bool
+32;2;0x20;0x01;Mahopon command;;char;False;True;command_type
+32;2;0x21;0x01;Mahopon charged;;bool
+32;2;0x22;0x01;Mahopon fever;;bool
+32;2;0x23;0x01;Mahopon perfect;;bool
+32;2;0x24;0x01;Destrobo command;;char;False;True;command_type
+32;2;0x25;0x01;Destrobo charged;;bool
+32;2;0x26;0x01;Destrobo fever;;bool
+32;2;0x27;0x01;Destrobo perfect;;bool
+32;2;0x28;0x01;Chakapon command;;char;False;True;command_type
+32;2;0x29;0x01;Chakapon charged;;bool
+32;2;0x2a;0x01;Chakapon fever;;bool
+32;2;0x2b;0x01;Chakapon perfect;;bool
+32;2;0x2c;0x01;Charipon command;;char;False;True;command_type
+32;2;0x2d;0x01;Charipon charged;;bool
+32;2;0x2e;0x01;Charipon fever;;bool
+32;2;0x2f;0x01;Charipon perfect;;bool
+32;2;0x30;0x01;Piekron command;;char;False;True;command_type
+32;2;0x31;0x01;Piekron charged;;bool
+32;2;0x32;0x01;Piekron fever;;bool
+32;2;0x33;0x01;Piekron perfect;;bool
+32;2;0x34;0x01;Wooyari command;;char;False;True;command_type
+32;2;0x35;0x01;Wooyari charged;;bool
+32;2;0x36;0x01;Wooyari fever;;bool
+32;2;0x37;0x01;Wooyari perfect;;bool
+32;2;0x38;0x01;Pyokorider command;;char;False;True;command_type
+32;2;0x39;0x01;Pyokorider charged;;bool
+32;2;0x3a;0x01;Pyokorider fever;;bool
+32;2;0x3b;0x01;Pyokorider perfect;;bool
+32;2;0x3c;0x01;Cannassault command;;char;False;True;command_type
+32;2;0x3d;0x01;Cannassault charged;;bool
+32;2;0x3e;0x01;Cannassault fever;;bool
+32;2;0x3f;0x01;Cannassault perfect;;bool
+32;2;0x40;0x01;Charibasa command;;char;False;True;command_type
+32;2;0x41;0x01;Charibasa charged;;bool
+32;2;0x42;0x01;Charibasa fever;;bool
+32;2;0x43;0x01;Charibasa perfect;;bool
+32;2;0x44;0x01;Guardira command;;char;False;True;command_type
+32;2;0x45;0x01;Guardira charged;;bool
+32;2;0x46;0x01;Guardira fever;;bool
+32;2;0x47;0x01;Guardira perfect;;bool
+32;2;0x48;0x01;Tondenga command;;char;False;True;command_type
+32;2;0x49;0x01;Tondenga charged;;bool
+32;2;0x4a;0x01;Tondenga fever;;bool
+32;2;0x4b;0x01;Tondenga perfect;;bool
+32;2;0x4c;0x01;Myamsar command;;char;False;True;command_type
+32;2;0x4d;0x01;Myamsar charged;;bool
+32;2;0x4e;0x01;Myamsar fever;;bool
+32;2;0x4f;0x01;Myamsar perfect;;bool
+32;2;0x50;0x01;Bowmunk command;;char;False;True;command_type
+32;2;0x51;0x01;Bowmunk charged;;bool
+32;2;0x52;0x01;Bowmunk fever;;bool
+32;2;0x53;0x01;Bowmunk perfect;;bool
+32;2;0x54;0x01;Grenburr command;;char;False;True;command_type
+32;2;0x55;0x01;Grenburr charged;;bool
+32;2;0x56;0x01;Grenburr fever;;bool
+32;2;0x57;0x01;Grenburr perfect;;bool
+32;2;0x58;0x01;Alosson command;;char;False;True;command_type
+32;2;0x59;0x01;Alosson charged;;bool
+32;2;0x5a;0x01;Alosson fever;;bool
+32;2;0x5b;0x01;Alosson perfect;;bool
+32;2;0x5c;0x01;Wondabarappa command;;char;False;True;command_type
+32;2;0x5d;0x01;Wondabarappa charged;;bool
+32;2;0x5e;0x01;Wondabarappa fever;;bool
+32;2;0x5f;0x01;Wondabarappa perfect;;bool
+32;2;0x60;0x01;Jamsch command;;char;False;True;command_type
+32;2;0x61;0x01;Jamsch charged;;bool
+32;2;0x62;0x01;Jamsch fever;;bool
+32;2;0x63;0x01;Jamsch perfect;;bool
+32;2;0x64;0x01;Oohoroc command;;char;False;True;command_type
+32;2;0x65;0x01;Oohoroc charged;;bool
+32;2;0x66;0x01;Oohoroc fever;;bool
+32;2;0x67;0x01;Oohoroc perfect;;bool
+32;2;0x68;0x01;Pingrek command;;char;False;True;command_type
+32;2;0x69;0x01;Pingrek charged;;bool
+32;2;0x6a;0x01;Pingrek fever;;bool
+32;2;0x6b;0x01;Pingrek perfect;;bool
+32;2;0x6c;0x01;Cannogabang command;;char;False;True;command_type
+32;2;0x6d;0x01;Cannogabang charged;;bool
+32;2;0x6e;0x01;Cannogabang fever;;bool
+32;2;0x6f;0x01;Cannogabang perfect;;bool
+32;2;0x70;0x01;Ravenous command;;char;False;True;command_type
+32;2;0x71;0x01;Ravenous charged;;bool
+32;2;0x72;0x01;Ravenous fever;;bool
+32;2;0x73;0x01;Ravenous perfect;;bool
+32;2;0x74;0x01;Sonarchy command;;char;False;True;command_type
+32;2;0x75;0x01;Sonarchy charged;;bool
+32;2;0x76;0x01;Sonarchy fever;;bool
+32;2;0x77;0x01;Sonarchy perfect;;bool
+32;2;0x78;0x01;Ragewolf command;;char;False;True;command_type
+32;2;0x79;0x01;Ragewolf charged;;bool
+32;2;0x7a;0x01;Ragewolf fever;;bool
+32;2;0x7b;0x01;Ragewolf perfect;;bool
+32;2;0x7c;0x01;Naughtyfins command;;char;False;True;command_type
+32;2;0x7d;0x01;Naughtyfins charged;;bool
+32;2;0x7e;0x01;Naughtyfins fever;;bool
+32;2;0x7f;0x01;Naughtyfins perfect;;bool
+32;2;0x80;0x01;Slogturtle command;;char;False;True;command_type
+32;2;0x81;0x01;Slogturtle charged;;bool
+32;2;0x82;0x01;Slogturtle fever;;bool
+32;2;0x83;0x01;Slogturtle perfect;;bool
+32;2;0x84;0x01;Covet-Hiss command;;char;False;True;command_type
+32;2;0x85;0x01;Covet-Hiss charged;;bool
+32;2;0x86;0x01;Covet-Hiss fever;;bool
+32;2;0x87;0x01;Covet-Hiss perfect;;bool
+32;2;0x88;0x01;Buzzcrave command;;char;False;True;command_type
+32;2;0x89;0x01;Buzzcrave charged;;bool
+32;2;0x8a;0x01;Buzzcrave fever;;bool
+32;2;0x8b;0x01;Buzzcrave perfect;;bool
