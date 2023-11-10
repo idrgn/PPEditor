@@ -18,6 +18,7 @@ E;element_enable_type;Stat enable type;Disabled;Inherit;Enabled
 E;chant_type;Chant Type;Other;Patapata2;Chakachaka2;Ponpon2;Ponchaka2;Ponpata2;Dondon2;Donchaka2;Chakapata2 (Patapata);Patapon2 (Chakachaka);Summon2 (Ponpata);Patapata1;Chakachaka1;Ponpon1;Ponchaka1;Ponpata1;Dondon1;Donchaka1;Chakapata1 (Patapata);Patapon1 (Chakachaka);Summon1 (Ponpata)
 E;unit_type;Unit Type;Other;None;Small Enemy;Hero;Gimmick;Animal;Boss/Miniboss
 E;summon_type;Summon Type;Other;Yarigami;Tategami;Soragami;Yamagami;Moegami;Super Yarigami;Super Tategami;Super Soragami;Super Yamagami
+E;badge_type;Badge Type;Nothing;Team Point;Received Cards Amount;VS Victory;VS Kill;Co-op Quest Completed;???;Exp earned;Average enchanted equipment level;Perfect hits;Summon score
 
 
 ### PARAM FILES
@@ -633,10 +634,40 @@ E;summon_type;Summon Type;Other;Yarigami;Tategami;Soragami;Yamagami;Moegami;Supe
 
 
 ## Roundtableparam
+# Section 1 - Team goal data
+33;0;0x00;0x04;ID;;int
+33;0;0x08;0x04;Team goal name;Team goal name message ID;int;True;True;msg_systemmsg
+33;0;0x0C;0x04;Team goal description name;Team goal description message ID;int;False;True;msg_systemmsg
+33;0;0x18;0x04;Amount data;Depends on mission, also N15 value;int
+33;0;0x1C;0x04;Star Shard Rewards per completion;;int
+33;0;0x20;0x04;Star Shard Rewards per completion;;int
+33;0;0x24;0x04;Item ID Reward per completion;;int
+33;0;0x28;0x04;Item ID Reward per completion;;int
+33;0;0x2C;0x04;Item ID Reward per completion;;int
+33;0;0x30;0x04;Item ID Reward per PERFECT completion;;int
+33;0;0x34;0x04;Item ID Rewrad per PERFECT completion;;int
+33;0;0x38;0x04;Ka-ching Reward per PERFECT completion;;int
+33;0;0x3C;0x04;Team point per completion;;int
+33;0;0x40;0x04;Team point per PERFECT completion;;int
+
+33;0;0x4C;0x04;Complete Goal ID to unlock;;int
+33;0;0x50;0x04;Savedata Flag offset to unlock;For example, Mochichichi quest requires unlocking jungle etc.;int
+33;0;0x54;0x04;Team rank to unlock;Note that open league 85 IS NOT rank 85, considering pair, trio league etc exists;int
+
+
 # Section 2 - Levelup data
-33;1;0x000;0x04;Type;Type of unlock;int
+33;1;0x000;0x04;Member amount;Member amount to unlock;int
 33;1;0x004;0x04;Team points;Team points required for unlock;int
 33;1;0x008;0x04;Reward;Amount of star shards for the reward;int
+
+
+# Section 4 - Badge Data
+33;3;0x000;0x04;ID;;int
+33;3;0x004;0x04;Name;;int;True;True;msg_systemmsg
+33;3;0x008;0x04;Description;;int;False;True;msg_systemmsg
+33;3;0x00C;0x0C;Icon Identifier;;str
+33;3;0x024;0x04;Badge Type;;int;False;True;badge_type
+33;3;0x02C;0x04;Requirement Amount;Works only when badge type is NOT Nothing;int
 
 
 ## Facilityparam
